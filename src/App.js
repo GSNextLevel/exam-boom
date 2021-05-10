@@ -16,7 +16,7 @@ function App() {
           rel="noopener noreferrer"
         >
           Learn React
-          okokokok
+          okokokok 2
         </a>
       </header>
     </div>
