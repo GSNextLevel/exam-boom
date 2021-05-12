@@ -9,7 +9,7 @@ import Button from 'react-bootstrap/Button';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Form from 'react-bootstrap/Form';
 
-import { ExamCardSelect } from '../components'
+// import { ExamCardSelect } from '../components'
 
 class ExamCard extends Component {
     constructor(props) {
@@ -50,13 +50,16 @@ class ExamCard extends Component {
     viewAnswer() {
         this.setState({answerState: true});
 
-        console.log("zz");
+        console.log(this.state.answer);
     }
 
     render() {
       const { question, choices, answer, choiceType, isLoading, answerState } = this.state;
+      let answerToString = answer.join(',');
+      let answerToNumArray =
+
       console.log("this is from card");
-      console.log(this.props);
+      // console.log(this.props);
 
       const examNum = this.props.value.match.params.id;
       const test = 100;
@@ -64,6 +67,9 @@ class ExamCard extends Component {
       let examChoiceIdx = 0;
 
 
+      const answerStyle = {
+            color: (answerState) ? 'green' : 'black',
+          };
 
       return (
 
@@ -76,16 +82,26 @@ class ExamCard extends Component {
             </Card.Text>
 
             <Form>
-              <div>
-                {choices.map((choice, index) => (
+                {
+                  choices.map((choice, index) => {
 
-                  choice = examChoiceAlpha[index] + ". " + choice,
-                  // choiceId = "p-1-" + index,
+                    let isCorrectAns = false;
+                    for(let i=0 ; i<answer.length ; i++) {
+                      if(answer[i].charCodeAt(0)-65 == index) {
+                        isCorrectAns = true;
+                        console.log("found ans ", index)
+                      }
+                    }
+                    choice = examChoiceAlpha[index] + ". " + choice;
 
-                  <Form.Check inline label={choice} name="group1" type="radio" id={index+1}  />
+                    return isCorrectAns ?
+                      <Form.Check style={answerStyle} inline label={choice}  name="group1" type="radio" id={index+1}  />
+                      :
+                      <Form.Check  inline label={choice}  name="group1" type="radio" id={index+1}  />
 
-                ))}
-              </div>
+                  }
+                )
+              }
             </Form>
 
             <ButtonToolbar
@@ -93,7 +109,7 @@ class ExamCard extends Component {
               aria-label="Toolbar with Button groups"
             >
               <Button variant="success" onClick={this.viewAnswer}>답 바로보기</Button>
-              {answerState && ( <span > 답 : C </span> )}
+              {answerState && ( <span > 답 : {answerToString} </span> )}
               <Button href={(parseInt(examNum)+1).toString()} variant="primary">저장 후 계속</Button>
             </ButtonToolbar>
 

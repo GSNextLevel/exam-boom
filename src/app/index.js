@@ -5,7 +5,7 @@ import { NavBar } from '../components'
 import { MoviesList, MoviesInsert, MoviesUpdate } from '../pages'
 import { HomePage, ExamMain } from '../pages'
 
-import { GotoADP, GotoSAP } from '../pages'
+import { ExamPage, GotoADP, GotoSAP } from '../pages'
 
 
 
@@ -142,14 +142,15 @@ function App() {
         <NavBar />
         <Switch>
           <Route exact path="/" >
-            <HomePage />
+            <ExamMain />
           </Route>
 
           <Route path="/exam" exact component={ExamMain} />
 
           <Route path="/movies/list" exact component={MoviesList} />
 
-          <Route path="/exam/adp/:id"  component={GotoADP} />
+          <Route path="/exam/adp" exact  component={GotoADP} />
+          <Route path="/exam/adp/:id"  component={ExamPage} />
           <Route path="/exam/sap"  component={GotoSAP} />
 
         </Switch>
