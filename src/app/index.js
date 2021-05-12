@@ -3,6 +3,10 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import { NavBar } from '../components'
 import { MoviesList, MoviesInsert, MoviesUpdate } from '../pages'
+import { HomePage, ExamMain } from '../pages'
+
+import { GotoADP, GotoSAP } from '../pages'
+
 
 
 import Jumbotron from 'react-bootstrap/Jumbotron';
@@ -134,7 +138,22 @@ function ForTest() {
 function App() {
     return (
 
-      <ForTest />
+      <Router>
+        <NavBar />
+        <Switch>
+          <Route exact path="/" >
+            <HomePage />
+          </Route>
+
+          <Route path="/exam" exact component={ExamMain} />
+
+          <Route path="/movies/list" exact component={MoviesList} />
+
+          <Route path="/exam/adp/:id"  component={GotoADP} />
+          <Route path="/exam/sap"  component={GotoSAP} />
+
+        </Switch>
+      </Router>
       // <Container className="p-3">
       //   <Jumbotron>
       //     <h1 className="header">Welcome To React-Bootstrap</h1>
