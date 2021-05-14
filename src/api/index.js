@@ -12,6 +12,7 @@ export const deleteMovieById = id => api.delete(`/movie/${id}`)
 export const getMovieById = id => api.get(`/movie/${id}`)
 
 export const getExamById = (type, id) => api.get(`/${type}/${id}`)
+export const getAllExamAnswer = (type) => api.get(`/${type}/getanswer`)
 
 const apis = {
     insertMovie,
@@ -19,7 +20,8 @@ const apis = {
     updateMovieById,
     deleteMovieById,
     getMovieById,
-    getExamById
+    getExamById,
+    getAllExamAnswer
 }
 
 export default apis

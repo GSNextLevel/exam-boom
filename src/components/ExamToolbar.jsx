@@ -11,24 +11,30 @@ import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Badge from 'react-bootstrap/Badge';
 
-
+import Container from 'react-bootstrap/Container';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Pagination from 'react-bootstrap/Pagination';
 import PageItem from 'react-bootstrap/PageItem'
+import Table from 'react-bootstrap/Table';
 
-
+import Cookies from 'universal-cookie';
 
 
 // import { ExamCardSelect } from '../components'
 
+const Wrapper = styled.div`
+    padding: 0 40px 40px 40px;
+`
+
 class ExamToolbar extends Component {
     constructor(props) {
       super(props);
-
-      // const pageNum = this.props.value.match.params.id;
+      const cookies = new Cookies();
 
       this.state = {
-        pageNum: this.props.value.match.params.id
+        pageNum: this.props.value.match.params.id,
+        tableResult: cookies.get('tableResult') || [],
+        showTableResult: cookies.get('showTableResult') || false
       }
       // console.log(pageNum)
 
@@ -40,32 +46,120 @@ class ExamToolbar extends Component {
 
     }
 
+    // arraysEqual(a, b)
+
+
+    async scoringExam() {
+      const cookies = new Cookies();
+
+      const userAnswerFromCookie = cookies.get('submitAnswer');
+      // console.log(userAnswerFromCookie)
+
+      // const mymy = this.state.tableResult;
+      this.setState({tableResult: []})
+
+      await api.getAllExamAnswer("adp").then(exam => {
+        console.log(exam);
+        const realAnswer = exam['data']['Items'];
+        console.log(realAnswer);
+        let tempResult = this.state.tableResult;
+
+          userAnswerFromCookie.forEach((item, i) => {
+            const submitQuestionNum = item['id'];
+            const sumbitQuestionAns = item['ans'];
+
+            const realQuestionAns = realAnswer[submitQuestionNum-1]['answer']
+            let isCorrect  = false;
+            if(JSON.stringify(sumbitQuestionAns) == JSON.stringify(realQuestionAns)) {
+              console.log("correct", item['id'], sumbitQuestionAns, realQuestionAns)
+              isCorrect = true;
+            }
+            else{
+              console.log("wrong", item['id'], sumbitQuestionAns, realQuestionAns)
+              isCorrect = false;
+            }
+
+            let temp = {id: item['id'], correct: isCorrect};
+
+
+            // console.log(tempResult)
+            tempResult.push(temp);
+
+            // tableResult
+          });
+          this.setState({tableResult: tempResult})
+          cookies.set('tableResult', tempResult, {path: '/'})
+      })
+
+      console.log(this.state.tableResult)
+    }
+
 
     render() {
       const { pageNum } = this.state;
 
+      const correctAnswer = {
+        backgroundColor: 'forestgreen',
+        width: '5%',
+        textAlign: 'center'
+
+      }
+      const wrongAnswer = {
+        backgroundColor: 'lightcoral',
+        width: '5%',
+        textAlign: 'center'
+      }
+
+      const cellStyle = {
+        marginRight: '4px',
+        marginBottom: '4px',
+        width: '8%'
+      }
+
       return (
 
-        <ButtonToolbar aria-label="Toolbar with button groups"
-          className="justify-content-between pt-3"
-        >
-          <ButtonGroup className="mr-2" aria-label="First group">
-            <Button variant="secondary" href={(parseInt(pageNum)-1).toString()} >이전 문제</Button>
-          </ButtonGroup>
+        <Container>
+          <ButtonToolbar aria-label="Toolbar with button groups"
+            className="justify-content-between pt-3"
+          >
+            <ButtonGroup className="mr-2" aria-label="First group">
+              <Button variant="secondary" href={(parseInt(pageNum)-1).toString()} >이전 문제</Button>
+            </ButtonGroup>
 
-          <ButtonGroup className="mr-2" aria-label="First group">
-            <Button variant="secondary" disabled>
-              푼 문제 수 <Badge variant="success">-</Badge>
-            </Button>
+            <ButtonGroup className="mr-2" aria-label="First group">
+              <Button variant="secondary" disabled>
+                푼 문제 수 <Badge variant="success">-</Badge>
+              </Button>
 
-            <Button variant="success" >채점하기</Button>
-          </ButtonGroup>
+              <Button onClick={this.scoringExam.bind(this)} variant="success" >채점하기</Button>
+            </ButtonGroup>
 
-          <ButtonGroup className="mr-2" aria-label="First group">
-            <Button variant="secondary" href={(parseInt(pageNum)+1).toString()} >다음 문제</Button>
-          </ButtonGroup>
+            <ButtonGroup className="mr-2" aria-label="First group">
+              <Button variant="secondary" href={(parseInt(pageNum)+1).toString()} >다음 문제</Button>
+            </ButtonGroup>
 
-        </ButtonToolbar>
+          </ButtonToolbar>
+
+          <Wrapper className="mt-4">
+
+          {
+
+            this.state.tableResult.map((data, index) => {
+              console.log(data['id'])
+              if(data['correct']) {
+                return <Button href={data['id'].toString()} style={cellStyle} variant="success">{data['id']}</Button>
+              }
+              else{
+                return <Button href={data['id'].toString()} style={cellStyle} variant="danger">{data['id']}</Button>
+              }
+
+            })
+          }
+
+          </Wrapper>
+
+
+        </Container>
       );
     }
 }

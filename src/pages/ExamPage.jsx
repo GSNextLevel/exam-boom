@@ -48,7 +48,7 @@ class ExamPage extends Component {
         return (
             <Container>
               <ExamToolbar value={this.props} />
-              <ExamResultTable />
+              
               <ExamCard value={this.props} />
 
               {/* <ExamPagenation /> */}

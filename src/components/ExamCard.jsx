@@ -98,7 +98,7 @@ class ExamCard extends Component {
 
       let submitAnswerFormat = {'id': parseInt(id), 'ans': this.state.selectedAnswer};
       let prevSubmitAnswer = this.state.submitAnswer;
-      console.log(prevSubmitAnswer)
+
       let isFilled = false;
       for(let i=0 ; i<prevSubmitAnswer.length ; i++) {
         if(prevSubmitAnswer[i].id == id) {
@@ -107,9 +107,13 @@ class ExamCard extends Component {
           break;
         }
       }
+
       if(!isFilled) {
           prevSubmitAnswer.push(submitAnswerFormat);
       }
+
+      console.log("Cookie Data", prevSubmitAnswer)
+      prevSubmitAnswer.sort((a,b) => a.id - b.id)
 
       cookies.set('submitAnswer', prevSubmitAnswer, {path: '/'})
 
@@ -131,7 +135,7 @@ class ExamCard extends Component {
           if(prevSubmitAnswer[i].ans == value) {
             return true;
           }
-          console.log("this num ans is ", prevSubmitAnswer[i].ans)
+          // console.log("this num ans is ", prevSubmitAnswer[i].ans)
 
           break;
         }
@@ -220,7 +224,7 @@ class ExamCard extends Component {
             >
               <Button variant="success" onClick={this.viewAnswer}>답 바로보기</Button>
               {answerState && ( <span > 답 : {answerToString} </span> )}
-              <Button onClick={() => this.saveAndNext(examNum)}  variant="primary">저장 후 계속</Button>
+              <Button onClick={() => this.saveAndNext(examNum)} href={(parseInt(examNum)+1).toString()} variant="primary">저장 후 계속</Button>
               {/*href={(parseInt(examNum)+1).toString()}*/}
             </ButtonToolbar>
 
