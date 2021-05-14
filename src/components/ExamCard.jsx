@@ -6,6 +6,7 @@ import api from '../api'
 
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Form from 'react-bootstrap/Form';
 
@@ -16,6 +17,7 @@ import Cookies from 'universal-cookie';
 class ExamCard extends Component {
     constructor(props) {
       super(props);
+      console.log(props)
       const cookies = new Cookies();
       this.viewAnswer = this.viewAnswer.bind(this);
 
@@ -27,7 +29,8 @@ class ExamCard extends Component {
           choiceType: "",
           isLoading: false,
           answerState: false,
-          submitAnswer: cookies.get('submitAnswer') || []
+          submitAnswer: cookies.get('submitAnswer') || [],
+
       }
 
 
@@ -180,7 +183,23 @@ class ExamCard extends Component {
 
 
         <Card className="mt-4 mb-4" key={examNumKey}>
-          <Card.Header as="h5">문제 # {examNum} </Card.Header>
+          <Card.Header as="h5" >
+
+            <ButtonToolbar aria-label="Toolbar with button groups"
+              className="justify-content-between"
+            >
+              <ButtonGroup className="mr-2" aria-label="First group">
+                <Button variant="outline-primary"  >문제 {examNum}</Button>
+              </ButtonGroup>
+
+              <ButtonGroup className="mr-2" aria-label="First group">
+              <Button variant="outline-secondary"  >내가 푼 횟수: -회</Button>
+              <Button variant="outline-secondary"  >내가 틀린 횟수: -회</Button>
+                <Button variant="outline-secondary"  >정답률: 100%</Button>
+              </ButtonGroup>
+            </ButtonToolbar>
+
+          </Card.Header>
           <Card.Body>
 
             <Card.Title>카테고리: 마이그레이션</Card.Title>

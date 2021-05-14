@@ -9,7 +9,8 @@ import ExamCardSelect from './ExamCardSelect'
 import ExamPagenation from './ExamPagenation'
 import ExamToolbar from './ExamToolbar'
 import ExamResultTable from './ExamResultTable'
+import ExamReply from './ExamReply'
 
 
 
-export { Links, Logo, NavBar, TempLoginMenu, ExamResultTable, ExamCard, ExamCardSelect, ExamPagenation, ExamToolbar}
+export { Links, Logo, NavBar, TempLoginMenu, ExamResultTable, ExamCard, ExamCardSelect, ExamPagenation, ExamToolbar, ExamReply}

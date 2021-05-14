@@ -73,9 +73,9 @@ class ExamToolbar extends Component {
       this.setState({tableResult: []})
 
       await api.getAllExamAnswer("adp").then(exam => {
-        console.log(exam);
+        // console.log(exam);
         const realAnswer = exam['data']['Items'];
-        console.log(realAnswer);
+        // console.log(realAnswer);
         let tempResult = this.state.tableResult;
 
           userAnswerFromCookie.forEach((item, i) => {
@@ -162,7 +162,7 @@ class ExamToolbar extends Component {
           {
 
             this.state.tableResult.map((data, index) => {
-              console.log(data['id'])
+              // console.log(data['id'])
               if(data['correct']) {
                 return <Button href={data['id'].toString()} style={cellStyle} variant="success">{data['id']}</Button>
               }
