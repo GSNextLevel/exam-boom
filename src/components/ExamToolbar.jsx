@@ -34,7 +34,8 @@ class ExamToolbar extends Component {
       this.state = {
         pageNum: this.props.value.match.params.id,
         tableResult: cookies.get('tableResult') || [],
-        showTableResult: cookies.get('showTableResult') || false
+        showTableResult: cookies.get('showTableResult') || false,
+        submitAnswer: cookies.get('submitAnswer') || []
       }
       // console.log(pageNum)
 
@@ -48,6 +49,19 @@ class ExamToolbar extends Component {
 
     // arraysEqual(a, b)
 
+    resetProblem() {
+      const cookies = new Cookies();
+      console.log("reset")
+
+
+      this.setState({tableResult: []})
+      this.setState({showTableResult: false})
+      this.setState({submitAnswer: []})
+
+      cookies.remove('tableResult', {path: '/'})
+      cookies.remove('submitAnswer', {path: '/'})
+
+    }
 
     async scoringExam() {
       const cookies = new Cookies();
@@ -96,7 +110,7 @@ class ExamToolbar extends Component {
 
 
     render() {
-      const { pageNum } = this.state;
+      const { pageNum, submitAnswer } = this.state;
 
       const correctAnswer = {
         backgroundColor: 'forestgreen',
@@ -127,12 +141,15 @@ class ExamToolbar extends Component {
             </ButtonGroup>
 
             <ButtonGroup className="mr-2" aria-label="First group">
+            <Button variant="warning" onClick={this.resetProblem.bind(this)}>초기화</Button>
               <Button variant="secondary" disabled>
-                푼 문제 수 <Badge variant="success">-</Badge>
+                푼 문제 수 <Badge variant="success">{submitAnswer.length}</Badge>
               </Button>
 
               <Button onClick={this.scoringExam.bind(this)} variant="success" >채점하기</Button>
             </ButtonGroup>
+
+
 
             <ButtonGroup className="mr-2" aria-label="First group">
               <Button variant="secondary" href={(parseInt(pageNum)+1).toString()} >다음 문제</Button>
