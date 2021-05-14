@@ -16,7 +16,7 @@ class ExamCardSelect extends Component {
           isLoading: false,
       }
 
-      console.log(this.props);
+      // console.log(this.props);
 
       // console.log(examNum);
     }

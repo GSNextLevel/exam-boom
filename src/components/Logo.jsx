@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 import logo from '../logo.svg'
@@ -12,6 +13,9 @@ class Logo extends Component {
         return (
             <Wrapper href="/">
                 <img src={logo} width="50" height="50" alt="" />
+                <Link to="/" className="navbar-brand">
+                    자격증 뿌시기
+                </Link>
             </Wrapper>
         )
     }

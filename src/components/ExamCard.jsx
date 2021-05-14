@@ -11,18 +11,23 @@ import Form from 'react-bootstrap/Form';
 
 // import { ExamCardSelect } from '../components'
 
+import Cookies from 'universal-cookie';
+
 class ExamCard extends Component {
     constructor(props) {
       super(props);
+      const cookies = new Cookies();
       this.viewAnswer = this.viewAnswer.bind(this);
 
       this.state = {
           question: "",
           choices: [],
           answer: [],
+          selectedAnswer: [],
           choiceType: "",
           isLoading: false,
-          answerState: false
+          answerState: false,
+          submitAnswer: cookies.get('submitAnswer') || []
       }
 
 
@@ -50,18 +55,112 @@ class ExamCard extends Component {
     viewAnswer() {
         this.setState({answerState: true});
 
-        console.log(this.state.answer);
+        // console.log(this.state.answer);
     }
+
+    onChangeChoice(e) {
+      // selectedAnswer
+
+      let value = e.target.value;
+      if(this.state.choiceType == "single") {
+        if(e.target.checked == true) {
+            this.setState({selectedAnswer: [value]});
+            console.log("SET!")
+        }
+
+      }
+      else{
+        if(e.target.checked){
+           this.state.selectedAnswer.push(value);
+         }
+         else{
+           console.log("remove", value)
+           const removeIdx = this.state.selectedAnswer.indexOf(value);
+            if (removeIdx > -1) {
+              this.state.selectedAnswer.splice(removeIdx, 1);
+            }
+
+         }
+      }
+      console.log(e.target.checked)
+      console.log(e.target.value);
+
+
+
+  // this.setState({values: value});
+    }
+
+    saveAndNext(id) {
+      const cookies = new Cookies();
+      // console.log("page", id);
+      this.setState({selectedAnswer: this.state.selectedAnswer.sort()});
+      console.log(this.state.selectedAnswer)
+
+      let submitAnswerFormat = {'id': parseInt(id), 'ans': this.state.selectedAnswer};
+      let prevSubmitAnswer = this.state.submitAnswer;
+      console.log(prevSubmitAnswer)
+      let isFilled = false;
+      for(let i=0 ; i<prevSubmitAnswer.length ; i++) {
+        if(prevSubmitAnswer[i].id == id) {
+          prevSubmitAnswer[i].ans = this.state.selectedAnswer;
+          isFilled = true;
+          break;
+        }
+      }
+      if(!isFilled) {
+          prevSubmitAnswer.push(submitAnswerFormat);
+      }
+
+      cookies.set('submitAnswer', prevSubmitAnswer, {path: '/'})
+
+
+
+      // this.setState({submitAnswer: })
+    }
+
+    checkIt(id, value) {
+
+      // e.preventDefault();
+
+      let prevSubmitAnswer = this.state.submitAnswer;
+
+
+      for(let i=0 ; i<prevSubmitAnswer.length ; i++) {
+        if(prevSubmitAnswer[i].id == id) {
+          // prevSubmitAnswer[i].ans = this.state.selectedAnswer;
+          if(prevSubmitAnswer[i].ans == value) {
+            return true;
+          }
+          console.log("this num ans is ", prevSubmitAnswer[i].ans)
+
+          break;
+        }
+      }
+
+      return false;
+      // if(foundAnswer && value == "B") {
+      //     return true;
+      // }
+      // else{
+      //   return false;
+      // }
+
+        // if (this.props.name.indexOf(value) >= 0)
+        //     return true;
+        // return false;
+    }
+
 
     render() {
       const { question, choices, answer, choiceType, isLoading, answerState } = this.state;
       let answerToString = answer.join(',');
-      let answerToNumArray =
 
-      console.log("this is from card");
+
+      // console.log("this is from card");
       // console.log(this.props);
 
       const examNum = this.props.value.match.params.id;
+      let examNumKey = "exam-" + examNum;
       const test = 100;
       const examChoiceAlpha = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
       let examChoiceIdx = 0;
@@ -71,17 +170,24 @@ class ExamCard extends Component {
             color: (answerState) ? 'green' : 'black',
           };
 
+
       return (
 
-        <Card className="mt-4 mb-4">
+
+
+        <Card className="mt-4 mb-4" key={examNumKey}>
           <Card.Header as="h5">문제 # {examNum} </Card.Header>
           <Card.Body>
-             <Card.Title>카테고리: 마이그레이션</Card.Title>
+
+            <Card.Title>카테고리: 마이그레이션</Card.Title>
             <Card.Text>
             {question}
             </Card.Text>
 
-            <Form>
+            <Form
+              onChange={this.onChangeChoice.bind(this)}
+
+            >
                 {
                   choices.map((choice, index) => {
 
@@ -89,15 +195,19 @@ class ExamCard extends Component {
                     for(let i=0 ; i<answer.length ; i++) {
                       if(answer[i].charCodeAt(0)-65 == index) {
                         isCorrectAns = true;
-                        console.log("found ans ", index)
+                        // console.log("found ans ", index)
                       }
                     }
                     choice = examChoiceAlpha[index] + ". " + choice;
-
+                    let answerKey = "p-" + examNum + "-" + (index+1);
+                    let answerName = "g-" + examNum;
+                    let thisChoiceType = (choiceType == "single") ? "radio" : "checkbox";
+                    // console.log(answerKey);
+                    // checked={this.checkIt(examNum, examChoiceAlpha[index])}
                     return isCorrectAns ?
-                      <Form.Check style={answerStyle} inline label={choice}  name="group1" type="radio" id={index+1}  />
+                      <Form.Check  defaultChecked={this.checkIt(examNum, examChoiceAlpha[index])} style={answerStyle} inline label={choice} value={examChoiceAlpha[index]}  name={answerName} type={thisChoiceType} id={answerKey} key={answerKey} />
                       :
-                      <Form.Check  inline label={choice}  name="group1" type="radio" id={index+1}  />
+                      <Form.Check defaultChecked={this.checkIt(examNum, examChoiceAlpha[index])} inline label={choice} value={examChoiceAlpha[index]} name={answerName} type={thisChoiceType} id={answerKey} key={answerKey} />
 
                   }
                 )
@@ -110,7 +220,8 @@ class ExamCard extends Component {
             >
               <Button variant="success" onClick={this.viewAnswer}>답 바로보기</Button>
               {answerState && ( <span > 답 : {answerToString} </span> )}
-              <Button href={(parseInt(examNum)+1).toString()} variant="primary">저장 후 계속</Button>
+              <Button onClick={() => this.saveAndNext(examNum)}  variant="primary">저장 후 계속</Button>
+              {/*href={(parseInt(examNum)+1).toString()}*/}
             </ButtonToolbar>
 
 
