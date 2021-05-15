@@ -53,6 +53,7 @@ class TempLoginMenu extends Component {
 
       }
       else{
+        cookies.remove('username', {path: '/'})
         this.setState({loginState: '로그인', isLogin: false, nameHolder: '이름을 입력해주세요'})
       }
       console.log(this.state.username)

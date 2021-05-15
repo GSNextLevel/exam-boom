@@ -11,6 +11,10 @@ import ExamToolbar from './ExamToolbar'
 import ExamResultTable from './ExamResultTable'
 import ExamReply from './ExamReply'
 
+import LoginAlertModal from './LoginAlertModal'
 
 
-export { Links, Logo, NavBar, TempLoginMenu, ExamResultTable, ExamCard, ExamCardSelect, ExamPagenation, ExamToolbar, ExamReply}
+
+export { Links, Logo, NavBar,
+  LoginAlertModal,
+  TempLoginMenu, ExamResultTable, ExamCard, ExamCardSelect, ExamPagenation, ExamToolbar, ExamReply}

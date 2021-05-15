@@ -12,6 +12,8 @@ import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Badge from 'react-bootstrap/Badge';
 
+import Cookies from 'universal-cookie';
+
 const MyBadge = styled.span`
     padding: 2px 4px;
     font-size: 14px;
@@ -19,7 +21,8 @@ const MyBadge = styled.span`
     color: black;
     font-weight: 400;
     vertical-align: middle;
-    background-color: gainsboro
+    background-color: gainsboro;
+
 
 
 `
@@ -69,6 +72,8 @@ class ExamReply extends Component {
     }
 
     async writeReply() {
+      const cookies = new Cookies();
+
       const examNum = this.props.value.match.params.id;
 
       console.log(this.state.userInputReplyText, this.state.userModeState)
@@ -79,14 +84,20 @@ class ExamReply extends Component {
           passUsername = "익명";
       }
       else{
-        passUsername = "한승수";
+        const cookieName = cookies.get('username')
+        passUsername = cookieName === undefined ? "👨‍💻" : cookieName;
       }
       const payload = {"name": passUsername, "content": userInputReplyText };
       await api.updateExamReplyById("adp", examNum, payload).then(res => {
         // console.log(exam);
         console.log(res)
+        let prevReplies = this.state.replies;
+        console.log(this.state.replies)
+        let mytemp = prevReplies.push(payload);
+        console.log(mytemp)
+        this.setState({replies: prevReplies})
 
-        this.setState({replies: payload})
+        // this.setState({replies: [{"name": "dz", "content": "aa"}]})
 
       })
     }
@@ -101,7 +112,8 @@ class ExamReply extends Component {
           };
       const replyCol = {
         textAlign: 'center',
-        margin: 'auto'
+        margin: 'auto',
+        borderRight: '1px dotted grey'
       }
 
       return (

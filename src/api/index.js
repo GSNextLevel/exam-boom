@@ -11,7 +11,7 @@ export const updateMovieById = (id, payload) => api.put(`/movie/${id}`, payload)
 export const deleteMovieById = id => api.delete(`/movie/${id}`)
 export const getMovieById = id => api.get(`/movie/${id}`)
 
-export const getExamById = (type, id) => api.get(`/${type}/${id}`)
+export const getExamById = (type, id, username) => api.get(`/${type}/${id}?username=${username}`)
 export const getAllExamAnswer = (type) => api.get(`/${type}/getanswer`)
 export const getExamReplyById = (type, id) => api.get(`/${type}/${id}/reply`)
 export const updateExamReplyById = (type, id, payload) => api.put(`/${type}/${id}/reply`, payload)

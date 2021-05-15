@@ -20,6 +20,7 @@ class ExamCard extends Component {
       console.log(props)
       const cookies = new Cookies();
       this.viewAnswer = this.viewAnswer.bind(this);
+      const username = cookies.get('username');
 
       this.state = {
           question: "",
@@ -30,6 +31,7 @@ class ExamCard extends Component {
           isLoading: false,
           answerState: false,
           submitAnswer: cookies.get('submitAnswer') || [],
+          username:  username === undefined ? "익명" : username,
 
       }
 
@@ -42,7 +44,7 @@ class ExamCard extends Component {
         this.setState({ isLoading: true })
         const examNum = this.props.value.match.params.id;
 
-        await api.getExamById("adp", examNum).then(exam => {
+        await api.getExamById("adp", examNum, this.state.username).then(exam => {
           console.log(exam);
             this.setState({
                 question: exam.data.Item.question,
@@ -202,7 +204,7 @@ class ExamCard extends Component {
           </Card.Header>
           <Card.Body>
 
-            <Card.Title>카테고리: 마이그레이션</Card.Title>
+            <Card.Title>카테고리: 추가예정</Card.Title>
             <Card.Text>
             {question}
             </Card.Text>

@@ -3,7 +3,7 @@ import { createContext, useReducer } from "react"
 import { useAsync } from 'react-async';
 
 import Container from 'react-bootstrap/Container';
-import { ExamCard, ExamPagenation, ExamToolbar, ExamResultTable, ExamReply } from '../components'
+import { ExamCard, ExamPagenation, ExamToolbar, ExamResultTable, ExamReply, LoginAlertModal } from '../components'
 
 import { GotoADP, GotoSAP } from '../pages'
 
@@ -60,7 +60,7 @@ class ExamPage extends Component {
 
         // const { question, choices, answer, choiceType } = this.state;
 
-        
+
 
         return (
             <Container>
@@ -69,6 +69,8 @@ class ExamPage extends Component {
               <ExamCard value={this.props} />
 
               <ExamReply value={this.props} />
+
+              <LoginAlertModal />
               {/* <ExamPagenation /> */}
             </Container>
         )
