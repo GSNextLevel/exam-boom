@@ -67,7 +67,7 @@ class ExamToolbar extends Component {
       const cookies = new Cookies();
 
       const userAnswerFromCookie = cookies.get('submitAnswer');
-      // console.log(userAnswerFromCookie)
+      console.log(userAnswerFromCookie)
 
       // const mymy = this.state.tableResult;
       this.setState({tableResult: []})
@@ -103,7 +103,15 @@ class ExamToolbar extends Component {
           });
           this.setState({tableResult: tempResult})
           cookies.set('tableResult', tempResult, {path: '/'})
+
+          // const payload = {"name": passUsername, "content": userInputReplyText };
+          //
+          // await api.scoringExam("adp", payload).then(res => {
+          //   console.log(res);
+          // })
       })
+
+
 
       console.log(this.state.tableResult)
     }
@@ -164,10 +172,10 @@ class ExamToolbar extends Component {
             this.state.tableResult.map((data, index) => {
               // console.log(data['id'])
               if(data['correct']) {
-                return <Button href={data['id'].toString()} style={cellStyle} variant="success">{data['id']}</Button>
+                return <Button href={data['id'].toString()} key={index} style={cellStyle} variant="success">{data['id']}</Button>
               }
               else{
-                return <Button href={data['id'].toString()} style={cellStyle} variant="danger">{data['id']}</Button>
+                return <Button href={data['id'].toString()} key={index} style={cellStyle} variant="danger">{data['id']}</Button>
               }
 
             })

@@ -105,7 +105,7 @@ class ExamReply extends Component {
 
     render() {
       const { replies } = this.state;
-      console.log(replies);
+      // console.log(replies);
 
       const formStyle = {
             alignItems: 'center',
@@ -147,7 +147,7 @@ class ExamReply extends Component {
               replies.length > 0 &&
               replies.map((data, index) => {
 
-                  return <ListGroup.Item>
+                  return <ListGroup.Item key={index}>
                       <Row>
                         <Col style={replyCol} md="2">
                           <MyBadge  variant="success">{data.name}</MyBadge>

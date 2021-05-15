@@ -10,6 +10,8 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Form from 'react-bootstrap/Form';
 
+import { FaThumbsUp } from 'react-icons/fa';
+
 // import { ExamCardSelect } from '../components'
 
 import Cookies from 'universal-cookie';
@@ -33,6 +35,15 @@ class ExamCard extends Component {
           submitAnswer: cookies.get('submitAnswer') || [],
           username:  username === undefined ? "익명" : username,
 
+          mySubmitCount: 0,
+          myCorrectCount: 0,
+          correctRate: 0,
+          myStarred: false,
+
+          submitTotalCount: 0,
+          correctTotalCount: 0,
+          starredTotalCount: 0
+
       }
 
 
@@ -43,15 +54,34 @@ class ExamCard extends Component {
     componentDidMount = async () => {
         this.setState({ isLoading: true })
         const examNum = this.props.value.match.params.id;
-
-        await api.getExamById("adp", examNum, this.state.username).then(exam => {
+        const username = this.state.username;
+        await api.getExamById("adp", examNum, username).then(exam => {
           console.log(exam);
+          console.log(exam.data.Item.userData)
+
+          if(exam.data.Item.userData !== undefined) {
+            const userDataArray = exam.data.Item.userData;
+            const foundUserData = userDataArray.find(x => x.name === username);
+            this.setState({
+                mySubmitCount: foundUserData.submitCount,
+                myCorrectCount: foundUserData.correctCount,
+                myStarred: foundUserData.starred
+            })
+
+          }
+          else{
+            console.log("undefined!!")
+          }
+
+
             this.setState({
                 question: exam.data.Item.question,
                 choices: exam.data.Item.choice,
                 answer: exam.data.Item.answer,
                 choiceType: exam.data.Item.choiceType,
                 isLoading: false,
+                correctTotalCount: exam.data.Item.correctTotalCount === undefined ? 0 : exam.data.Item.correctTotalCount,
+                submitTotalCount: exam.data.Item.submitTotalCount === undefined ? 1 : exam.data.Item.submitTotalCount
             })
         })
     }
@@ -161,7 +191,10 @@ class ExamCard extends Component {
 
 
     render() {
-      const { question, choices, answer, choiceType, isLoading, answerState } = this.state;
+      const { question, choices, answer, choiceType,
+        starred, mySubmitCount, myCorrectCount, starredTotalCount,
+        submitTotalCount, correctTotalCount,
+        isLoading, answerState } = this.state;
       let answerToString = answer.join(',');
 
 
@@ -178,7 +211,13 @@ class ExamCard extends Component {
       const answerStyle = {
             color: (answerState) ? 'green' : 'black',
           };
+      const thumsUpStyle = {
+        marginRight: '6px',
+        verticalAlign: 'text-top'
 
+      }
+
+          console.log("@@@@", correctTotalCount, submitTotalCount);
 
       return (
 
@@ -195,9 +234,14 @@ class ExamCard extends Component {
               </ButtonGroup>
 
               <ButtonGroup className="mr-2" aria-label="First group">
-              <Button variant="outline-secondary"  >내가 푼 횟수: -회</Button>
-              <Button variant="outline-secondary"  >내가 틀린 횟수: -회</Button>
-                <Button variant="outline-secondary"  >정답률: 100%</Button>
+              <Button variant="outline-secondary"  >내가 푼 횟수: {mySubmitCount}회</Button>
+              <Button variant="outline-secondary"  >내가 틀린 횟수: {mySubmitCount-myCorrectCount}회</Button>
+              <Button variant="outline-secondary"  >정답률: {(parseInt(correctTotalCount)/parseInt(submitTotalCount)) * 100}%</Button>
+              <Button variant="outline-secondary"  >
+                <FaThumbsUp style={thumsUpStyle}/>
+
+              추천: -회</Button>
+
               </ButtonGroup>
             </ButtonToolbar>
 
