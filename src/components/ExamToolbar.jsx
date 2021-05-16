@@ -72,7 +72,7 @@ class ExamToolbar extends Component {
       // const mymy = this.state.tableResult;
       this.setState({tableResult: []})
 
-      await api.getAllExamAnswer("adp").then(exam => {
+      const getAnswerResponse =  await api.getAllExamAnswer("adp").then(exam => {
         // console.log(exam);
         const realAnswer = exam['data']['Items'];
         // console.log(realAnswer);
@@ -96,24 +96,33 @@ class ExamToolbar extends Component {
             let temp = {id: item['id'], correct: isCorrect};
 
 
-            // console.log(tempResult)
+
             tempResult.push(temp);
 
             // tableResult
           });
+          return tempResult;
           this.setState({tableResult: tempResult})
           cookies.set('tableResult', tempResult, {path: '/'})
 
-          // const payload = {"name": passUsername, "content": userInputReplyText };
-          //
-          // await api.scoringExam("adp", payload).then(res => {
-          //   console.log(res);
-          // })
+
       })
 
+      const username = cookies.get("username") || "익명";
+      const payload = {"name": username, "type": "adp", "result": getAnswerResponse };
+
+      const scoringResponse = await api.scoringExam("adp", payload).then(res => {
+        console.log(res);
+      })
+      // console.log(tempResult)
 
 
-      console.log(this.state.tableResult)
+
+
+
+
+
+      // console.log(this.state.tableResult)
     }
 
 

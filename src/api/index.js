@@ -16,7 +16,7 @@ export const getAllExamAnswer = (type) => api.get(`/${type}/getanswer`)
 export const getExamReplyById = (type, id) => api.get(`/${type}/${id}/reply`)
 export const updateExamReplyById = (type, id, payload) => api.put(`/${type}/${id}/reply`, payload)
 
-export const scoringExam = (type, payload) => api.put(`/${type}/scoring`, payload)
+export const scoringExam = (type, payload) => api.post(`/${type}/scoring`, payload)
 
 const apis = {
     insertMovie,
