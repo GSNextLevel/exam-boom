@@ -38,7 +38,8 @@ class ExamPage extends Component {
           question: "",
           choices: [],
           answer: [],
-          choiceType: ""
+          choiceType: "",
+          type: props.match.params.type,
         }
         // this.state = {
         //     movies: [],
@@ -57,6 +58,8 @@ class ExamPage extends Component {
     render() {
 
         const { params } = this.props.match;
+
+        // const { type } = this.state;
 
         // const { question, choices, answer, choiceType } = this.state;
 

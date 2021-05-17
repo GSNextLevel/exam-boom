@@ -23,9 +23,17 @@ const Wrapper = styled.div`
 class GotoADP extends Component {
     constructor(props) {
         super(props)
+
+        this.state = {
+          type: props.match.params.type
+        }
+
     }
     render() {
 
+      const { type } = this.state;
+
+      const movePage = type + "/1";
 
         return (
           <Container>
@@ -40,7 +48,7 @@ class GotoADP extends Component {
                     <Card.Text>
                       1번부터 차례대로 풀어요.
                     </Card.Text>
-                    <Button href="adp/1" variant="primary">이동</Button>
+                    <Button href={movePage} variant="primary">이동</Button>
                   </Card.Body>
                 </Card>
 

@@ -46,8 +46,9 @@ class ExamReply extends Component {
     componentDidMount = async () => {
         this.setState({ isLoading: true })
         const examNum = this.props.value.match.params.id;
+        const type = this.props.value.match.params.type;
 
-        await api.getExamReplyById("adp", examNum).then(exam => {
+        await api.getExamReplyById(type, examNum).then(exam => {
           // console.log(exam);
           if(exam.data.Item.reply == undefined) {
             this.setState({
@@ -76,6 +77,7 @@ class ExamReply extends Component {
       const cookies = new Cookies();
 
       const examNum = this.props.value.match.params.id;
+      const type = this.props.value.match.params.type;
 
       console.log(this.state.userInputReplyText, this.state.userModeState)
       const userInputReplyText = this.state.userInputReplyText;
@@ -89,7 +91,7 @@ class ExamReply extends Component {
         passUsername = cookieName === undefined ? "👨‍💻" : cookieName;
       }
       const payload = {"name": passUsername, "content": userInputReplyText };
-      await api.updateExamReplyById("adp", examNum, payload).then(res => {
+      await api.updateExamReplyById(type, examNum, payload).then(res => {
         // console.log(exam);
         console.log(res)
         let prevReplies = this.state.replies;

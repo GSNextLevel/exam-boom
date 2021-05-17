@@ -54,7 +54,7 @@ class ExamMain extends Component {
                 DevOps Pro 바로가기
               </Button>
 
-              <Button variant="secondary" size="lg" href="/exam/adp">
+              <Button variant="secondary" size="lg" href="/exam/sap">
                 SA Pro 바로가기
               </Button>
             </ButtonToolbar>

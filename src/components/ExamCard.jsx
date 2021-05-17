@@ -55,13 +55,14 @@ class ExamCard extends Component {
         this.setState({ isLoading: true })
         const examNum = this.props.value.match.params.id;
         const username = this.state.username;
-        await api.getExamById("adp", examNum, username).then(exam => {
-
+        const type = this.props.value.match.params.type;
+        await api.getExamById(type, examNum, username).then(exam => {
+          console.log(exam)
           const examData = exam.data.exam.Item;
           const userData = exam.data.user.Items;
           console.log(exam);
           // console.log(exam.data.Item.userData)
-          console.log(examData, userData)
+          // console.log(examData, userData)
 
           let correctCnt = 0;
           let totalCnt = 0;
@@ -242,7 +243,7 @@ class ExamCard extends Component {
 
       }
 
-          console.log("@@@@", correctTotalCount, submitTotalCount);
+          // console.log("@@@@", correctTotalCount, submitTotalCount);
 
       return (
 

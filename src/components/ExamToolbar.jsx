@@ -33,6 +33,7 @@ class ExamToolbar extends Component {
 
       this.state = {
         pageNum: this.props.value.match.params.id,
+        type: this.props.value.match.params.type,
         tableResult: cookies.get('tableResult') || [],
         showTableResult: cookies.get('showTableResult') || false,
         submitAnswer: cookies.get('submitAnswer') || [],
@@ -66,6 +67,7 @@ class ExamToolbar extends Component {
 
     async scoringExam() {
       const cookies = new Cookies();
+      const type = this.props.value.match.params.type;
 
       let beforeSubmitAnswer = this.state.tableResult;
       const userAnswerFromCookie = cookies.get('submitAnswer');
@@ -76,7 +78,8 @@ class ExamToolbar extends Component {
 
       let correctCnt = 0;
       let totalCnt = 0;
-      const getAnswerResponse =  await api.getAllExamAnswer("adp").then(exam => {
+      const getAnswerResponse =  await api.getAllExamAnswer(type).then(exam => {
+        console.log("check", exam);
         // console.log(exam);
         const realAnswer = exam['data']['Items'];
         // console.log(realAnswer);
@@ -141,10 +144,10 @@ class ExamToolbar extends Component {
       console.log("my result", foundUnsubmittedAnswer)
 
       const username = cookies.get("username") || "익명";
-      const payload = {"name": username, "type": "adp", "result": foundUnsubmittedAnswer };
+      const payload = {"name": username, "type": type, "result": foundUnsubmittedAnswer };
 
       console.log("toobar payload", payload);
-      const scoringResponse = await api.scoringExam("adp", payload).then(res => {
+      const scoringResponse = await api.scoringExam(type, payload).then(res => {
         console.log(res);
       })
       console.log(scoringResponse)
@@ -160,7 +163,7 @@ class ExamToolbar extends Component {
 
 
     render() {
-      const { pageNum, submitAnswer, currentScore, showTableResult } = this.state;
+      const { type, pageNum, submitAnswer, currentScore, showTableResult } = this.state;
 
       const correctAnswer = {
         backgroundColor: 'forestgreen',
