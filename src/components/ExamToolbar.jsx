@@ -35,7 +35,8 @@ class ExamToolbar extends Component {
         pageNum: this.props.value.match.params.id,
         tableResult: cookies.get('tableResult') || [],
         showTableResult: cookies.get('showTableResult') || false,
-        submitAnswer: cookies.get('submitAnswer') || []
+        submitAnswer: cookies.get('submitAnswer') || [],
+        currentScore: 0
       }
       // console.log(pageNum)
 
@@ -66,12 +67,15 @@ class ExamToolbar extends Component {
     async scoringExam() {
       const cookies = new Cookies();
 
+      let beforeSubmitAnswer = this.state.tableResult;
       const userAnswerFromCookie = cookies.get('submitAnswer');
       console.log(userAnswerFromCookie)
 
       // const mymy = this.state.tableResult;
       this.setState({tableResult: []})
 
+      let correctCnt = 0;
+      let totalCnt = 0;
       const getAnswerResponse =  await api.getAllExamAnswer("adp").then(exam => {
         // console.log(exam);
         const realAnswer = exam['data']['Items'];
@@ -87,29 +91,57 @@ class ExamToolbar extends Component {
             if(JSON.stringify(sumbitQuestionAns) == JSON.stringify(realQuestionAns)) {
               console.log("correct", item['id'], sumbitQuestionAns, realQuestionAns)
               isCorrect = true;
+              correctCnt++;
             }
             else{
               console.log("wrong", item['id'], sumbitQuestionAns, realQuestionAns)
               isCorrect = false;
             }
 
+            totalCnt++;
             let temp = {id: item['id'], correct: isCorrect};
 
 
+            console.log("tempResult: ", tempResult)
 
             tempResult.push(temp);
 
             // tableResult
           });
+          // console.log("score!!!", parseInt((correctCnt/totalCnt)*100));
+
+          this.setState({currentScore: parseInt((correctCnt/totalCnt)*100) })
 
           this.setState({tableResult: tempResult})
           cookies.set('tableResult', tempResult, {path: '/'})
 
+          this.setState({showTableResult: true})
+
           return tempResult;
       })
 
+      let foundUnsubmittedAnswer = [];
+      console.log("diff", getAnswerResponse , beforeSubmitAnswer)
+      getAnswerResponse.forEach((item, i) => {
+
+        let flag = true;
+        for(let i=0 ; i<beforeSubmitAnswer.length ; i++) {
+            if(item['id'] == beforeSubmitAnswer[i]['id']) {
+              console.log("same : ", item['id']);
+              flag = false;
+              break;
+            }
+        }
+        if(flag) {
+          foundUnsubmittedAnswer.push({id: item['id'], correct: item['correct']})
+        }
+
+      })
+
+      console.log("my result", foundUnsubmittedAnswer)
+
       const username = cookies.get("username") || "익명";
-      const payload = {"name": username, "type": "adp", "result": getAnswerResponse };
+      const payload = {"name": username, "type": "adp", "result": foundUnsubmittedAnswer };
 
       console.log("toobar payload", payload);
       const scoringResponse = await api.scoringExam("adp", payload).then(res => {
@@ -128,7 +160,7 @@ class ExamToolbar extends Component {
 
 
     render() {
-      const { pageNum, submitAnswer } = this.state;
+      const { pageNum, submitAnswer, currentScore, showTableResult } = this.state;
 
       const correctAnswer = {
         backgroundColor: 'forestgreen',
@@ -176,7 +208,7 @@ class ExamToolbar extends Component {
           </ButtonToolbar>
 
           <Wrapper className="mt-4">
-
+            {showTableResult && <h5> 점수 : {currentScore} 점 </h5>}
           {
 
             this.state.tableResult.map((data, index) => {
