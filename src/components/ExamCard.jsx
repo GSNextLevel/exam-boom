@@ -56,32 +56,57 @@ class ExamCard extends Component {
         const examNum = this.props.value.match.params.id;
         const username = this.state.username;
         await api.getExamById("adp", examNum, username).then(exam => {
+
+          const examData = exam.data.exam.Item;
+          const userData = exam.data.user.Items;
           console.log(exam);
-          console.log(exam.data.Item.userData)
+          // console.log(exam.data.Item.userData)
+          console.log(examData, userData)
 
-          if(exam.data.Item.userData !== undefined) {
-            const userDataArray = exam.data.Item.userData;
-            const foundUserData = userDataArray.find(x => x.name === username);
+          let correctCnt = 0;
+          let totalCnt = 0;
+          userData.forEach(el => {
+            console.log("el", el);
+            if(el.correct == true) {
+              correctCnt++;
+            }
+            totalCnt++;
+
+          })
+
+          this.setState({
+              mySubmitCount: totalCnt,
+              myCorrectCount: correctCnt,
+              myStarred: 0
+          })
+
+
+          // if(userData.userData !== undefined) {
+          //   const userDataArray = exam.data.Item.userData;
+          //   const foundUserData = userDataArray.find(x => x.name === username);
+          //   this.setState({
+          //       // mySubmitCount: foundUserData.submitCount,
+          //       // myCorrectCount: foundUserData.correctCount,
+          //       // myStarred: foundUserData.starred
+          //       mySubmitCount: 0,
+          //       myCorrectCount: 0,
+          //       myStarred: 0
+          //   })
+          //
+          // }
+          // else{
+          //   console.log("undefined!!")
+          // }
+
+
             this.setState({
-                mySubmitCount: foundUserData.submitCount,
-                myCorrectCount: foundUserData.correctCount,
-                myStarred: foundUserData.starred
-            })
-
-          }
-          else{
-            console.log("undefined!!")
-          }
-
-
-            this.setState({
-                question: exam.data.Item.question,
-                choices: exam.data.Item.choice,
-                answer: exam.data.Item.answer,
-                choiceType: exam.data.Item.choiceType,
+                question: examData.question,
+                choices: examData.choice,
+                answer: examData.answer,
+                choiceType: examData.choiceType,
                 isLoading: false,
-                correctTotalCount: exam.data.Item.correctTotalCount === undefined ? 0 : exam.data.Item.correctTotalCount,
-                submitTotalCount: exam.data.Item.submitTotalCount === undefined ? 1 : exam.data.Item.submitTotalCount
+                correctTotalCount: examData.correctTotalCount === undefined ? 0 : examData.correctTotalCount,
+                submitTotalCount: examData.submitTotalCount === undefined ? 1 : examData.submitTotalCount
             })
         })
     }
@@ -236,7 +261,7 @@ class ExamCard extends Component {
               <ButtonGroup className="mr-2" aria-label="First group">
               <Button variant="outline-secondary"  >내가 푼 횟수: {mySubmitCount}회</Button>
               <Button variant="outline-secondary"  >내가 틀린 횟수: {mySubmitCount-myCorrectCount}회</Button>
-              <Button variant="outline-secondary"  >정답률: {(parseInt(correctTotalCount)/parseInt(submitTotalCount)) * 100}%</Button>
+              <Button variant="outline-secondary"  >전체 정답률: {parseInt((parseInt(correctTotalCount)/parseInt(submitTotalCount)) * 100)}%</Button>
               <Button variant="outline-secondary"  >
                 <FaThumbsUp style={thumsUpStyle}/>
 

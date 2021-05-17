@@ -101,20 +101,21 @@ class ExamToolbar extends Component {
 
             // tableResult
           });
-          return tempResult;
+
           this.setState({tableResult: tempResult})
           cookies.set('tableResult', tempResult, {path: '/'})
 
-
+          return tempResult;
       })
 
       const username = cookies.get("username") || "익명";
       const payload = {"name": username, "type": "adp", "result": getAnswerResponse };
 
+      console.log("toobar payload", payload);
       const scoringResponse = await api.scoringExam("adp", payload).then(res => {
         console.log(res);
       })
-      // console.log(tempResult)
+      console.log(scoringResponse)
 
 
 
