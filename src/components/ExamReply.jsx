@@ -34,6 +34,7 @@ class ExamReply extends Component {
       this.state = {
           replies: [],
           userInputReplyText: "",
+          userInputDefaultText: "aa",
           userModeState: false
       }
 
@@ -97,6 +98,7 @@ class ExamReply extends Component {
         console.log(mytemp)
         this.setState({replies: prevReplies})
 
+        this.setState({userInputReplyText: ""});
         // this.setState({replies: [{"name": "dz", "content": "aa"}]})
 
       })
@@ -104,7 +106,7 @@ class ExamReply extends Component {
 
 
     render() {
-      const { replies } = this.state;
+      const { replies, userInputDefaultText, userInputReplyText } = this.state;
       // console.log(replies);
 
       const formStyle = {
@@ -124,7 +126,7 @@ class ExamReply extends Component {
                 <Col md="9">
 
                     <Form.Group controlId="exampleForm.ControlTextarea1">
-                      <Form.Control as="textarea" rows={3} onChange={this.onChangeText.bind(this)} />
+                      <Form.Control value={userInputReplyText} as="textarea" rows={3} onChange={this.onChangeText.bind(this)} />
                     </Form.Group>
 
                 </Col>
