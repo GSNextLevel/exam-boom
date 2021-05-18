@@ -15,6 +15,7 @@ export const getExamById = (type, id, username) => api.get(`/${type}/${id}?usern
 export const getAllExamAnswer = (type) => api.get(`/${type}/getanswer`)
 export const getExamReplyById = (type, id) => api.get(`/${type}/${id}/reply`)
 export const updateExamReplyById = (type, id, payload) => api.put(`/${type}/${id}/reply`, payload)
+export const deleteExamReplyById = (type, id, username, replyIdx) => api.delete(`/${type}/${id}/reply?username=${username}&replyIdx=${replyIdx}`)
 
 export const scoringExam = (type, payload) => api.post(`/${type}/scoring`, payload)
 
@@ -28,7 +29,8 @@ const apis = {
     getAllExamAnswer,
     getExamReplyById,
     updateExamReplyById,
-    scoringExam
+    scoringExam,
+    deleteExamReplyById
 }
 
 export default apis

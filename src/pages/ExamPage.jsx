@@ -7,6 +7,8 @@ import { ExamCard, ExamPagenation, ExamToolbar, ExamResultTable, ExamReply, Logi
 
 import { GotoADP, GotoSAP } from '../pages'
 
+import { NotFound } from '../pages'
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -59,23 +61,45 @@ class ExamPage extends Component {
 
         const { params } = this.props.match;
 
+        const { examNum } = this.state;
+
         // const { type } = this.state;
 
         // const { question, choices, answer, choiceType } = this.state;
 
+        const myVisible1 = true;
+        const myVisible2 = true;
 
 
         return (
-            <Container>
-              <ExamToolbar value={this.props} />
 
-              <ExamCard value={this.props} />
 
-              <ExamReply value={this.props} />
 
-              <LoginAlertModal />
-              {/* <ExamPagenation /> */}
-            </Container>
+          <React.Fragment>
+          {
+            examNum > 0 &&
+                  <Container>
+                      <ExamToolbar value={this.props} />
+
+                      <ExamCard value={this.props} />
+
+                      <ExamReply value={this.props} />
+
+                      <LoginAlertModal />
+                  </Container>
+
+          }
+
+          {
+            examNum <= 0 &&
+              <Container>
+                <ExamToolbar value={this.props} />
+                <NotFound />
+              </Container>
+          }
+          </React.Fragment>
+
+
         )
     }
 }

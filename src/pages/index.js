@@ -10,6 +10,8 @@ import ExamPage from './ExamPage'
 import GotoADP from './GotoADP'
 import GotoSAP from './GotoSAP'
 
+import NotFound from './NotFound'
+
 export { MoviesList, MoviesInsert, MoviesUpdate,
   ExamPage,
-  HomePage, ExamMain, GotoADP, GotoSAP }
+  HomePage, ExamMain, GotoADP, GotoSAP, NotFound }

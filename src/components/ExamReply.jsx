@@ -14,6 +14,7 @@ import Badge from 'react-bootstrap/Badge';
 
 import Cookies from 'universal-cookie';
 
+import { FaTrash } from 'react-icons/fa'
 const MyBadge = styled.span`
     padding: 2px 4px;
     font-size: 14px;
@@ -31,11 +32,14 @@ class ExamReply extends Component {
     constructor(props) {
       super(props);
 
+      const cookies = new Cookies();
+
       this.state = {
           replies: [],
           userInputReplyText: "",
           userInputDefaultText: "aa",
-          userModeState: false
+          userModeState: false,
+          username:  cookies.get('username') === undefined ? "익명" : cookies.get('username')
       }
 
       // console.log(this.props);
@@ -106,9 +110,27 @@ class ExamReply extends Component {
       })
     }
 
+    async deleteReply(username, id) {
+
+      console.log("delete ",id)
+      const examNum = this.props.value.match.params.id;
+      const type = this.props.value.match.params.type;
+
+
+
+      await api.deleteExamReplyById(type, examNum, username, id).then(res => {
+        // console.log(exam);
+        console.log(res)
+
+        let prevReplies = this.state.replies;
+        prevReplies.splice(id, 1);
+        this.setState({replies: prevReplies})
+
+      })
+    }
 
     render() {
-      const { replies, userInputDefaultText, userInputReplyText } = this.state;
+      const { replies, userInputDefaultText, userInputReplyText, username } = this.state;
       // console.log(replies);
 
       const formStyle = {
@@ -118,6 +140,10 @@ class ExamReply extends Component {
         textAlign: 'center',
         margin: 'auto',
         borderRight: '1px dotted grey'
+      }
+
+      const replyDiv = {
+        overflowWrap: 'break-word'
       }
 
       return (
@@ -155,9 +181,19 @@ class ExamReply extends Component {
                       <Row>
                         <Col style={replyCol} md="2">
                           <MyBadge  variant="success">{data.name}</MyBadge>
+
                         </Col>
-                        <Col md="10">
+                        <Col style={replyDiv} md="9">
                           {data.content}
+                        </Col>
+                        <Col style={replyDiv} md="1">
+
+                        {
+                          data.name == username &&
+                            <Button variant="light" onClick={() => this.deleteReply(data.name, index)} size="sm"> <FaTrash /></Button>
+                        }
+
+
                         </Col>
                       </Row>
                     </ListGroup.Item>
