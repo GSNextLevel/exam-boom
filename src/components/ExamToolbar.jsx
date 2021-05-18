@@ -200,6 +200,11 @@ class ExamToolbar extends Component {
               </Button>
 
               <Button onClick={this.scoringExam.bind(this)} variant="success" >채점하기</Button>
+              {
+                type == "sap" &&
+                <Button href="290" variant="outline-info" >NEW문제로 바로가기</Button>
+              }
+
             </ButtonGroup>
 
 

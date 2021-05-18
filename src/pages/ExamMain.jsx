@@ -50,11 +50,11 @@ class ExamMain extends Component {
               className="justify-content-between mt-5"
               aria-label="Toolbar with Button groups"
             >
-              <Button variant="primary" size="lg" href="/exam/adp">
+              <Button className="mb-4" variant="primary" size="lg" href="/exam/adp">
                 DevOps Pro 바로가기
               </Button>
 
-              <Button variant="secondary" size="lg" href="/exam/sap">
+              <Button className="mb-4"  variant="primary" size="lg" href="/exam/sap">
                 SA Pro 바로가기
               </Button>
             </ButtonToolbar>

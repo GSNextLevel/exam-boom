@@ -21,9 +21,10 @@ class Links extends Component {
     render() {
         return (
             <React.Fragment>
-                
+
                 <Collapse>
-                    <List>
+                    <List>{
+                    /*
                         <Item>
                             <Link to="/exam" className="nav-link">
                                 시험시작
@@ -39,6 +40,7 @@ class Links extends Component {
                                 맞춤형 문제
                             </Link>
                         </Item>
+                        */}
                     </List>
                 </Collapse>
             </React.Fragment>

@@ -8,7 +8,9 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
+import Badge from 'react-bootstrap/Badge';
 import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
 
 import { FaThumbsUp } from 'react-icons/fa';
 
@@ -42,7 +44,9 @@ class ExamCard extends Component {
 
           submitTotalCount: 0,
           correctTotalCount: 0,
-          starredTotalCount: 0
+          starredTotalCount: 0,
+
+          previousExam: []
 
       }
 
@@ -107,7 +111,9 @@ class ExamCard extends Component {
                 choiceType: examData.choiceType,
                 isLoading: false,
                 correctTotalCount: examData.correctTotalCount === undefined ? 0 : examData.correctTotalCount,
-                submitTotalCount: examData.submitTotalCount === undefined ? 1 : examData.submitTotalCount
+                submitTotalCount: examData.submitTotalCount === undefined ? 1 : examData.submitTotalCount,
+
+                previousExam: examData.previousExam === undefined ? [] : examData.previousExam
             })
         })
     }
@@ -257,7 +263,9 @@ class ExamCard extends Component {
             >
               <ButtonGroup className="mr-2" aria-label="First group">
                 <Button variant="outline-primary"  >문제 {examNum}</Button>
+                <Button variant="outline-success">210411 기출</Button>
               </ButtonGroup>
+
 
               <ButtonGroup className="mr-2" aria-label="First group">
               <Button variant="outline-secondary"  >내가 푼 횟수: {mySubmitCount}회</Button>
@@ -300,9 +308,13 @@ class ExamCard extends Component {
                     // console.log(answerKey);
                     // checked={this.checkIt(examNum, examChoiceAlpha[index])}
                     return isCorrectAns ?
+                      <Row className="mb-1">
                       <Form.Check  defaultChecked={this.checkIt(examNum, examChoiceAlpha[index])} style={answerStyle} inline label={choice} value={examChoiceAlpha[index]}  name={answerName} type={thisChoiceType} id={answerKey} key={answerKey} />
+                      </Row>
                       :
+                      <Row className="mb-1">
                       <Form.Check defaultChecked={this.checkIt(examNum, examChoiceAlpha[index])} inline label={choice} value={examChoiceAlpha[index]} name={answerName} type={thisChoiceType} id={answerKey} key={answerKey} />
+                      </Row>
 
                   }
                 )
