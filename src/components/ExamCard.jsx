@@ -79,10 +79,13 @@ class ExamCard extends Component {
 
           })
 
+          console.log("prev!", examData['previousExam']);
+
           this.setState({
               mySubmitCount: totalCnt,
               myCorrectCount: correctCnt,
-              myStarred: 0
+              myStarred: 0,
+              previousExam: examData['previousExam'] == undefined ? [] : examData['previousExam']
           })
 
 
@@ -226,7 +229,7 @@ class ExamCard extends Component {
       const { question, choices, answer, choiceType,
         starred, mySubmitCount, myCorrectCount, starredTotalCount,
         submitTotalCount, correctTotalCount,
-        isLoading, answerState } = this.state;
+        isLoading, answerState, previousExam } = this.state;
       let answerToString = answer.join(',');
 
 
@@ -250,7 +253,7 @@ class ExamCard extends Component {
       }
 
           // console.log("@@@@", correctTotalCount, submitTotalCount);
-
+//
       return (
 
 
@@ -263,7 +266,11 @@ class ExamCard extends Component {
             >
               <ButtonGroup className="mr-2" aria-label="First group">
                 <Button variant="outline-primary"  >문제 {examNum}</Button>
-                <Button variant="outline-success">210411 기출</Button>
+                {
+                  previousExam.map((title, index) => {
+                    return <Button variant="outline-success" key={index}>{title}</Button>
+                  })
+                }
               </ButtonGroup>
 
 
