@@ -279,9 +279,10 @@ class ExamCard extends Component {
               <Button variant="outline-secondary"  >내가 틀린 횟수: {mySubmitCount-myCorrectCount}회</Button>
               <Button variant="outline-secondary"  >전체 정답률: {parseInt((parseInt(correctTotalCount)/parseInt(submitTotalCount)) * 100)}%</Button>
               <Button variant="outline-secondary"  >
+
                 <FaThumbsUp style={thumsUpStyle}/>
 
-              추천: -회</Button>
+              추천: -회 .</Button>
 
               </ButtonGroup>
             </ButtonToolbar>
