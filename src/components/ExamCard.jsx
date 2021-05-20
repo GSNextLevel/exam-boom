@@ -12,7 +12,7 @@ import Badge from 'react-bootstrap/Badge';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
-import { FaThumbsUp } from 'react-icons/fa';
+import { FaThumbsUp, FaRegThumbsUp } from 'react-icons/fa';
 
 // import { ExamCardSelect } from '../components'
 
@@ -46,7 +46,9 @@ class ExamCard extends Component {
           correctTotalCount: 0,
           starredTotalCount: 0,
 
-          previousExam: []
+          previousExam: [],
+          likeList: [],
+          amILiked: false
 
       }
 
@@ -81,11 +83,21 @@ class ExamCard extends Component {
 
           console.log("prev!", examData['previousExam']);
 
+          if(examData['likeList'] != undefined) {
+            examData['likeList'].forEach((li) => {
+              if(li == username) {
+                this.setState({amILiked: true})
+              }
+            })
+          }
+
+
           this.setState({
               mySubmitCount: totalCnt,
               myCorrectCount: correctCnt,
               myStarred: 0,
-              previousExam: examData['previousExam'] == undefined ? [] : examData['previousExam']
+              previousExam: examData['previousExam'] == undefined ? [] : examData['previousExam'],
+              likeList: examData['likeList'] == undefined ? [] : examData['likeList']
           })
 
 
@@ -192,6 +204,53 @@ class ExamCard extends Component {
       // this.setState({submitAnswer: })
     }
 
+    async pushLike(id) {
+      const examNum = this.props.value.match.params.id;
+      const username = this.state.username;
+      const type = this.props.value.match.params.type;
+
+      let prevLikedList = this.state.likeList;
+
+      if(this.state.amILiked) {
+        console.log("cancle")
+        this.setState({amILiked: false})
+        let foundIdx = prevLikedList.findIndex((e) => e == username);
+        const payload = {"name" : username, "liked": false, "idx": foundIdx}
+
+        await api.likeExamById(type, examNum, payload).then(res => {
+          // console.log(exam);
+          console.log(res)
+
+          prevLikedList.splice(foundIdx, 1);
+          this.setState({amILiked: false, likeList: prevLikedList})
+
+
+
+
+        })
+
+        console.log(prevLikedList.findIndex((e) => e == username))
+      }
+      else{
+        console.log("push")
+        const payload = {"name" : username, "liked": true}
+        await api.likeExamById(type, examNum, payload).then(res => {
+          // console.log(exam);
+          console.log(res)
+
+          prevLikedList.push(username);
+          this.setState({amILiked: true, likeList: prevLikedList})
+
+
+
+
+        })
+
+
+      }
+
+    }
+
     checkIt(id, value) {
 
       // e.preventDefault();
@@ -229,7 +288,7 @@ class ExamCard extends Component {
       const { question, choices, answer, choiceType,
         starred, mySubmitCount, myCorrectCount, starredTotalCount,
         submitTotalCount, correctTotalCount,
-        isLoading, answerState, previousExam } = this.state;
+        isLoading, answerState, previousExam, likeList, amILiked } = this.state;
       let answerToString = answer.join(',');
 
 
@@ -278,11 +337,18 @@ class ExamCard extends Component {
               <Button variant="outline-secondary"  >내가 푼 횟수: {mySubmitCount}회</Button>
               <Button variant="outline-secondary"  >내가 틀린 횟수: {mySubmitCount-myCorrectCount}회</Button>
               <Button variant="outline-secondary"  >전체 정답률: {parseInt((parseInt(correctTotalCount)/parseInt(submitTotalCount)) * 100)}%</Button>
-              <Button variant="outline-secondary"  >
+              <Button variant="outline-primary" onClick={() => this.pushLike(examNum)} >
 
-                <FaThumbsUp style={thumsUpStyle}/>
+              {
+                amILiked ? <FaThumbsUp style={thumsUpStyle}/>
+                :
+                <FaRegThumbsUp style={thumsUpStyle}/>
 
-              추천: -회 .</Button>
+              }
+
+
+
+              추천: {likeList.length}회 .</Button>
 
               </ButtonGroup>
             </ButtonToolbar>

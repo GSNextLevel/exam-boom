@@ -18,6 +18,7 @@ export const updateExamReplyById = (type, id, payload) => api.put(`/${type}/${id
 export const deleteExamReplyById = (type, id, username, replyIdx) => api.delete(`/${type}/${id}/reply?username=${username}&replyIdx=${replyIdx}`)
 
 export const scoringExam = (type, payload) => api.post(`/${type}/scoring`, payload)
+export const likeExamById = (type, id, payload) => api.post(`/${type}/${id}/like`, payload)
 
 const apis = {
     insertMovie,
@@ -30,7 +31,8 @@ const apis = {
     getExamReplyById,
     updateExamReplyById,
     scoringExam,
-    deleteExamReplyById
+    deleteExamReplyById,
+    likeExamById
 }
 
 export default apis
