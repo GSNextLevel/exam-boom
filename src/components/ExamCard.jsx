@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import styled from 'styled-components'
+// import { Link } from 'react-router-dom'
+// import styled from 'styled-components'
 
 import api from '../api'
 
@@ -8,7 +8,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
-import Badge from 'react-bootstrap/Badge';
+
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
@@ -63,7 +63,7 @@ class ExamCard extends Component {
         const username = this.state.username;
         const type = this.props.value.match.params.type;
         await api.getExamById(type, examNum, username).then(exam => {
-          console.log(exam)
+          // console.log(exam)
           const examData = exam.data.exam.Item;
           const userData = exam.data.user.Items;
           console.log(exam);
@@ -291,6 +291,9 @@ class ExamCard extends Component {
         isLoading, answerState, previousExam, likeList, amILiked } = this.state;
       let answerToString = answer.join(',');
 
+      let correctRatePrev = parseInt((parseInt(correctTotalCount)/parseInt(submitTotalCount)) * 100);
+      // console.log(correctRatePrev)
+      let correctRate = isNaN(correctRatePrev) ? "-" : correctRatePrev;
 
       // console.log("this is from card");
       // console.log(this.props);
@@ -336,7 +339,7 @@ class ExamCard extends Component {
               <ButtonGroup className="mr-2" aria-label="First group">
               <Button variant="outline-secondary"  >내가 푼 횟수: {mySubmitCount}회</Button>
               <Button variant="outline-secondary"  >내가 틀린 횟수: {mySubmitCount-myCorrectCount}회</Button>
-              <Button variant="outline-secondary"  >전체 정답률: {parseInt((parseInt(correctTotalCount)/parseInt(submitTotalCount)) * 100)}%</Button>
+              <Button variant="outline-secondary"  >전체 정답률: {correctRate}%</Button>
               <Button variant="outline-primary" onClick={() => this.pushLike(examNum)} >
 
               {
@@ -382,11 +385,11 @@ class ExamCard extends Component {
                     // console.log(answerKey);
                     // checked={this.checkIt(examNum, examChoiceAlpha[index])}
                     return isCorrectAns ?
-                      <Row className="mb-1">
+                      <Row className="mb-1" key={answerKey}>
                       <Form.Check  defaultChecked={this.checkIt(examNum, examChoiceAlpha[index])} style={answerStyle} inline label={choice} value={examChoiceAlpha[index]}  name={answerName} type={thisChoiceType} id={answerKey} key={answerKey} />
                       </Row>
                       :
-                      <Row className="mb-1">
+                      <Row className="mb-1" key={answerKey}>
                       <Form.Check defaultChecked={this.checkIt(examNum, examChoiceAlpha[index])} inline label={choice} value={examChoiceAlpha[index]} name={answerName} type={thisChoiceType} id={answerKey} key={answerKey} />
                       </Row>
 

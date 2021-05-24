@@ -37,7 +37,8 @@ class ExamToolbar extends Component {
         tableResult: cookies.get('tableResult') || [],
         showTableResult: cookies.get('showTableResult') || false,
         submitAnswer: cookies.get('submitAnswer') || [],
-        currentScore: 0
+        currentScore: 0,
+        scoringButtonDisabled: false
       }
       // console.log(pageNum)
 
@@ -74,7 +75,7 @@ class ExamToolbar extends Component {
       console.log(userAnswerFromCookie)
 
       // const mymy = this.state.tableResult;
-      this.setState({tableResult: []})
+      this.setState({tableResult: [], scoringButtonDisabled: true})
 
       let correctCnt = 0;
       let totalCnt = 0;
@@ -118,7 +119,7 @@ class ExamToolbar extends Component {
           this.setState({tableResult: tempResult})
           cookies.set('tableResult', tempResult, {path: '/'})
 
-          this.setState({showTableResult: true})
+          this.setState({showTableResult: true, scoringButtonDisabled: false})
 
           return tempResult;
       })
@@ -163,7 +164,7 @@ class ExamToolbar extends Component {
 
 
     render() {
-      const { type, pageNum, submitAnswer, currentScore, showTableResult } = this.state;
+      const { type, pageNum, submitAnswer, currentScore, showTableResult, scoringButtonDisabled } = this.state;
 
       const correctAnswer = {
         backgroundColor: 'forestgreen',
@@ -183,6 +184,8 @@ class ExamToolbar extends Component {
         width: '8%'
       }
 
+
+
       return (
 
         <Container>
@@ -199,7 +202,7 @@ class ExamToolbar extends Component {
                 푼 문제 수 <Badge variant="success">{submitAnswer.length}</Badge>
               </Button>
 
-              <Button onClick={this.scoringExam.bind(this)} variant="success" >채점하기</Button>
+              <Button onClick={this.scoringExam.bind(this)} disabled={scoringButtonDisabled} variant="success" >채점하기</Button>
               {
                 type == "sap" &&
                 <Button href="290" variant="outline-info" >NEW문제로 바로가기</Button>
