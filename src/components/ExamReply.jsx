@@ -13,6 +13,9 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Badge from 'react-bootstrap/Badge';
 
 import Cookies from 'universal-cookie';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
+
 
 import { FaTrash } from 'react-icons/fa'
 const MyBadge = styled.span`
@@ -53,7 +56,7 @@ class ExamReply extends Component {
         const type = this.props.value.match.params.type;
 
         await api.getExamReplyById(type, examNum).then(exam => {
-          // console.log(exam);
+          console.log("Reply ", exam);
           if(exam.data.Item.reply == undefined) {
             this.setState({
                 replies: []
@@ -176,11 +179,23 @@ class ExamReply extends Component {
             {
               replies.length > 0 &&
               replies.map((data, index) => {
-
+                  let tootipKey = "key-" + index;
                   return <ListGroup.Item key={index}>
                       <Row>
                         <Col style={replyCol} md="2">
-                          <MyBadge  variant="success">{data.name}</MyBadge>
+
+                          <OverlayTrigger
+                            key={tootipKey}
+                            placement='left'
+                            overlay={
+                              <Tooltip id="tooltip-bottom1">
+                                {new Date(parseInt(data.createdAt)).toLocaleString()}
+                              </Tooltip>
+                            }
+                          >
+                            <MyBadge  variant="success">{data.name}</MyBadge>
+
+                          </OverlayTrigger>
 
                         </Col>
                         <Col style={replyDiv} md="9">
