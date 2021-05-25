@@ -16,6 +16,8 @@ import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Pagination from 'react-bootstrap/Pagination';
 import PageItem from 'react-bootstrap/PageItem'
 import Table from 'react-bootstrap/Table';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 
 import Cookies from 'universal-cookie';
 
@@ -23,7 +25,7 @@ import Cookies from 'universal-cookie';
 // import { ExamCardSelect } from '../components'
 
 const Wrapper = styled.div`
-    padding: 0 40px 40px 40px;
+    padding: 0 40px 10px 40px;
 `
 
 class ExamToolbar extends Component {
@@ -38,7 +40,9 @@ class ExamToolbar extends Component {
         showTableResult: cookies.get('showTableResult') || false,
         submitAnswer: cookies.get('submitAnswer') || [],
         currentScore: 0,
-        scoringButtonDisabled: false
+        scoringButtonDisabled: false,
+        previousExamTable: cookies.get('previousExamTable') || [],
+        showPreviousExamTable: cookies.get('showPreviousExamTable') || false,
       }
       // console.log(pageNum)
 
@@ -59,10 +63,14 @@ class ExamToolbar extends Component {
 
       this.setState({tableResult: []})
       this.setState({showTableResult: false})
+
+      this.setState({showPreviousExamTable: false})
+      this.setState({previousExamTable: []})
       this.setState({submitAnswer: []})
 
       cookies.remove('tableResult', {path: '/'})
       cookies.remove('submitAnswer', {path: '/'})
+      cookies.remove('previousExamTable', {path: '/'})
 
     }
 
@@ -162,6 +170,20 @@ class ExamToolbar extends Component {
       // console.log(this.state.tableResult)
     }
 
+    async viewPreviousExamTable() {
+      const cookies = new Cookies();
+      const type = this.props.value.match.params.type;
+      const getPreviousExam =  await api.getPreviousExamByType(type).then(exam => {
+        console.log("prev Exam", exam);
+        // console.log(exam);
+          console.log(exam['data']['Items'])
+          this.setState({previousExamTable: exam['data']['Items'] })
+
+          cookies.set('previousExamTable', exam['data']['Items'], {path: '/'})
+
+      })
+    }
+
 
     render() {
       const { type, pageNum, submitAnswer, currentScore, showTableResult, scoringButtonDisabled } = this.state;
@@ -182,6 +204,12 @@ class ExamToolbar extends Component {
         marginRight: '4px',
         marginBottom: '4px',
         width: '8%'
+      }
+      const cellStyle2 = {
+        marginRight: '4px',
+        marginBottom: '4px',
+        width: '6%',
+        fontSize: '14px'
       }
 
 
@@ -205,7 +233,34 @@ class ExamToolbar extends Component {
               <Button onClick={this.scoringExam.bind(this)} disabled={scoringButtonDisabled} variant="success" >채점하기</Button>
               {
                 type == "sap" &&
-                <Button href="290" variant="outline-info" >NEW문제로 바로가기</Button>
+                <OverlayTrigger
+                  key='bottom1'
+                  placement='bottom'
+                  overlay={
+                    <Tooltip id="tooltip-bottom1">
+                      최근에 새롭게 추가된 덤프 문제들입니다.
+                    </Tooltip>
+                  }
+                >
+                  <Button href="290" variant="outline-info" >NEW문제로 바로가기</Button>
+
+                </OverlayTrigger>
+
+              }
+              {
+                type == "sap" &&
+                <OverlayTrigger
+                  key='bottom2'
+                  placement='bottom'
+                  overlay={
+                    <Tooltip id="tooltip-bottom2">
+                      최근에 시험을 보고왔던 SA들이 선별한 기출문제들만 확인할 수 있습니다.
+                    </Tooltip>
+                  }
+                >
+                  <Button onClick={this.viewPreviousExamTable.bind(this)} variant="outline-info" >기출문제 보기</Button>
+                </OverlayTrigger>
+
               }
 
             </ButtonGroup>
@@ -218,7 +273,7 @@ class ExamToolbar extends Component {
 
           </ButtonToolbar>
 
-          <Wrapper className="mt-4">
+          <Wrapper className={this.state.tableResult.length > 0 ? "mt-4" : ""}  >
             {showTableResult && <h5> 점수 : {currentScore} 점 </h5>}
           {
 
@@ -234,6 +289,14 @@ class ExamToolbar extends Component {
             })
           }
 
+          </Wrapper>
+
+          <Wrapper className={this.state.previousExamTable.length > 0 ? "mt-4" : ""}  >
+          {
+            this.state.previousExamTable.map((data, index) => {
+              return <Button href={data['examIdx'].toString()} key={index} style={cellStyle2} variant="light">{data['examIdx']}</Button>
+            })
+          }
           </Wrapper>
 
 

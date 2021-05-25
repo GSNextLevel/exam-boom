@@ -63,6 +63,11 @@ class ExamPage extends Component {
 
         const { examNum } = this.state;
 
+        const isValidExamNum = isNaN(examNum) ? false : true;
+
+        // console.log("examNum : ", examNum, isValidExamNum)
+
+
         // const { type } = this.state;
 
         // const { question, choices, answer, choiceType } = this.state;
@@ -77,7 +82,7 @@ class ExamPage extends Component {
 
           <React.Fragment>
           {
-            examNum > 0 &&
+            (isValidExamNum && examNum > 0) &&
                   <Container>
                       <ExamToolbar value={this.props} />
 
@@ -91,7 +96,7 @@ class ExamPage extends Component {
           }
 
           {
-            examNum <= 0 &&
+            (!isValidExamNum || examNum <= 0) &&
               <Container>
                 <ExamToolbar value={this.props} />
                 <NotFound />

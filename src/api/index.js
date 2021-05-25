@@ -20,6 +20,8 @@ export const deleteExamReplyById = (type, id, username, replyIdx) => api.delete(
 export const scoringExam = (type, payload) => api.post(`/${type}/scoring`, payload)
 export const likeExamById = (type, id, payload) => api.post(`/${type}/${id}/like`, payload)
 
+export const getPreviousExamByType = (type) => api.get(`/${type}/getprevious`)
+
 const apis = {
     insertMovie,
     getAllMovies,
@@ -32,7 +34,8 @@ const apis = {
     updateExamReplyById,
     scoringExam,
     deleteExamReplyById,
-    likeExamById
+    likeExamById,
+    getPreviousExamByType
 }
 
 export default apis
