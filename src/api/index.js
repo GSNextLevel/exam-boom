@@ -12,7 +12,7 @@ export const deleteMovieById = id => api.delete(`/movie/${id}`)
 export const getMovieById = id => api.get(`/movie/${id}`)
 
 export const getExamById = (type, id, username) => api.get(`/${type}/${id}?username=${username}`)
-export const getAllExamAnswer = (type) => api.get(`/${type}/getanswer`)
+export const getAllExamAnswer = (type, front, end) => api.get(`/${type}/getanswer?front=${front}&end=${end}`)
 export const getExamReplyById = (type, id) => api.get(`/${type}/${id}/reply`)
 export const updateExamReplyById = (type, id, payload) => api.put(`/${type}/${id}/reply`, payload)
 export const deleteExamReplyById = (type, id, username, replyIdx) => api.delete(`/${type}/${id}/reply?username=${username}&replyIdx=${replyIdx}`)

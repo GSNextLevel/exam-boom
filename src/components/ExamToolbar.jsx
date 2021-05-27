@@ -82,12 +82,19 @@ class ExamToolbar extends Component {
       const userAnswerFromCookie = cookies.get('submitAnswer');
       console.log(userAnswerFromCookie)
 
+      if(userAnswerFromCookie.length == 0){
+        return;
+      }
+      const frontIdx = userAnswerFromCookie[0]['id'];
+      const endIdx = userAnswerFromCookie[userAnswerFromCookie.length - 1]['id'];
+
+      console.log("front!!!", frontIdx, endIdx)
       // const mymy = this.state.tableResult;
       this.setState({tableResult: [], scoringButtonDisabled: true})
 
       let correctCnt = 0;
       let totalCnt = 0;
-      const getAnswerResponse =  await api.getAllExamAnswer(type).then(exam => {
+      const getAnswerResponse =  await api.getAllExamAnswer(type, frontIdx, endIdx).then(exam => {
         console.log("check", exam);
         // console.log(exam);
         const realAnswer = exam['data']['Items'];
@@ -98,7 +105,7 @@ class ExamToolbar extends Component {
             const submitQuestionNum = item['id'];
             const sumbitQuestionAns = item['ans'];
 
-            const realQuestionAns = realAnswer[submitQuestionNum-1]['answer']
+            const realQuestionAns = realAnswer[i]['answer']
             let isCorrect  = false;
             if(JSON.stringify(sumbitQuestionAns) == JSON.stringify(realQuestionAns)) {
               console.log("correct", item['id'], sumbitQuestionAns, realQuestionAns)
