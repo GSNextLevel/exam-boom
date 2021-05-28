@@ -105,7 +105,14 @@ class ExamToolbar extends Component {
             const submitQuestionNum = item['id'];
             const sumbitQuestionAns = item['ans'];
 
-            const realQuestionAns = realAnswer[i]['answer']
+            let sameIdx = 0;
+            for(let j=0 ; j<realAnswer.length ; j++) {
+              if(submitQuestionNum == realAnswer[j]['examIdx']) {
+                sameIdx = j;
+                break;
+              }
+            }
+            const realQuestionAns = realAnswer[sameIdx]['answer']
             let isCorrect  = false;
             if(JSON.stringify(sumbitQuestionAns) == JSON.stringify(realQuestionAns)) {
               console.log("correct", item['id'], sumbitQuestionAns, realQuestionAns)
