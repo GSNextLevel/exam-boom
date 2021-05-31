@@ -75,7 +75,6 @@ class ExamToolbar extends Component {
       let values;
       if (values = cookies.get('previousQuestions')){
         console.log(values);
-        // savedQuestions.push(this.state.pageNum)
         cookies.set('previousQuestions',values + ',' + this.state.pageNum)  
       } else { 
         savedQuestions = this.state.pageNum
