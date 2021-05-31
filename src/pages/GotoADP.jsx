@@ -11,6 +11,7 @@ import Col from 'react-bootstrap/Col'
 
 import { ExamCard } from '../components'
 
+import { randomQuestionNum } from '../utils/random'
 
 import api from '../api'
 
@@ -62,7 +63,7 @@ class GotoADP extends Component {
                     <Card.Text>
                       무작위로 문제가 나와요.
                     </Card.Text>
-                    <Button variant="primary" disabled>이동</Button>
+                    <Button variant="primary" href={ type + "/random/" + (randomQuestionNum(type).toString())}>이동</Button>
                   </Card.Body>
                 </Card>
 

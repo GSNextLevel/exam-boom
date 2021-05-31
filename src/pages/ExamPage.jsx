@@ -19,6 +19,7 @@ import {
 import api from '../api'
 
 import styled from 'styled-components'
+import { popperGenerator } from '@popperjs/core';
 
 
 
@@ -42,6 +43,7 @@ class ExamPage extends Component {
           answer: [],
           choiceType: "",
           type: props.match.params.type,
+          isRandom: props.isRandom || false
         }
         // this.state = {
         //     movies: [],
