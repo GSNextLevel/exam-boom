@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 // import { Link } from 'react-router-dom'
 // import styled from 'styled-components'
-
+// 빈문제 제출 막기
 import api from '../api'
 
 import Card from 'react-bootstrap/Card';
