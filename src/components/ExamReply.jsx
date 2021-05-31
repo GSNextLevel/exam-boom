@@ -42,6 +42,7 @@ class ExamReply extends Component {
           userInputReplyText: "",
           userInputDefaultText: "aa",
           userModeState: false,
+          // replyCnt: 0,
           username:  cookies.get('username') === undefined ? "익명" : cookies.get('username')
       }
 
@@ -133,7 +134,8 @@ class ExamReply extends Component {
     }
 
     render() {
-      const { replies, userInputDefaultText, userInputReplyText, username } = this.state;
+      const { replies, userInputDefaultText,
+        userInputReplyText, username } = this.state;
       // console.log(replies);
 
       const formStyle = {
@@ -148,81 +150,90 @@ class ExamReply extends Component {
       const replyDiv = {
         overflowWrap: 'break-word'
       }
+      const replyCountText = {
+        fontSize: '14px'
+      }
 
       return (
         <Container>
-          <h4> 토론장 </h4>
-          <Form>
-            <Row style={formStyle}>
-                <Col md="9">
+          <details>
+            <summary>
 
-                    <Form.Group controlId="exampleForm.ControlTextarea1">
-                      <Form.Control value={userInputReplyText} as="textarea" rows={3} onChange={this.onChangeText.bind(this)} />
+                토론장  <span style={replyCountText}>({replies.length}개의 댓글)</span>
+
+            </summary>
+
+            <Form>
+              <Row style={formStyle}>
+                  <Col md="9">
+
+                      <Form.Group controlId="exampleForm.ControlTextarea1">
+                        <Form.Control value={userInputReplyText} as="textarea" rows={3} onChange={this.onChangeText.bind(this)} />
+                      </Form.Group>
+
+                  </Col>
+                  <Col md="1">
+                    <Form.Group id="formGridCheckbox">
+                      <Form.Check type="checkbox" label="익명" onChange={this.onChangeWriteMode.bind(this)}/>
                     </Form.Group>
+                  </Col>
+                  <Col md="2">
+                    <Button variant="primary" onClick={this.writeReply.bind(this)}>
+                      작성
+                    </Button>
+                  </Col>
 
-                </Col>
-                <Col md="1">
-                  <Form.Group id="formGridCheckbox">
-                    <Form.Check type="checkbox" label="익명" onChange={this.onChangeWriteMode.bind(this)}/>
-                  </Form.Group>
-                </Col>
-                <Col md="2">
-                  <Button variant="primary" onClick={this.writeReply.bind(this)}>
-                    작성
-                  </Button>
-                </Col>
+              </Row>
+            </Form>
 
-            </Row>
-          </Form>
+            <ListGroup className="mt-4 mb-4 pb-4">
+              {
+                replies.length > 0 &&
+                replies.map((data, index) => {
+                    let tootipKey = "key-" + index;
+                    return <ListGroup.Item key={index}>
+                        <Row>
+                          <Col style={replyCol} md="2">
 
-          <ListGroup className="mt-4 mb-4 pb-4">
-            {
-              replies.length > 0 &&
-              replies.map((data, index) => {
-                  let tootipKey = "key-" + index;
-                  return <ListGroup.Item key={index}>
-                      <Row>
-                        <Col style={replyCol} md="2">
+                            <OverlayTrigger
+                              key={tootipKey}
+                              placement='left'
+                              overlay={
+                                <Tooltip id="tooltip-bottom1">
+                                  {new Date(parseInt(data.createdAt)).toLocaleString()}
+                                </Tooltip>
+                              }
+                            >
+                              <MyBadge  variant="success">{data.name}</MyBadge>
 
-                          <OverlayTrigger
-                            key={tootipKey}
-                            placement='left'
-                            overlay={
-                              <Tooltip id="tooltip-bottom1">
-                                {new Date(parseInt(data.createdAt)).toLocaleString()}
-                              </Tooltip>
-                            }
-                          >
-                            <MyBadge  variant="success">{data.name}</MyBadge>
+                            </OverlayTrigger>
 
-                          </OverlayTrigger>
+                          </Col>
+                          <Col style={replyDiv} md="9">
+                            {data.content}
+                          </Col>
+                          <Col style={replyDiv} md="1">
 
-                        </Col>
-                        <Col style={replyDiv} md="9">
-                          {data.content}
-                        </Col>
-                        <Col style={replyDiv} md="1">
-
-                        {
-                          data.name == username &&
-                            <Button variant="light" onClick={() => this.deleteReply(data.name, index)} size="sm"> <FaTrash /></Button>
-                        }
+                          {
+                            data.name == username &&
+                              <Button variant="light" onClick={() => this.deleteReply(data.name, index)} size="sm"> <FaTrash /></Button>
+                          }
 
 
-                        </Col>
-                      </Row>
-                    </ListGroup.Item>
+                          </Col>
+                        </Row>
+                      </ListGroup.Item>
 
 
-              })
-            }
+                })
+              }
 
 
 
 
-          </ListGroup>
+            </ListGroup>
 
-
+          </details>
         </Container>
       );
     }

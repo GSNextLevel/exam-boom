@@ -1,4 +1,49 @@
-@import url('https://fonts.googleapis.com/css?family=Nunito+Sans');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+details > summary {
+  list-style-type: none;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}
+details > summary::before {
+  /* display: none; */
+  margin-right: 10px;
+  margin-bottom: 10px;
+  /* content: '🔜'; */
+  /* padding: 0.5rem; */
+
+  content: "\e5cf";
+    padding-right: 10px;
+    font-family: Material Icons;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 900;
+
+}
+
+details[open] summary::before {
+  content: "\e5c7";
+    padding-right: 10px;
+    font-family: Material Icons;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 900;
+}
+
+details {
+  /* border: 1px solid gray;
+  border-radius: 0.2rem;
+  padding: 0.5rem; */
+}
+
 /* :root {
   --blue: #0e0620;
   --white: #fff;
