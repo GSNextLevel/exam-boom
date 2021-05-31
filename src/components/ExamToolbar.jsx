@@ -33,27 +33,6 @@ const randomNext = (type) => {
   return Math.floor(Math.random() * (questionMax - 1)) + 1 ; 
 }
 
-/* 쿠키에 이번문제 저장 */ 
-const rememberCurrent = (currentQuestion) => {
-  const cookie = new Cookies();
-  cookie.set('previousQuestion',currentQuestion)
-}
-
-/*
-const randomQuestions = (type) => {
-  let questionMax = type ==='adp' ? 400 : 422;
-  let questionBox = []
-  for (var i = 0; i < questionMax; i++) {
-    questionBox.push(i);
-  }
-  let randomQuestions = []
-  for (var i = 0 ; i < 20 ; i++ ){
-    var randomIndex = Math.floor(Math.random() * questionBox.length); 
-    questionBox[randomIndex]
-    randomQuestions.push()
-  }
-}
- */
 
 
 class ExamToolbar extends Component {
