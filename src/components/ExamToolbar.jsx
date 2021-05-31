@@ -33,6 +33,28 @@ const randomNext = (type) => {
   return Math.floor(Math.random() * (questionMax - 1)) + 1 ; 
 }
 
+/* 쿠키에 이번문제 저장 */ 
+const rememberCurrent = (currentQuestion) => {
+  const cookie = new Cookies();
+  cookie.set('previousQuestion',currentQuestion)
+}
+
+/*
+const randomQuestions = (type) => {
+  let questionMax = type ==='adp' ? 400 : 422;
+  let questionBox = []
+  for (var i = 0; i < questionMax; i++) {
+    questionBox.push(i);
+  }
+  let randomQuestions = []
+  for (var i = 0 ; i < 20 ; i++ ){
+    var randomIndex = Math.floor(Math.random() * questionBox.length); 
+    questionBox[randomIndex]
+    randomQuestions.push()
+  }
+}
+ */
+
 
 class ExamToolbar extends Component {
     constructor(props) {
@@ -51,9 +73,10 @@ class ExamToolbar extends Component {
         showPreviousExamTable: cookies.get('showPreviousExamTable') || false,
         isRandom: this.props.value.isRandom || false
       }
+
+      this.handleRandomNext = this.handleRandomNext.bind(this);
+      this.handleRandomPrevious = this.handleRandomPrevious.bind(this);
       // console.log(pageNum)
-
-
 
     }
 
@@ -62,6 +85,27 @@ class ExamToolbar extends Component {
     }
 
     // arraysEqual(a, b)
+
+
+    handleRandomNext(event) {
+      event.preventDefault();
+      const cookies = new Cookies();
+      const type =this.state.type;
+      
+      let nextQuestion = randomNext(type)
+      cookies.set('previousQuestion', this.state.pageNum)
+      window.location.href = nextQuestion.toString();
+    }
+
+    handleRandomPrevious(event) {
+      const cookies = new Cookies();
+      if (cookies.get('previousQuestion')){
+        window.location.href = cookies.get('previousQuestion').toString()
+      } else {
+        alert("이전문제가 없습니다.");
+      }
+      
+    }
 
     resetProblem() {
       const cookies = new Cookies();
@@ -78,7 +122,6 @@ class ExamToolbar extends Component {
       cookies.remove('tableResult', {path: '/'})
       cookies.remove('submitAnswer', {path: '/'})
       cookies.remove('previousExamTable', {path: '/'})
-
     }
 
     async scoringExam() {
@@ -242,7 +285,12 @@ class ExamToolbar extends Component {
             className="justify-content-between pt-3"
           >
             <ButtonGroup className="mr-2" aria-label="First group">
+              { isRandom ? 
+              <Button variant="secondary" onClick={this.handleRandomPrevious} >이전 문제</Button>
+              :
               <Button variant="secondary" href={(parseInt(pageNum)-1).toString()} >이전 문제</Button>
+              }
+              
             </ButtonGroup>
 
             <ButtonGroup className="mr-2" aria-label="First group">
@@ -290,7 +338,7 @@ class ExamToolbar extends Component {
 
             <ButtonGroup className="mr-2" aria-label="First group">
               { isRandom ?
-                <Button variant="secondary" href={(randomNext(type).toString())} >다음 문제(random)</Button> 
+                <Button variant="secondary" onClick={this.handleRandomNext} >다음 문제(random)</Button> 
                 :
                 <Button variant="secondary" href={(parseInt(pageNum)+1).toString()} >다음 문제</Button>}
             </ButtonGroup>
