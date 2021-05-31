@@ -70,20 +70,37 @@ class ExamToolbar extends Component {
       event.preventDefault();
       const cookies = new Cookies();
       const type =this.state.type;
-      
       let nextQuestion = randomNext(type)
-      cookies.set('previousQuestion', this.state.pageNum)
+      let savedQuestions = []
+      let values;
+      if (values = cookies.get('previousQuestions')){
+        console.log(values);
+        // savedQuestions.push(this.state.pageNum)
+        cookies.set('previousQuestions',values + ',' + this.state.pageNum)  
+      } else { 
+        savedQuestions = this.state.pageNum
+        cookies.set('previousQuestions',savedQuestions)  
+      }
       window.location.href = nextQuestion.toString();
     }
 
     handleRandomPrevious(event) {
       const cookies = new Cookies();
-      if (cookies.get('previousQuestion')){
-        window.location.href = cookies.get('previousQuestion').toString()
+      let savedQuestions
+      let values
+      if (values = cookies.get('previousQuestions')){
+        savedQuestions = values.split(',')
+        let previousQuestion = savedQuestions.pop();
+        window.location.href = previousQuestion.toString();
+        if (savedQuestions.length > 0){
+          cookies.set('previousQuestions',savedQuestions.join())
+        } else {
+          cookies.remove('previousQuestions')
+        }
+        
       } else {
         alert("이전문제가 없습니다.");
       }
-      
     }
 
     resetProblem() {
