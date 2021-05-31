@@ -27,6 +27,12 @@ import Cookies from 'universal-cookie';
 const Wrapper = styled.div`
     padding: 0 40px 10px 40px;
 `
+/* 다음문제 번호 생성 */
+const randomNext = (type) => {
+  let questionMax = type ==='adp' ? 400 : 422 
+  return Math.floor(Math.random() * (questionMax - 1)) + 1 ; 
+}
+
 
 class ExamToolbar extends Component {
     constructor(props) {
@@ -43,6 +49,7 @@ class ExamToolbar extends Component {
         scoringButtonDisabled: false,
         previousExamTable: cookies.get('previousExamTable') || [],
         showPreviousExamTable: cookies.get('showPreviousExamTable') || false,
+        isRandom: this.props.value.isRandom || false
       }
       // console.log(pageNum)
 
@@ -193,7 +200,7 @@ class ExamToolbar extends Component {
 
 
     render() {
-      const { type, pageNum, submitAnswer, currentScore, showTableResult, scoringButtonDisabled } = this.state;
+      const { type, pageNum, submitAnswer, currentScore, showTableResult, scoringButtonDisabled, isRandom } = this.state;
 
       const correctAnswer = {
         backgroundColor: 'forestgreen',
@@ -275,7 +282,10 @@ class ExamToolbar extends Component {
 
 
             <ButtonGroup className="mr-2" aria-label="First group">
-              <Button variant="secondary" href={(parseInt(pageNum)+1).toString()} >다음 문제</Button>
+              { isRandom ?
+                <Button variant="secondary" href={(randomNext(type).toString())} >다음 문제(random)</Button> 
+                :
+                <Button variant="secondary" href={(parseInt(pageNum)+1).toString()} >다음 문제</Button>}
             </ButtonGroup>
 
           </ButtonToolbar>
