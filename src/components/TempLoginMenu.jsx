@@ -48,8 +48,14 @@ class TempLoginMenu extends Component {
       const cookies = new Cookies();
       e.preventDefault();
       if(!this.state.isLogin) {
-        cookies.set('username', this.state.username, {path: '/'})
-        this.setState({loginState: '로그아웃', isLogin: true})
+        if(this.state.username.trim() === "") {
+          alert("다시 로그인해주세요")
+        }
+        else{
+          cookies.set('username', this.state.username, {path: '/'})
+          this.setState({loginState: '로그아웃', isLogin: true})
+        }
+
 
       }
       else{

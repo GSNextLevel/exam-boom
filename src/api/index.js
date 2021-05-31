@@ -5,12 +5,6 @@ const api = axios.create({
     baseURL: 'https://kzutk1y9w7.execute-api.ap-northeast-2.amazonaws.com/v1/exam'
 })
 
-export const insertMovie = payload => api.post(`/movie`, payload)
-export const getAllMovies = () => api.get(`/movies`)
-export const updateMovieById = (id, payload) => api.put(`/movie/${id}`, payload)
-export const deleteMovieById = id => api.delete(`/movie/${id}`)
-export const getMovieById = id => api.get(`/movie/${id}`)
-
 export const getExamById = (type, id, username) => api.get(`/${type}/${id}?username=${username}`)
 export const getAllExamAnswer = (type, front, end) => api.get(`/${type}/getanswer?front=${front}&end=${end}`)
 export const getExamReplyById = (type, id) => api.get(`/${type}/${id}/reply`)
@@ -23,11 +17,6 @@ export const likeExamById = (type, id, payload) => api.post(`/${type}/${id}/like
 export const getPreviousExamByType = (type) => api.get(`/${type}/getprevious`)
 
 const apis = {
-    insertMovie,
-    getAllMovies,
-    updateMovieById,
-    deleteMovieById,
-    getMovieById,
     getExamById,
     getAllExamAnswer,
     getExamReplyById,

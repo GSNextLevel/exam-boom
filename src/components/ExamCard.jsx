@@ -175,6 +175,13 @@ class ExamCard extends Component {
     saveAndNext(id) {
       const cookies = new Cookies();
       // console.log("page", id);
+      console.log(this.state.selectedAnswer);
+      if(this.state.selectedAnswer.length === 0) {
+        alert("답을 선택해주세요.")
+        return;
+      }
+
+
       this.setState({selectedAnswer: this.state.selectedAnswer.sort()});
       console.log(this.state.selectedAnswer)
 
@@ -405,7 +412,8 @@ class ExamCard extends Component {
               <Button variant="success" onClick={this.viewAnswer}>답 바로보기</Button>
               {answerState && ( <span > 답 : {answerToString} </span> )}
               <Button onClick={() => this.saveAndNext(examNum)} href={(parseInt(examNum)+1).toString()} variant="primary">저장 후 계속</Button>
-              {/*href={(parseInt(examNum)+1).toString()}*/}
+              {/*<Button onClick={() => this.saveAndNext(examNum)} variant="primary">저장 후 계속</Button>*/}
+
             </ButtonToolbar>
 
 
