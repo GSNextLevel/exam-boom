@@ -69,8 +69,8 @@ class TempLoginMenu extends Component {
     render() {
       const { loginState, isLogin, nameHolder } = this.state;
         return (
-          <Form className="margin-auto" onSubmit={this.submitLoginHandler}>
-            <Form.Group as={Row} controlId="formBasicEmail">
+          <Form  onSubmit={this.submitLoginHandler}>
+            <Form.Group as={Row} controlId="formBasicEmail" className="mb-0">
 
               <Col sm="8">
                 <Form.Control readOnly={isLogin} onChange={this.changeHandler} type="text" placeholder={nameHolder} />

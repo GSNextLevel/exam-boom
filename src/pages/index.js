@@ -1,6 +1,3 @@
-import MoviesList from './MoviesList'
-import MoviesInsert from './MoviesInsert'
-import MoviesUpdate from './MoviesUpdate'
 
 import HomePage from './HomePage'
 import ExamMain from './ExamMain'
@@ -11,7 +8,7 @@ import GotoADP from './GotoADP'
 import GotoSAP from './GotoSAP'
 
 import NotFound from './NotFound'
-
-export { MoviesList, MoviesInsert, MoviesUpdate,
-  ExamPage,
+import LeaderBoard from './LeaderBoard'
+export {
+  ExamPage, LeaderBoard,
   HomePage, ExamMain, GotoADP, GotoSAP, NotFound }

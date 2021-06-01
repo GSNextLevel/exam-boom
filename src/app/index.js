@@ -1,10 +1,7 @@
 import React, { useState } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-
 import { NavBar } from '../components'
-import { MoviesList, MoviesInsert, MoviesUpdate } from '../pages'
-import { HomePage, ExamMain } from '../pages'
-
+import { HomePage, ExamMain, LeaderBoard } from '../pages'
 import { ExamPage, GotoADP, GotoSAP } from '../pages'
 
 
@@ -79,14 +76,10 @@ function App() {
           </Route>
 
           <Route path="/exam" exact component={ExamMain} />
-
-          <Route path="/movies/list" exact component={MoviesList} />
-
-
           <Route path="/exam/:type" exact  component={GotoADP} />
-          <Route path="/exam/:type/random/:id"  render={props => <ExamPage {...props} isRandom={true} />}/>          
           <Route path="/exam/:type/:id"  component={ExamPage} />
 
+          <Route path="/leaderBoard" exact  component={LeaderBoard} />
           {/*<Route path="/exam/adp" exact  component={GotoADP} />
           <Route path="/exam/adp/:id"  component={ExamPage} />
           <Route path="/exam/sap" exact component={GotoSAP} />
@@ -94,31 +87,6 @@ function App() {
 
         </Switch>
       </Router>
-      // <Container className="p-3">
-      //   <Jumbotron>
-      //     <h1 className="header">Welcome To React-Bootstrap</h1>
-      //     <ExampleToast>
-      //       We now have Toasts
-      //       <span role="img" aria-label="tada">
-      //         🎉
-      //       </span>
-      //     </ExampleToast>
-      //   </Jumbotron>
-      // </Container>
-        // <Router>
-        //     <NavBar />
-        //     <Switch>
-        //         <Route path="/movies/list" exact component={MoviesList} />
-        //         <Route path="/movies/create" exact component={MoviesInsert} />
-        //         <Route
-        //             path="/movies/update/:id"
-        //             exact
-        //             component={MoviesUpdate}
-        //         />
-        //     </Switch>
-        //
-        //     <Game/>
-        // </Router>
     )
 }
 

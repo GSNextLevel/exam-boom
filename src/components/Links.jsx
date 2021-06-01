@@ -10,7 +10,7 @@ const Collapse = styled.div.attrs({
 `
 
 const List = styled.div.attrs({
-    className: 'navbar-nav mr-auto',
+    className: 'navbar-nav',
 })``
 
 const Item = styled.div.attrs({
@@ -20,6 +20,7 @@ const Item = styled.div.attrs({
 class Links extends Component {
     render() {
         return (
+
             <React.Fragment>
 
                 <Collapse>
@@ -35,12 +36,13 @@ class Links extends Component {
                                 시험 종류
                             </Link>
                         </Item>
+                      */}
                         <Item>
-                            <Link to="/movies/create" className="nav-link">
-                                맞춤형 문제
+                            <Link to="/leaderBoard" className="nav-link">
+                                랭킹
                             </Link>
                         </Item>
-                        */}
+
                     </List>
                 </Collapse>
             </React.Fragment>
