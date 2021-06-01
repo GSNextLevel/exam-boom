@@ -27,11 +27,13 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: PreBuild
       run: npm install
+    - name: Add My Package Build
+      run: npm install -g react-scripts
         
 #     - run: npm ci
     - name: Build
-#       run: react-scripts build
-      run: NODE_ENV=production node_modules/react-scripts/bin/react-scripts.js start
+      run: react-scripts build
+#       run: NODE_ENV=production node_modules/react-scripts/bin/react-scripts.js start
       
 #     - run: npm test
     - name: Deploy
