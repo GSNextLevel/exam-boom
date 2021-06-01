@@ -1,0 +1,45 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [ 14.x ]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: PreBuild
+      run: npm install
+        
+#     - run: npm ci
+    - name: Build
+#       run: react-scripts build
+      run: NODE_ENV=production node_modules/react-scripts/bin/react-scripts.js start
+      
+#     - run: npm test
+    - name: Deploy
+      env:
+        AWS_ACCEES_KEY_ID: ${{ secrets.AWS_ACCEES_KEY_ID}}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+      run: |
+        aws s3 cp \
+          --recursive \
+          --region ap-northeast-2 \
+          build s3://exam.viassh.com

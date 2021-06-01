@@ -29,7 +29,7 @@ class LeaderBoard extends Component {
 
           console.log(list)
             this.setState({
-                userData: list['data']
+                userData: list['data'] //test
             })
         })
     }
