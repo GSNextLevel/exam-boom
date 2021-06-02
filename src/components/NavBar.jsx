@@ -1,28 +1,63 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
-import Logo from './Logo'
-import Links from './Links'
+
 import TempLoginMenu from './TempLoginMenu'
+
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+
+import logo from '../logo.svg'
 
 const Container = styled.div.attrs({
     className: 'container',
 })``
 
-const Nav = styled.nav.attrs({
-    className: 'navbar navbar-expand-lg navbar-dark bg-dark',
-})`
-    margin-bottom: 20 px;
-`
+// const Nav = styled.nav.attrs({
+//     className: 'navbar navbar-expand-lg navbar-dark bg-dark',
+// })`
+//     margin-bottom: 20 px;
+// `
 
 class NavBar extends Component {
     render() {
         return (
-                <Nav>
-                    <Logo />
-                    <TempLoginMenu />
-                    <Links />
+          <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+              <Container>
+              <Navbar.Brand href="/">
+                <img src={logo} width="50" height="50"  />
+                자격증 뿌시기
+              </Navbar.Brand>
+              <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+              <Navbar.Collapse id="responsive-navbar-nav" className="justify-content-between">
+                <Nav className="mr-auto">
+                  <TempLoginMenu />
+
                 </Nav>
+
+                <Nav >
+                  <Nav.Link href="/leaderBoard">랭킹</Nav.Link>
+                  <NavDropdown title="내 정보" id="collasible-nav-dropdown">
+                    <NavDropdown.Item href="/history">제출이력</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item href="/setting">개인설정</NavDropdown.Item>
+                  </NavDropdown>
+
+                  <NavDropdown title="실험실" id="collasible-nav-dropdown">
+                    <NavDropdown.Item href="/log">버전기록</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item href="/voc">건의사항</NavDropdown.Item>
+                  </NavDropdown>
+                </Nav>
+              </Navbar.Collapse>
+            </Container>
+          </Navbar>
+                // <Nav>
+                //
+                //
+                //     <Links />
+                // </Nav>
         )
     }
 }

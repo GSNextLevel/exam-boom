@@ -1,5 +1,3 @@
-import Links from './Links'
-import Logo from './Logo'
 import NavBar from './NavBar'
 
 import TempLoginMenu from './TempLoginMenu'
@@ -15,6 +13,6 @@ import LoginAlertModal from './LoginAlertModal'
 
 
 
-export { Links, Logo, NavBar,
+export { NavBar,
   LoginAlertModal,
   TempLoginMenu, ExamResultTable, ExamCard, ExamCardSelect, ExamPagination, ExamToolbar, ExamReply}

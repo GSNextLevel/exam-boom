@@ -29,8 +29,8 @@ const Wrapper = styled.div`
 `
 /* 다음문제 번호 생성 */
 const randomNext = (type) => {
-  let questionMax = type ==='adp' ? 400 : 422 
-  return Math.floor(Math.random() * (questionMax - 1)) + 1 ; 
+  let questionMax = type ==='adp' ? 400 : 422
+  return Math.floor(Math.random() * (questionMax - 1)) + 1 ;
 }
 
 
@@ -75,10 +75,10 @@ class ExamToolbar extends Component {
       let values;
       if (values = cookies.get('previousQuestions')){
         console.log(values);
-        cookies.set('previousQuestions',values + ',' + this.state.pageNum)  
-      } else { 
+        cookies.set('previousQuestions',values + ',' + this.state.pageNum)
+      } else {
         savedQuestions = this.state.pageNum
-        cookies.set('previousQuestions',savedQuestions)  
+        cookies.set('previousQuestions',savedQuestions)
       }
       window.location.href = nextQuestion.toString();
     }
@@ -96,7 +96,7 @@ class ExamToolbar extends Component {
         } else {
           cookies.remove('previousQuestions')
         }
-        
+
       } else {
         alert("이전문제가 없습니다.");
       }
@@ -280,12 +280,12 @@ class ExamToolbar extends Component {
             className="justify-content-between pt-3"
           >
             <ButtonGroup className="mr-2" aria-label="First group">
-              { isRandom ? 
+              { isRandom ?
               <Button variant="secondary" onClick={this.handleRandomPrevious} >이전 문제</Button>
               :
               <Button variant="secondary" href={(parseInt(pageNum)-1).toString()} >이전 문제</Button>
               }
-              
+
             </ButtonGroup>
 
             <ButtonGroup className="mr-2" aria-label="First group">
@@ -333,7 +333,7 @@ class ExamToolbar extends Component {
 
             <ButtonGroup className="mr-2" aria-label="First group">
               { isRandom ?
-                <Button variant="secondary" onClick={this.handleRandomNext} >다음 문제(random)</Button> 
+                <Button variant="secondary" onClick={this.handleRandomNext} >다음 문제(random)</Button>
                 :
                 <Button variant="secondary" href={(parseInt(pageNum)+1).toString()} >다음 문제</Button>}
             </ButtonGroup>
