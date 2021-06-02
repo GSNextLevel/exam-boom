@@ -33,6 +33,8 @@ jobs:
 #     - run: npm ci
     - name: Build
       run: react-scripts build
+        env:
+          CI: false
 #       run: NODE_ENV=production node_modules/react-scripts/bin/react-scripts.js start
       
 #     - run: npm test
