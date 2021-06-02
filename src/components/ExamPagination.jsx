@@ -11,7 +11,7 @@ import Button from 'react-bootstrap/Button';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Pagination from 'react-bootstrap/Pagination';
 import PageItem from 'react-bootstrap/PageItem'
-
+import Container from 'react-bootstrap/Container';
 
 
 
@@ -57,27 +57,26 @@ class ExamPagination extends Component {
       }
       console.log(pagenationNumList)
       return (
+          <Pagination className="mt-4">
+            <Pagination.First onClick={() => this.changePageNum(-75)} />
+            <Pagination.Prev onClick={() => this.changePageNum(-10)} />
 
-        <Pagination className="mt-4">
-          <Pagination.First onClick={() => this.changePageNum(-75)} />
-          <Pagination.Prev onClick={() => this.changePageNum(-10)} />
+            {
+              pagenationNumList.map((n, index) => {
+                if(n == examNum) {
+                    return <Pagination.Item active>{n}</Pagination.Item>
+                }
+                else{
+                    return <Pagination.Item href={parseInt(n).toString()} >{n}</Pagination.Item>
+                }
 
-          {
-            pagenationNumList.map((n, index) => {
-              if(n == examNum) {
-                  return <Pagination.Item active>{n}</Pagination.Item>
               }
-              else{
-                  return <Pagination.Item href={parseInt(n).toString()} >{n}</Pagination.Item>
-              }
-
+            )
             }
-          )
-          }
 
-          <Pagination.Next onClick={() => this.changePageNum(10)} />
-          <Pagination.Last onClick={() => this.changePageNum(75)} />
-        </Pagination>
+            <Pagination.Next onClick={() => this.changePageNum(10)} />
+            <Pagination.Last onClick={() => this.changePageNum(75)} />
+          </Pagination>
       );
     }
 }
