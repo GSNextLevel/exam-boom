@@ -35,6 +35,7 @@ class ExamCard extends Component {
           isLoading: false,
           answerState: false,
           submitAnswer: cookies.get('submitAnswer') || [],
+          isSolved: false,
           username:  username === undefined ? "익명" : username,
 
           mySubmitCount: 0,
@@ -62,6 +63,15 @@ class ExamCard extends Component {
         const examNum = this.props.value.match.params.id;
         const username = this.state.username;
         const type = this.props.value.match.params.type;
+
+        let isSolvedCheck = false;
+        for(let i=0 ; i<this.state.submitAnswer.length ; i++) {
+          if(this.state.submitAnswer[i].id == examNum) {
+            isSolvedCheck = true;
+            break;
+          }
+        }
+
         await api.getExamById(type, examNum, username).then(exam => {
           // console.log(exam)
           const examData = exam.data.exam.Item;
@@ -92,31 +102,17 @@ class ExamCard extends Component {
           }
 
 
-          this.setState({
-              mySubmitCount: totalCnt,
-              myCorrectCount: correctCnt,
-              myStarred: 0,
-              previousExam: examData['previousExam'] == undefined ? [] : examData['previousExam'],
-              likeList: examData['likeList'] == undefined ? [] : examData['likeList']
-          })
-
-
-          // if(userData.userData !== undefined) {
-          //   const userDataArray = exam.data.Item.userData;
-          //   const foundUserData = userDataArray.find(x => x.name === username);
-          //   this.setState({
-          //       // mySubmitCount: foundUserData.submitCount,
-          //       // myCorrectCount: foundUserData.correctCount,
-          //       // myStarred: foundUserData.starred
-          //       mySubmitCount: 0,
-          //       myCorrectCount: 0,
-          //       myStarred: 0
-          //   })
+          // this.setState({
+          //     mySubmitCount: totalCnt,
+          //     myCorrectCount: correctCnt,
+          //     myStarred: 0,
+          //     likeList: examData['likeList'] == undefined ? [] : examData['likeList']
+          //     // previousExam: examData['previousExam'] == undefined ? [] : examData['previousExam'],
           //
-          // }
-          // else{
-          //   console.log("undefined!!")
-          // }
+          // })
+
+
+
 
 
             this.setState({
@@ -128,7 +124,14 @@ class ExamCard extends Component {
                 correctTotalCount: examData.correctTotalCount === undefined ? 0 : examData.correctTotalCount,
                 submitTotalCount: examData.submitTotalCount === undefined ? 1 : examData.submitTotalCount,
 
-                previousExam: examData.previousExam === undefined ? [] : examData.previousExam
+                previousExam: examData.previousExam === undefined ? [] : examData.previousExam,
+
+                isSolved: isSolvedCheck ? true : false,
+
+                mySubmitCount: totalCnt,
+                myCorrectCount: correctCnt,
+                myStarred: 0,
+                likeList: examData['likeList'] == undefined ? [] : examData['likeList']
             })
         })
     }
@@ -176,7 +179,7 @@ class ExamCard extends Component {
       const cookies = new Cookies();
       // console.log("page", id);
       console.log(this.state.selectedAnswer);
-      if(this.state.selectedAnswer.length === 0) {
+      if(this.state.selectedAnswer.length === 0 && this.state.isSolved !== true) {
         alert("답을 선택해주세요.")
         return;
       }
@@ -265,6 +268,7 @@ class ExamCard extends Component {
       for(let i=0 ; i<prevSubmitAnswer.length ; i++) {
         if(prevSubmitAnswer[i].id == id) {
           if(prevSubmitAnswer[i].ans == value) {
+
             return true;
           }
           // console.log("this num ans is ", prevSubmitAnswer[i].ans)
