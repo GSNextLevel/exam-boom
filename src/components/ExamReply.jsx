@@ -37,6 +37,8 @@ class ExamReply extends Component {
 
       const cookies = new Cookies();
 
+      this.autoUrlLink = this.autoUrlLink.bind(this);
+
       this.state = {
           replies: [],
           userInputReplyText: "",
@@ -79,6 +81,15 @@ class ExamReply extends Component {
     onChangeWriteMode(e) {
       // console.log(e.target.checked)
       this.setState({userModeState: e.target.checked})
+    }
+
+    autoUrlLink(text) {
+      const regURL =  /(((http(s)?:\/\/)\S+(\.[^(\n|\t|\s,)]+)+)|((http(s)?:\/\/)?(([a-zA-z\-_]+[0-9]*)|([0-9]*[a-zA-z\-_]+)){2,}(\.[^(\n|\t|\s,)]+)+))+/gi; 
+      const replaceFunc = function(url){
+        return '<a href="' + url + '" target="_blank">' + url + '</a>'
+      };
+      const replacedText = text.replace(regURL, replaceFunc);
+      return <div dangerouslySetInnerHTML={ {__html: replacedText} }></div>
     }
 
     async writeReply() {
@@ -210,7 +221,7 @@ class ExamReply extends Component {
 
                           </Col>
                           <Col style={replyDiv} md="9">
-                            {data.content}
+                            {this.autoUrlLink(data.content)}
                           </Col>
                           <Col style={replyDiv} md="1">
 
