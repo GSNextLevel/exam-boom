@@ -18,6 +18,8 @@ import PageItem from 'react-bootstrap/PageItem'
 import Table from 'react-bootstrap/Table';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 import Cookies from 'universal-cookie';
 
@@ -271,15 +273,21 @@ class ExamToolbar extends Component {
         fontSize: '14px'
       }
 
+      const toolBarRowStyle = {
+        width: '100%',
+        textAlign: 'center'
+      }
 
 
       return (
 
-        <Container>
+        <Container fluid >
           <ButtonToolbar aria-label="Toolbar with button groups"
             className="justify-content-between pt-3"
           >
-            <ButtonGroup className="mr-2" aria-label="First group">
+          <Row className="justify-content-between" style={toolBarRowStyle}>
+            <Col md={2} md={{ order: 1, span: 2}} sm={6} xs={{ order: 2, span: 5}} className="text-left">
+            <ButtonGroup className="mr-2" aria-label="First group" style={toolBarRowStyle}>
               { isRandom ?
               <Button variant="secondary" onClick={this.handleRandomPrevious} >이전 문제</Button>
               :
@@ -287,8 +295,10 @@ class ExamToolbar extends Component {
               }
 
             </ButtonGroup>
+            </Col>
 
-            <ButtonGroup className="mr-2" aria-label="First group">
+            <Col md={8} md={{ order: 2, span: 6, offset: 1}} sm={12} xs={{ order: 1, span: 12}}>
+            <ButtonGroup className="mr-2 " aria-label="First group" style={toolBarRowStyle} >
             <Button variant="warning" onClick={this.resetProblem.bind(this)}>초기화</Button>
               <Button variant="secondary" disabled>
                 푼 문제 수 <Badge variant="success">{submitAnswer.length}</Badge>
@@ -306,7 +316,7 @@ class ExamToolbar extends Component {
                     </Tooltip>
                   }
                 >
-                  <Button href="290" variant="outline-info" >NEW문제로 바로가기</Button>
+                  <Button href="290" variant="outline-info" >NEW문제</Button>
 
                 </OverlayTrigger>
 
@@ -322,22 +332,23 @@ class ExamToolbar extends Component {
                     </Tooltip>
                   }
                 >
-                  <Button onClick={this.viewPreviousExamTable.bind(this)} variant="outline-info" >기출문제 보기</Button>
+                  <Button onClick={this.viewPreviousExamTable.bind(this)} variant="outline-info" >기출문제</Button>
                 </OverlayTrigger>
 
               }
 
             </ButtonGroup>
+            </Col>
 
-
-
-            <ButtonGroup className="mr-2" aria-label="First group">
+            <Col md={2} md={{ order: 3, span: 2, offset: 1}} sm={6}  xs={{ order: 3, span: 5, offset: 2}} className="text-right">
+            <ButtonGroup className="mr-2" aria-label="First group" style={toolBarRowStyle}>
               { isRandom ?
                 <Button variant="secondary" onClick={this.handleRandomNext} >다음 문제(random)</Button>
                 :
                 <Button variant="secondary" href={(parseInt(pageNum)+1).toString()} >다음 문제</Button>}
             </ButtonGroup>
-
+            </Col>
+          </Row>
           </ButtonToolbar>
 
           <Wrapper className={this.state.tableResult.length > 0 ? "mt-4" : ""}  >
