@@ -27,19 +27,27 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: PreBuild
       run: npm install
+    - name: Add My Package Build
+      run: npm install -g react-scripts
         
 #     - run: npm ci
     - name: Build
-#       run: react-scripts build
-      run: NODE_ENV=production node_modules/react-scripts/bin/react-scripts.js start
+      run: react-scripts build
+      env:
+        CI: false
+#       run: NODE_ENV=production node_modules/react-scripts/bin/react-scripts.js start
+      
+    - name: Configure AWS credentials from Production account
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-northeast-2
       
 #     - run: npm test
     - name: Deploy
-      env:
-        AWS_ACCEES_KEY_ID: ${{ secrets.AWS_ACCEES_KEY_ID}}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+#       env:
+#         AWS_ACCEES_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
-        aws s3 cp \
-          --recursive \
-          --region ap-northeast-2 \
-          build s3://exam.viassh.com
+        aws s3 cp --recursive --region ap-northeast-2 build s3://exam.viassh.com
