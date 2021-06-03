@@ -53,4 +53,4 @@ jobs:
         aws s3 cp --recursive --region ap-northeast-2 build s3://exam.viassh.com
         
     - name: Cloudfront Invalidation
-      run: aws cloudfront create-invalidation --distribution-id EBRZ76WFMQ34N --paths "/*" 
+      run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_DIST_ID }} --paths "/*" 
