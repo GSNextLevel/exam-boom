@@ -1,70 +1,47 @@
-# Getting Started with Create React App
+# 자격증 뿌시기
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+데모 페이지는 [exam.viassh.com](https://exam.viassh.com) 에서 확인하실 수 있습니다.
 
-In the project directory, you can run:
+## 개발목적
 
-### `npm start`
+1. 내가 AWS, GCP 자격증을 보다 쉽고 빠르게 취득하기 위해서.
+2. 기존의 examTopic 사이트에서 문제를 보고 공부할때 계속 로봇이냐고 물어봐서
+3. 사내 고오급 능력자들의 집단지성을 통해 잘못된 문제를 고치고 명쾌한 해답을 얻기위하여
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 개발스택
 
-### `npm test`
+### Frontend
+#### `React`
+Vue로 만 개발해보다가 React로 개발해보고 싶다는 생각이 들어서
+#### `React-Bootstrap`
+무난무난한 bootstrap
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Backend
+#### `AWS Lambda`
+1. Google DoC 에 모아둔 Dump 데이터를 잘 파싱하여 DB화
+2. 문제 읽기
+3. 댓글 읽기 / 쓰기
+4. 리더보드 읽기
 
-### `npm run build`
+#### `AWS API Gateway`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### `AWS DynamoDB`
+4개의 테이블...
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Infra
+#### `S3`
+SPA(Single Page Application) React 빌드파일 업로드
+정적 웹 호스팅 활성화
+CF타고 S3로 오는게 아니라 Direct로 S3로 접근하는 경우 차단 - S3 policy
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### `Cloudfront`
+페이지 캐슁
+S3로 referer 넘겨주기
+#### `WAF`
+허용된 IP 만 페이지 접근할 수 있도록
+허가되지 않은 IP일 경우 특정 문제 or 코드를 통해 승인되면 WAF에 IP 등록절차 진행
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+#### `Github Action`
+Local -> Push to github branch(DEV) -> Merge to Master -> Github Action triggered -> PreBuild -> Build -> Deploy to S3 -> Invalidation CF
