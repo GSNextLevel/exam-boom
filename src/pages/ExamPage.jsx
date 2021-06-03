@@ -67,7 +67,7 @@ class ExamPage extends Component {
 
         const isValidExamNum = isNaN(examNum) ? false : true;
 
-        // console.log("examNum : ", examNum, isValidExamNum)
+        console.log("examNum : ", examNum, isValidExamNum)
 
 
         // const { type } = this.state;

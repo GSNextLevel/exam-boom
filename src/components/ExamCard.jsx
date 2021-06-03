@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 // import { Link } from 'react-router-dom'
 // import styled from 'styled-components'
-// 빈문제 제출 막기
+
 import api from '../api'
 
 import Card from 'react-bootstrap/Card';
@@ -35,6 +35,7 @@ class ExamCard extends Component {
           isLoading: false,
           answerState: false,
           submitAnswer: cookies.get('submitAnswer') || [],
+          isSolved: false,
           username:  username === undefined ? "익명" : username,
 
           mySubmitCount: 0,
@@ -51,17 +52,26 @@ class ExamCard extends Component {
           amILiked: false
 
       }
-
-
-
       // console.log(examNum);
     }
+
+    // 풀었던 문제로 다시 돌아올 시에 라디오, 콤보박스 체크 활성화 기능 추가
+
 
     componentDidMount = async () => {
         this.setState({ isLoading: true })
         const examNum = this.props.value.match.params.id;
         const username = this.state.username;
         const type = this.props.value.match.params.type;
+
+        let isSolvedCheck = false;
+        for(let i=0 ; i<this.state.submitAnswer.length ; i++) {
+          if(this.state.submitAnswer[i].id == examNum) {
+            isSolvedCheck = true;
+            break;
+          }
+        }
+
         await api.getExamById(type, examNum, username).then(exam => {
           // console.log(exam)
           const examData = exam.data.exam.Item;
@@ -92,31 +102,17 @@ class ExamCard extends Component {
           }
 
 
-          this.setState({
-              mySubmitCount: totalCnt,
-              myCorrectCount: correctCnt,
-              myStarred: 0,
-              previousExam: examData['previousExam'] == undefined ? [] : examData['previousExam'],
-              likeList: examData['likeList'] == undefined ? [] : examData['likeList']
-          })
-
-
-          // if(userData.userData !== undefined) {
-          //   const userDataArray = exam.data.Item.userData;
-          //   const foundUserData = userDataArray.find(x => x.name === username);
-          //   this.setState({
-          //       // mySubmitCount: foundUserData.submitCount,
-          //       // myCorrectCount: foundUserData.correctCount,
-          //       // myStarred: foundUserData.starred
-          //       mySubmitCount: 0,
-          //       myCorrectCount: 0,
-          //       myStarred: 0
-          //   })
+          // this.setState({
+          //     mySubmitCount: totalCnt,
+          //     myCorrectCount: correctCnt,
+          //     myStarred: 0,
+          //     likeList: examData['likeList'] == undefined ? [] : examData['likeList']
+          //     // previousExam: examData['previousExam'] == undefined ? [] : examData['previousExam'],
           //
-          // }
-          // else{
-          //   console.log("undefined!!")
-          // }
+          // })
+
+
+
 
 
             this.setState({
@@ -128,7 +124,14 @@ class ExamCard extends Component {
                 correctTotalCount: examData.correctTotalCount === undefined ? 0 : examData.correctTotalCount,
                 submitTotalCount: examData.submitTotalCount === undefined ? 1 : examData.submitTotalCount,
 
-                previousExam: examData.previousExam === undefined ? [] : examData.previousExam
+                previousExam: examData.previousExam === undefined ? [] : examData.previousExam,
+
+                isSolved: isSolvedCheck ? true : false,
+
+                mySubmitCount: totalCnt,
+                myCorrectCount: correctCnt,
+                myStarred: 0,
+                likeList: examData['likeList'] == undefined ? [] : examData['likeList']
             })
         })
     }
@@ -176,7 +179,7 @@ class ExamCard extends Component {
       const cookies = new Cookies();
       // console.log("page", id);
       console.log(this.state.selectedAnswer);
-      if(this.state.selectedAnswer.length === 0) {
+      if(this.state.selectedAnswer.length === 0 && this.state.isSolved !== true) {
         alert("답을 선택해주세요.")
         return;
       }
@@ -258,17 +261,14 @@ class ExamCard extends Component {
 
     }
 
-    checkIt(id, value) {
+    checkUserChoice(id, value) {
 
       // e.preventDefault();
-
       let prevSubmitAnswer = this.state.submitAnswer;
-
-
       for(let i=0 ; i<prevSubmitAnswer.length ; i++) {
         if(prevSubmitAnswer[i].id == id) {
-          // prevSubmitAnswer[i].ans = this.state.selectedAnswer;
           if(prevSubmitAnswer[i].ans == value) {
+
             return true;
           }
           // console.log("this num ans is ", prevSubmitAnswer[i].ans)
@@ -278,16 +278,6 @@ class ExamCard extends Component {
       }
 
       return false;
-      // if(foundAnswer && value == "B") {
-      //     return true;
-      // }
-      // else{
-      //   return false;
-      // }
-
-        // if (this.props.name.indexOf(value) >= 0)
-        //     return true;
-        // return false;
     }
 
 
@@ -322,7 +312,6 @@ class ExamCard extends Component {
       }
 
           // console.log("@@@@", correctTotalCount, submitTotalCount);
-//
       return (
 
 
@@ -390,14 +379,14 @@ class ExamCard extends Component {
                     let answerName = "g-" + examNum;
                     let thisChoiceType = (choiceType == "single") ? "radio" : "checkbox";
                     // console.log(answerKey);
-                    // checked={this.checkIt(examNum, examChoiceAlpha[index])}
+                    // checked={this.checkUserChoice(examNum, examChoiceAlpha[index])}
                     return isCorrectAns ?
                       <Row className="mb-1" key={answerKey}>
-                      <Form.Check  defaultChecked={this.checkIt(examNum, examChoiceAlpha[index])} style={answerStyle} inline label={choice} value={examChoiceAlpha[index]}  name={answerName} type={thisChoiceType} id={answerKey} key={answerKey} />
+                        <Form.Check  defaultChecked={this.checkUserChoice(examNum, examChoiceAlpha[index])} style={answerStyle} inline label={choice} value={examChoiceAlpha[index]}  name={answerName} type={thisChoiceType} id={answerKey} key={answerKey} />
                       </Row>
                       :
                       <Row className="mb-1" key={answerKey}>
-                      <Form.Check defaultChecked={this.checkIt(examNum, examChoiceAlpha[index])} inline label={choice} value={examChoiceAlpha[index]} name={answerName} type={thisChoiceType} id={answerKey} key={answerKey} />
+                        <Form.Check defaultChecked={this.checkUserChoice(examNum, examChoiceAlpha[index])} inline label={choice} value={examChoiceAlpha[index]} name={answerName} type={thisChoiceType} id={answerKey} key={answerKey} />
                       </Row>
 
                   }

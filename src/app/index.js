@@ -77,9 +77,13 @@ function App() {
 
           <Route path="/exam" exact component={ExamMain} />
           <Route path="/exam/:type" exact  component={GotoADP} />
+          <Route path="/exam/:type/random/:id"  render={props => <ExamPage {...props} isRandom={true} />}/>          
           <Route path="/exam/:type/:id"  component={ExamPage} />
 
           <Route path="/leaderBoard" exact  component={LeaderBoard} />
+
+
+
           {/*<Route path="/exam/adp" exact  component={GotoADP} />
           <Route path="/exam/adp/:id"  component={ExamPage} />
           <Route path="/exam/sap" exact component={GotoSAP} />
