@@ -98,7 +98,7 @@ class ExamReply extends Component {
         const cookieName = cookies.get('username')
         passUsername = cookieName === undefined ? "👨‍💻" : cookieName;
       }
-      const payload = {"name": passUsername, "content": userInputReplyText };
+      const payload = {"name": passUsername, "content": userInputReplyText, "createdAt": Date.now() };
       await api.updateExamReplyById(type, examNum, payload).then(res => {
         // console.log(exam);
         console.log(res)
