@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { NavBar } from '../components'
-import { HomePage, ExamMain, LeaderBoard } from '../pages'
+import { HomePage, ExamMain, LeaderBoard, SubmitHistory } from '../pages'
 import { ExamPage, GotoADP, GotoSAP } from '../pages'
 
 
@@ -77,10 +77,11 @@ function App() {
 
           <Route path="/exam" exact component={ExamMain} />
           <Route path="/exam/:type" exact  component={GotoADP} />
-          <Route path="/exam/:type/random/:id"  render={props => <ExamPage {...props} isRandom={true} />}/>          
+          <Route path="/exam/:type/random/:id"  render={props => <ExamPage {...props} isRandom={true} />}/>
           <Route path="/exam/:type/:id"  component={ExamPage} />
 
           <Route path="/leaderBoard" exact  component={LeaderBoard} />
+          <Route path="/history" exact  component={SubmitHistory} />
 
 
 

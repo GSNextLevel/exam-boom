@@ -9,6 +9,7 @@ import GotoSAP from './GotoSAP'
 
 import NotFound from './NotFound'
 import LeaderBoard from './LeaderBoard'
+import SubmitHistory from './SubmitHistory'
 export {
-  ExamPage, LeaderBoard,
+  ExamPage, LeaderBoard, SubmitHistory,
   HomePage, ExamMain, GotoADP, GotoSAP, NotFound }
