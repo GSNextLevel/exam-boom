@@ -195,22 +195,21 @@ class ExamToolbar extends Component {
 
       let foundUnsubmittedAnswer = [];
       console.log("diff", getAnswerResponse , beforeSubmitAnswer)
-      getAnswerResponse.forEach((item, i) => {
-
+      for(let j=0 ; j<getAnswerResponse.length ; j++) {
         let flag = true;
-        for(let i=0 ; i<beforeSubmitAnswer.length ; i++) {
-            if(item['id'] == beforeSubmitAnswer[i]['id']) {
-              console.log("same : ", item['id']);
+        console.log("loop j", j)
+        for(let k=0 ; k<beforeSubmitAnswer.length ; k++) {
+          console.log("forloop",getAnswerResponse[j], beforeSubmitAnswer[k])
+            if(getAnswerResponse[j]['id'] == beforeSubmitAnswer[k]['id'] && getAnswerResponse[j]['correct'] === beforeSubmitAnswer[k]['correct']) {
+              console.log("same : ", getAnswerResponse[j]['id'], getAnswerResponse[j]['correct'], "check", getAnswerResponse[j]);
               flag = false;
               break;
             }
         }
         if(flag) {
-          foundUnsubmittedAnswer.push({id: item['id'], correct: item['correct']})
+          foundUnsubmittedAnswer.push({id: getAnswerResponse[j]['id'], correct: getAnswerResponse[j]['correct']})
         }
-
-      })
-
+      }
       console.log("my result", foundUnsubmittedAnswer)
 
       const username = cookies.get("username") || "익명";
