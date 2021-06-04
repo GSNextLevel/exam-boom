@@ -12,6 +12,8 @@ export const updateExamReplyById = (type, id, payload) => api.put(`/exam/${type}
 export const deleteExamReplyById = (type, id, username, replyIdx) => api.delete(`/exam/${type}/${id}/reply?username=${username}&replyIdx=${replyIdx}`)
 
 export const scoringExam = (type, payload) => api.post(`/exam/${type}/scoring`, payload)
+export const getExamHistory = (type, username) => api.get(`/exam/${type}/scoring?username=${username}`)
+
 export const likeExamById = (type, id, payload) => api.post(`/exam/${type}/${id}/like`, payload)
 
 export const getPreviousExamByType = (type) => api.get(`/exam/${type}/getprevious`)
@@ -27,7 +29,8 @@ const apis = {
     deleteExamReplyById,
     likeExamById,
     getPreviousExamByType,
-    getLeaderBoard
+    getLeaderBoard,
+    getExamHistory
 }
 
 export default apis
