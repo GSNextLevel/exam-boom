@@ -177,6 +177,7 @@ class ExamCard extends Component {
 
     saveAndNext(id) {
       const cookies = new Cookies();
+      const type = this.props.value.match.params.type;
       // console.log("page", id);
       console.log(this.state.selectedAnswer);
       if(this.state.selectedAnswer.length === 0 && this.state.isSolved !== true) {
@@ -207,7 +208,7 @@ class ExamCard extends Component {
       console.log("Cookie Data", prevSubmitAnswer)
       prevSubmitAnswer.sort((a,b) => a.id - b.id)
 
-      cookies.set('submitAnswer', prevSubmitAnswer, {path: '/'})
+      cookies.set('submitAnswer', prevSubmitAnswer, {path: '/exam/'+type})
 
 
 
