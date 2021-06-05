@@ -107,6 +107,7 @@ class ExamToolbar extends Component {
     resetProblem() {
       const cookies = new Cookies();
       console.log("reset")
+      const type = this.props.value.match.params.type;
 
 
       this.setState({tableResult: []})
@@ -116,9 +117,9 @@ class ExamToolbar extends Component {
       this.setState({previousExamTable: []})
       this.setState({submitAnswer: []})
 
-      cookies.remove('tableResult', {path: '/'})
-      cookies.remove('submitAnswer', {path: '/'})
-      cookies.remove('previousExamTable', {path: '/'})
+      cookies.remove('tableResult', {path: '/exam/'+type})
+      cookies.remove('submitAnswer', {path: '/exam/'+type})
+      cookies.remove('previousExamTable', {path: '/exam/'+type})
     }
 
     async scoringExam() {
@@ -186,7 +187,7 @@ class ExamToolbar extends Component {
           this.setState({currentScore: parseInt((correctCnt/totalCnt)*100) })
 
           this.setState({tableResult: tempResult})
-          cookies.set('tableResult', tempResult, {path: '/'})
+          cookies.set('tableResult', tempResult, {path: '/exam/'+type})
 
           this.setState({showTableResult: true, scoringButtonDisabled: false})
 
@@ -239,7 +240,7 @@ class ExamToolbar extends Component {
           console.log(exam['data']['Items'])
           this.setState({previousExamTable: exam['data']['Items'] })
 
-          cookies.set('previousExamTable', exam['data']['Items'], {path: '/'})
+          cookies.set('previousExamTable', exam['data']['Items'], {path: '/exam/'+type})
 
       })
     }
