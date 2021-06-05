@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { NavBar } from '../components'
-import { HomePage, ExamMain, LeaderBoard, SubmitHistory } from '../pages'
+import { HomePage, ExamMain, LeaderBoard, SubmitHistory, Setting } from '../pages'
 import { ExamPage, GotoADP, GotoSAP } from '../pages'
 
 
@@ -83,6 +83,7 @@ function App() {
           <Route path="/leaderBoard" exact  component={LeaderBoard} />
           <Route path="/history" exact  component={SubmitHistory} />
 
+          <Route path="/setting" exact component={Setting} />
 
 
           {/*<Route path="/exam/adp" exact  component={GotoADP} />

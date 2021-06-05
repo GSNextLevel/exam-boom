@@ -43,7 +43,8 @@ class ExamReply extends Component {
           userInputDefaultText: "aa",
           userModeState: false,
           // replyCnt: 0,
-          username:  cookies.get('username') === undefined ? "익명" : cookies.get('username')
+          username:  cookies.get('username') === undefined ? "익명" : cookies.get('username'),
+          replyOpenStatus:  cookies.get('replyOpenStatus') === undefined ? false : cookies.get('replyOpenStatus')
       }
 
       // console.log(this.props);
@@ -135,7 +136,7 @@ class ExamReply extends Component {
 
     render() {
       const { replies, userInputDefaultText,
-        userInputReplyText, username } = this.state;
+        userInputReplyText, username, replyOpenStatus } = this.state;
       // console.log(replies);
 
       const formStyle = {
@@ -156,7 +157,7 @@ class ExamReply extends Component {
 
       return (
         <Container>
-          <details>
+          <details open={replyOpenStatus}>
             <summary>
 
                 토론장  <span style={replyCountText}>({replies.length}개의 댓글)</span>
