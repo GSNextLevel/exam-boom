@@ -44,7 +44,7 @@ class ExamReply extends Component {
           userModeState: false,
           // replyCnt: 0,
           username:  cookies.get('username') === undefined ? "익명" : cookies.get('username'),
-          replyOpenStatus:  cookies.get('replyOpenStatus') === undefined ? false : cookies.get('replyOpenStatus')
+          replyOpenStatus:  cookies.get('replyOpenStatus') === undefined ? false : cookies.get('replyOpenStatus') == "false" ? false : true
       }
 
       // console.log(this.props);
@@ -138,6 +138,7 @@ class ExamReply extends Component {
       const { replies, userInputDefaultText,
         userInputReplyText, username, replyOpenStatus } = this.state;
       // console.log(replies);
+      console.log("reply status", replyOpenStatus)
 
       const formStyle = {
             alignItems: 'center',
