@@ -48,3 +48,14 @@ S3로 referer 넘겨주기
 
 #### `Github Action`
 Local -> Push to github branch(DEV) -> Merge to Master -> Github Action triggered -> PreBuild -> Build -> Deploy to S3 -> Invalidation CF
+
+## TO-DO
+
+- [ ] Home
+- [x] Join
+- [x] Login
+- [x] Search
+- [ ] User Detail
+- [x] Edit Profile
+- [x] Change Password
+- [x] Upload
