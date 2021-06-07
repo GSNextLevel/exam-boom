@@ -22,7 +22,7 @@ import styled from 'styled-components'
 const Wrapper = styled.div`
     padding: 40px 40px 40px 40px;
 `
-
+// amplify will be added
 class ExamMain extends Component {
     constructor(props) {
         super(props)
