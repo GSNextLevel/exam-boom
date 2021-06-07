@@ -16,7 +16,7 @@ class Setting extends Component {
     const cookies = new Cookies();
 
     this.state = {
-        replyOpenStatus:  cookies.get('replyOpenStatus') === undefined ? false : cookies.get('replyOpenStatus')
+        replyOpenStatus:  cookies.get('replyOpenStatus') === undefined ? false : cookies.get('replyOpenStatus') == "false" ? false : true
     }
 
     // console.log(this.props);
