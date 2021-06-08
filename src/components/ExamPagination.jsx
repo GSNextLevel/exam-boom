@@ -47,7 +47,7 @@ class ExamPagination extends Component {
     render() {
       const { examNum } = this.state;
       const pagenationNumList = [];
-      for(let i=-4 ; i<5 ; i++) {
+      for(let i=0; i<10; i++) {
         let tempNum = parseInt(examNum)+i;
         if(tempNum> 0) {
           pagenationNumList.push(tempNum)
@@ -57,7 +57,7 @@ class ExamPagination extends Component {
       }
       console.log(pagenationNumList)
       return (
-          <Pagination className="mt-4">
+          <Pagination className="mt-4 justify-content-center">
             <Pagination.First onClick={() => this.changePageNum(-75)} />
             <Pagination.Prev onClick={() => this.changePageNum(-10)} />
 
