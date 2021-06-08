@@ -113,6 +113,8 @@ const columns = [
   },
 ];
 
+
+
 class SubmitHistory extends Component {
     constructor(props) {
       super(props);
@@ -170,26 +172,6 @@ class SubmitHistory extends Component {
           }
           console.log("after merge", userdataResult)
 
-          // let myres = Object.values(userdataResult.reduce((a, {examNum}) => {
-          //   console.log(a, examNum)
-          //   a[examNum] = a[examNum] || {examNum, count: 0};
-          //   a[examNum].count++;
-          // }, Object.create(null) ))
-          // console.log(myres)
-          // let totalLength = userdataResult.length;
-          // let flagFront = 0;
-          // let flagEnd = 0;
-          // let correctCnt = 0;
-          // let submitCnt = 0;
-          // for(let i=0 ; i< totalLength ; i++) {
-          //
-          //   if(userdataResult[flagEnd] != userdataResult[i]['examNum'] ){
-          //     // 작업
-          //   }
-          //   else{
-          //     flagEnd++;
-          //   }
-          // }
 
           userdataResult.forEach((d, i) => {
             d['timestamp'] = new Date(parseInt(d['timestamp'])).toLocaleString()
@@ -198,26 +180,26 @@ class SubmitHistory extends Component {
           this.setState({
             userdata: userdataResult
           })
-          // if(exam.data.Item.reply == undefined) {
-          //   this.setState({
-          //       replies: []
-          //   })
-          // }
-          // else{
-          //   this.setState({
-          //       replies: exam.data.Item.reply
-          //   })
-          // }
 
         })
     }
 
+
+
     render() {
-      // const { replies, userInputDefaultText,
-      //   userInputReplyText, username } = this.state;
-      // console.log(replies);
       const { userdata, username } = this.state;
       const titleWithUsername = username + "님의 문제 제출 현황"
+
+      const { match, location, history } = this.props;
+
+      // console.log(match, location, history)
+
+      const onRowClicked = (e) => {
+        const curExamNum = e.examNum;
+        const curExamType = e.type;
+        history.push(`/exam/${curExamType}/${curExamNum}`)
+      }
+
       return (
         <Container>
           <p className="mt-4"> 내가 푼 문제 중 정답률이 50%이하고 틀렸을 경우 빨간색으로 표시됩니다. 자주 틀리는 문제이니 다시한번 확인하세요</p>
@@ -233,6 +215,7 @@ class SubmitHistory extends Component {
            striped={true}
            highlightOnHover={true}
            conditionalRowStyles={conditionalRowStyles}
+           onRowClicked={onRowClicked}
 
 
          />
