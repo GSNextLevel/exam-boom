@@ -31,6 +31,8 @@ class LeaderBoard extends Component {
             this.setState({
                 userData: list['data'] //test
             })
+        }).catch(err => {
+          console.log(err)
         })
     }
 

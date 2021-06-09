@@ -2,8 +2,13 @@ import axios from 'axios'
 
 const api = axios.create({
     // baseURL: 'http://localhost:3000/api',
-    baseURL: 'https://kzutk1y9w7.execute-api.ap-northeast-2.amazonaws.com/v1'
+    baseURL: 'https://api.viassh.com',
+    // baseURL: 'https://testapi.viassh.com',
+    headers: {
+              "x-api-key": process.env.REACT_APP_AWS_API_KEY
+            }
 })
+
 
 export const getExamById = (type, id, username) => api.get(`/exam/${type}/${id}?username=${username}`)
 export const getAllExamAnswer = (type, front, end) => api.get(`/exam/${type}/getanswer?front=${front}&end=${end}`)
