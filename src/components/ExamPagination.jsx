@@ -47,7 +47,8 @@ class ExamPagination extends Component {
     render() {
       const { examNum } = this.state;
       const pagenationNumList = [];
-      for(let i=0; i<10; i++) {
+      // 선택 문항 기준으로 앞뒤로 5개 출력
+      for(let i=-5; i<5; i++) {
         let tempNum = parseInt(examNum)+i;
         if(tempNum> 0) {
           pagenationNumList.push(tempNum)
