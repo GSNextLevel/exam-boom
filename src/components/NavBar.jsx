@@ -14,11 +14,6 @@ const Container = styled.div.attrs({
     className: 'container',
 })``
 
-// const Nav = styled.nav.attrs({
-//     className: 'navbar navbar-expand-lg navbar-dark bg-dark',
-// })`
-//     margin-bottom: 20 px;
-// `
 
 class NavBar extends Component {
     render() {
@@ -26,7 +21,7 @@ class NavBar extends Component {
           <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
               <Container>
               <Navbar.Brand href="/">
-                <img src={logo} width="50" height="50"  />
+                <img src={logo} width="50" height="50"  alt="exam boom" />
                 자격증 뿌시기
               </Navbar.Brand>
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -53,11 +48,6 @@ class NavBar extends Component {
               </Navbar.Collapse>
             </Container>
           </Navbar>
-                // <Nav>
-                //
-                //
-                //     <Links />
-                // </Nav>
         )
     }
 }

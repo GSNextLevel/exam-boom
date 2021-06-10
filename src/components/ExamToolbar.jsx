@@ -6,16 +6,14 @@ import api from '../api'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Badge from 'react-bootstrap/Badge';
 
 import Container from 'react-bootstrap/Container';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
-import Pagination from 'react-bootstrap/Pagination';
-import PageItem from 'react-bootstrap/PageItem'
-import Table from 'react-bootstrap/Table';
+
+
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import Row from 'react-bootstrap/Row';
@@ -24,7 +22,6 @@ import Col from 'react-bootstrap/Col';
 import Cookies from 'universal-cookie';
 
 
-// import { ExamCardSelect } from '../components'
 
 const Wrapper = styled.div`
     padding: 0 40px 10px 40px;
@@ -286,7 +283,7 @@ class ExamToolbar extends Component {
             className="justify-content-between pt-3"
           >
           <Row className="justify-content-between" style={toolBarRowStyle}>
-            <Col md={2} md={{ order: 1, span: 2}} sm={6} xs={{ order: 2, span: 5}} className="text-left">
+            <Col  md={{ order: 1, span: 2}} sm={6} xs={{ order: 2, span: 5}} className="text-left">
             <ButtonGroup className="mr-2" aria-label="First group" style={toolBarRowStyle}>
               { isRandom ?
               <Button variant="secondary" onClick={this.handleRandomPrevious} >이전 문제</Button>
@@ -297,7 +294,7 @@ class ExamToolbar extends Component {
             </ButtonGroup>
             </Col>
 
-            <Col md={8} md={{ order: 2, span: 6, offset: 1}} sm={12} xs={{ order: 1, span: 12}}>
+            <Col md={{ order: 2, span: 6, offset: 1}} sm={12} xs={{ order: 1, span: 12}}>
             <ButtonGroup className="mr-2 " aria-label="First group" style={toolBarRowStyle} >
             <Button variant="warning" onClick={this.resetProblem.bind(this)}>초기화</Button>
               <Button variant="secondary" disabled>
@@ -340,7 +337,7 @@ class ExamToolbar extends Component {
             </ButtonGroup>
             </Col>
 
-            <Col md={2} md={{ order: 3, span: 2, offset: 1}} sm={6}  xs={{ order: 3, span: 5, offset: 2}} className="text-right">
+            <Col md={{ order: 3, span: 2, offset: 1}} sm={6}  xs={{ order: 3, span: 5, offset: 2}} className="text-right">
             <ButtonGroup className="mr-2" aria-label="First group" style={toolBarRowStyle}>
               { isRandom ?
                 <Button variant="secondary" onClick={this.handleRandomNext} >다음 문제(random)</Button>

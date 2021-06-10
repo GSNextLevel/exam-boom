@@ -1,21 +1,9 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import styled from 'styled-components'
-
-import api from '../api'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
-import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Pagination from 'react-bootstrap/Pagination';
-import PageItem from 'react-bootstrap/PageItem'
-import Container from 'react-bootstrap/Container';
 
-
-
-// import { ExamCardSelect } from '../components'
 
 class ExamPagination extends Component {
     constructor(props) {
@@ -25,9 +13,6 @@ class ExamPagination extends Component {
           examNum: this.props.value.match.params.id,
           examType: this.props.value.match.params.type
       }
-
-
-
     }
 
     componentDidMount = async () => {

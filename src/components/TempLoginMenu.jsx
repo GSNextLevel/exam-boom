@@ -8,11 +8,6 @@ import Col from 'react-bootstrap/Col'
 
 import Cookies from 'universal-cookie';
 
-
-const Wrapper = styled.a.attrs({
-    className: 'navbar-brand',
-})``
-
 class TempLoginMenu extends Component {
 
 

@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 
-import styled from 'styled-components'
-
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import ListGroup from 'react-bootstrap/ListGroup';
@@ -18,17 +16,12 @@ class Setting extends Component {
     this.state = {
         replyOpenStatus:  cookies.get('replyOpenStatus') === undefined ? false : cookies.get('replyOpenStatus') == "false" ? false : true
     }
-
-    // console.log(this.props);
-
-    // console.log(examNum);
   }
 
   onChangeReplyMode(e) {
     const cookies = new Cookies();
 
     cookies.set('replyOpenStatus', e.target.checked, {path: '/'})
-    // console.log(e);
     console.log(e.target.checked);
 
   }
@@ -39,8 +32,6 @@ class Setting extends Component {
 
     console.log(replyOpenStatus)
     return (
-
-
 
           <Container className="mt-4">
 
@@ -70,9 +61,5 @@ class Setting extends Component {
 
   }
 }
-
-// function Welcome(props) {
-//   return <h1>Hello, {props.name}</h1>;
-// }
 
 export default Setting
