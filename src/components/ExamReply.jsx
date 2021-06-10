@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 import api from '../api'
@@ -10,7 +9,6 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
-import Badge from 'react-bootstrap/Badge';
 
 import Cookies from 'universal-cookie';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
@@ -42,7 +40,6 @@ class ExamReply extends Component {
       this.state = {
           replies: [],
           userInputReplyText: "",
-          userInputDefaultText: "aa",
           userModeState: false,
           // replyCnt: 0,
           username:  cookies.get('username') === undefined ? "익명" : cookies.get('username'),
@@ -85,7 +82,7 @@ class ExamReply extends Component {
     }
 
     autoUrlLink(text) {
-      const regURL =  /(((http(s)?:\/\/)\S+(\.[^(\n|\t|\s,)]+)+)|((http(s)?:\/\/)?(([a-zA-z\-_]+[0-9]*)|([0-9]*[a-zA-z\-_]+)){2,}(\.[^(\n|\t|\s,)]+)+))+/gi; 
+      const regURL =  /(((http(s)?:\/\/)\S+(\.[^(\n|\t|\s,)]+)+)|((http(s)?:\/\/)?(([a-zA-z\-_]+[0-9]*)|([0-9]*[a-zA-z\-_]+)){2,}(\.[^(\n|\t|\s,)]+)+))+/gi;
       const replaceFunc = function(url){
         return '<a href="' + url + '" target="_blank">' + url + '</a>'
       };
@@ -146,7 +143,7 @@ class ExamReply extends Component {
     }
 
     render() {
-      const { replies, userInputDefaultText,
+      const { replies,
         userInputReplyText, username, replyOpenStatus } = this.state;
       // console.log(replies);
       console.log("reply status", replyOpenStatus)

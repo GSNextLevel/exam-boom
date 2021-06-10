@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { Link } from 'react-router-dom'
+// import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import Cookies from 'universal-cookie';
 
 import Container from 'react-bootstrap/Container';
@@ -14,7 +14,6 @@ import DataTable, { createTheme } from 'react-data-table-component';
 
 
 import api from '../api'
-import styled from 'styled-components'
 
 
 createTheme('solarized', {
@@ -43,14 +42,13 @@ const conditionalRowStyles = [
   {
     when: row => row.submitTotalCnt <= (row.wrongTotalCnt)*2,
     style: row => ({
-      backgroundColor: row.correct == '정답' ? 'darkorange' : 'lightcoral',
+      backgroundColor: row.correct === '정답' ? 'darkorange' : 'lightcoral',
       color: 'white',
       '&:hover': {
         cursor: 'pointer',
       },
     }),
   },
-  // You can also pass a callback to style for additional customization
   {
     when: row => row.submitTotalCnt >= (row.wrongTotalCnt)*5,
     style: {
@@ -59,27 +57,11 @@ const conditionalRowStyles = [
       '&:hover': {
         cursor: 'pointer',
       },
-    },
-    // style: row => ({
-    //   backgroundColor: row.isSpecia ? 'pink' : 'inerit',
-    // }),
+    }
   },
 ];
 
-const data = [
-  { username: "한승수",
-        type: "adp",
-        examNum: 1,
-        correct: "정답",
-        timestamp: new Date(1621312872717).toLocaleString()
-      },
-      { username: "최성우",
-        type: "adp",
-        examNum: 10,
-        correct: "오답",
-        timestamp: new Date(1621312872994).toLocaleString()
-      }
-  ];
+
 const columns = [
   {
     name: '유형',
@@ -157,14 +139,14 @@ class SubmitHistory extends Component {
           let prevNum = userdataResult[0].examNum;
           for(let i=0 ; i< userdataResult.length ; i++) {
             for(let j=findIdx ; j<totalCalc.length ; j++) {
-                if(userdataResult[i].examNum == totalCalc[j].examNum){
+                if(userdataResult[i].examNum === totalCalc[j].examNum){
                   userdataResult[i]['submitTotalCnt'] = totalCalc[j]['totalCnt']
                   userdataResult[i]['wrongTotalCnt'] = totalCalc[j]['totalCnt'] - correctCalc[j]['correctCnt']
                   // findIdx++;
                   break;
                 }
             }
-            if(prevNum != userdataResult[i].examNum){
+            if(prevNum !== userdataResult[i].examNum){
               findIdx++;
               prevNum = userdataResult[i].examNum;
             }
@@ -190,7 +172,8 @@ class SubmitHistory extends Component {
       const { userdata, username } = this.state;
       const titleWithUsername = username + "님의 문제 제출 현황"
 
-      const { match, location, history } = this.props;
+      // const { match, location, history } = this.props;
+      const { history } = this.props;
 
       // console.log(match, location, history)
 

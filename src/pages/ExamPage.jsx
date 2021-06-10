@@ -1,32 +1,21 @@
 import React, { Component } from 'react'
-import { createContext, useReducer } from "react"
-import { useAsync } from 'react-async';
 
 import Container from 'react-bootstrap/Container';
-import { ExamCard, ExamPagination, ExamToolbar, ExamResultTable, ExamReply, LoginAlertModal } from '../components'
-
-import { GotoADP, GotoSAP } from '../pages'
+import { ExamCard, ExamPagination, ExamToolbar, ExamReply, LoginAlertModal } from '../components'
 
 import { NotFound } from '../pages'
 
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  useParams
+  Route
 } from "react-router-dom";
 
 import api from '../api'
 
 import styled from 'styled-components'
-import { popperGenerator } from '@popperjs/core';
 
 
-
-
-const Wrapper = styled.div`
-    padding: 0 40px 40px 40px;
-`
 
 class ExamPage extends Component {
 
@@ -61,27 +50,13 @@ class ExamPage extends Component {
 
     render() {
 
-        const { params } = this.props.match;
-
+        // const { params } = this.props.match;
         const { examNum } = this.state;
-
         const isValidExamNum = isNaN(examNum) ? false : true;
-
         console.log("examNum : ", examNum, isValidExamNum)
 
 
-        // const { type } = this.state;
-
-        // const { question, choices, answer, choiceType } = this.state;
-
-        const myVisible1 = true;
-        const myVisible2 = true;
-
-
         return (
-
-
-
           <React.Fragment>
           {
             (isValidExamNum && examNum > 0) &&

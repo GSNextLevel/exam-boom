@@ -3,16 +3,9 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 
 import Container from 'react-bootstrap/Container';
-import Button from 'react-bootstrap/Button';
-import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
-import Card from 'react-bootstrap/Card';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import Table from 'react-bootstrap/Table';
 
 import api from '../api'
-
-import styled from 'styled-components'
 
 class LeaderBoard extends Component {
     constructor(props) {

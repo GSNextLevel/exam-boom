@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-// import { Link } from 'react-router-dom'
-// import styled from 'styled-components'
 
 import api from '../api'
 
@@ -14,7 +12,7 @@ import Row from 'react-bootstrap/Row';
 
 import { FaThumbsUp, FaRegThumbsUp } from 'react-icons/fa';
 
-// import { ExamCardSelect } from '../components'
+
 
 import Cookies from 'universal-cookie';
 
@@ -100,18 +98,6 @@ class ExamCard extends Component {
               }
             })
           }
-
-
-          // this.setState({
-          //     mySubmitCount: totalCnt,
-          //     myCorrectCount: correctCnt,
-          //     myStarred: 0,
-          //     likeList: examData['likeList'] == undefined ? [] : examData['likeList']
-          //     // previousExam: examData['previousExam'] == undefined ? [] : examData['previousExam'],
-          //
-          // })
-
-
 
 
 
@@ -210,9 +196,6 @@ class ExamCard extends Component {
 
       cookies.set('submitAnswer', prevSubmitAnswer, {path: '/exam/'+type})
 
-
-
-      // this.setState({submitAnswer: })
     }
 
     async pushLike(id) {
@@ -293,13 +276,11 @@ class ExamCard extends Component {
       // console.log(correctRatePrev)
       let correctRate = isNaN(correctRatePrev) ? "-" : correctRatePrev;
 
-      // console.log("this is from card");
       // console.log(this.props);
 
       const examNum = this.props.value.match.params.id;
       let examNumKey = "exam-" + examNum;
-      const test = 100;
-      const examChoiceAlpha = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+      const examChoiceAlpha = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
       let examChoiceIdx = 0;
 
 

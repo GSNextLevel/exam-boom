@@ -1,28 +1,12 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { Link } from 'react-router-dom'
 
 import Container from 'react-bootstrap/Container';
 
 import '../style/notfound.css'
 
 class NotFound extends Component {
-    constructor(props) {
-        super(props)
-        // this.state = {
-        //     movies: [],
-        //     columns: [],
-        //     isLoading: false,
-        // }
-    }
-
-
 
     render() {
-
-
-
-
         return (
           <Container>
           <div class="container">
