@@ -43,6 +43,8 @@ class NavBar extends Component {
                     <NavDropdown.Item href="/log">버전기록</NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item href="/voc">건의사항</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item href="/replies">최근댓글</NavDropdown.Item>
                   </NavDropdown>
                 </Nav>
               </Navbar.Collapse>

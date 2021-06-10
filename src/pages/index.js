@@ -8,7 +8,8 @@ import NotFound from './NotFound'
 import LeaderBoard from './LeaderBoard'
 import SubmitHistory from './SubmitHistory'
 import Setting from './Setting'
+import RecentReplies from './RecentReplies'
 
 export {
-  ExamPage, LeaderBoard, SubmitHistory, Setting,
+  ExamPage, LeaderBoard, SubmitHistory, Setting, RecentReplies, 
   ExamMain, GotoADP, NotFound }
