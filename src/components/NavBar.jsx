@@ -17,11 +17,15 @@ const Container = styled.div.attrs({
 
 class NavBar extends Component {
     render() {
+        const logoStyle = {
+          marginRight: '8px'
+        }
+
         return (
           <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
               <Container>
               <Navbar.Brand href="/">
-                <img src={logo} width="50" height="50"  alt="exam boom" />
+                <img src={logo} width="50" height="50"  alt="exam boom" style={logoStyle}/>
                 자격증 뿌시기
               </Navbar.Brand>
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -40,11 +44,11 @@ class NavBar extends Component {
                   </NavDropdown>
 
                   <NavDropdown title="실험실" id="collasible-nav-dropdown">
-                    <NavDropdown.Item href="/log">버전기록</NavDropdown.Item>
+                    <NavDropdown.Item href="/updateLog">버전기록</NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item href="/voc">건의사항</NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item href="/replies">최근댓글</NavDropdown.Item>
+                    <NavDropdown.Item href="/replies">최근활동</NavDropdown.Item>
                   </NavDropdown>
                 </Nav>
               </Navbar.Collapse>

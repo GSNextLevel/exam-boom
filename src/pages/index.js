@@ -9,7 +9,9 @@ import LeaderBoard from './LeaderBoard'
 import SubmitHistory from './SubmitHistory'
 import Setting from './Setting'
 import RecentReplies from './RecentReplies'
+import UpdateLog from './UpdateLog'
+
 
 export {
-  ExamPage, LeaderBoard, SubmitHistory, Setting, RecentReplies, 
-  ExamMain, GotoADP, NotFound }
+  ExamPage, LeaderBoard, SubmitHistory, Setting, RecentReplies,
+  UpdateLog, ExamMain, GotoADP, NotFound }
