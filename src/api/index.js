@@ -36,7 +36,8 @@ const apis = {
     likeExamById,
     getPreviousExamByType,
     getLeaderBoard,
-    getExamHistory
+    getExamHistory,
+    getRecentReply
 }
 
 export default apis
