@@ -411,7 +411,7 @@ class ExamCard extends Component {
                     printRatioVal = 25;
                   }
                   else{
-                    printRatioVal = li/choicesRatioCountSum * 100
+                    printRatioVal = parseInt(li/choicesRatioCountSum * 100 * 10) / 10
                   }
                   return (
                     answerState &&
