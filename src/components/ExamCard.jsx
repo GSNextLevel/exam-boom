@@ -6,9 +6,11 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
-
+import ProgressBar from 'react-bootstrap/ProgressBar';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
 
 import { FaThumbsUp, FaRegThumbsUp } from 'react-icons/fa';
 
@@ -44,6 +46,7 @@ class ExamCard extends Component {
           submitTotalCount: 0,
           correctTotalCount: 0,
           starredTotalCount: 0,
+          choicesRatio: [],
 
           previousExam: [],
           likeList: [],
@@ -117,7 +120,8 @@ class ExamCard extends Component {
                 mySubmitCount: totalCnt,
                 myCorrectCount: correctCnt,
                 myStarred: 0,
-                likeList: examData['likeList'] == undefined ? [] : examData['likeList']
+                likeList: examData['likeList'] == undefined ? [] : examData['likeList'],
+                choicesRatio: examData.choicesRatio
             })
         })
     }
@@ -269,13 +273,15 @@ class ExamCard extends Component {
       const { question, choices, answer, choiceType,
         starred, mySubmitCount, myCorrectCount, starredTotalCount,
         submitTotalCount, correctTotalCount,
-        isLoading, answerState, previousExam, likeList, amILiked } = this.state;
+        isLoading, answerState, previousExam, likeList, amILiked, choicesRatio } = this.state;
       let answerToString = answer.join(',');
 
       let correctRatePrev = parseInt((parseInt(correctTotalCount)/parseInt(submitTotalCount)) * 100);
       // console.log(correctRatePrev)
       let correctRate = isNaN(correctRatePrev) ? "-" : correctRatePrev;
 
+
+      // console.log("ratio", choicesRatio)
       // console.log(this.props);
 
       const examNum = this.props.value.match.params.id;
@@ -386,6 +392,48 @@ class ExamCard extends Component {
               {/*<Button onClick={() => this.saveAndNext(examNum)} variant="primary">저장 후 계속</Button>*/}
 
             </ButtonToolbar>
+
+            <Container>
+            {
+              answerState &&
+              <div className="text-center mt-4">
+                답안 선택률
+              </div>
+            }
+            {
+                choicesRatio.map((li, index) => {
+                  const colorMap = ['success', 'info', 'warning', 'danger']
+                  const choiceIndexMap = ['A','B','C','D','E','F','G','H','I','J']
+                  const colorCode = colorMap[index%4]
+                  const choicesRatioCountSum = choicesRatio.reduce((a, b) => a + b, 0)
+                  let printRatioVal = 0;
+                  if(choicesRatioCountSum === 0) {
+                    printRatioVal = 25;
+                  }
+                  else{
+                    printRatioVal = li/choicesRatioCountSum * 100
+                  }
+                  return (
+                    answerState &&
+                    <Row>
+                      <Col md={{span: 1, offset:3}} className="text-right">
+
+                      </Col>
+                      <Col md={{span: 4}}>
+                        <ProgressBar className="mt-1" animated striped variant={colorCode} now={printRatioVal} label={`${choiceIndexMap[index]}  :  ${printRatioVal}%`}/>
+                      </Col>
+                      <Col md={{span: 4}}>
+
+                      </Col>
+
+                    </Row>
+
+                  )
+                })
+
+            }
+            </Container>
+
 
 
           </Card.Body>
