@@ -143,7 +143,7 @@ class ExamToolbar extends Component {
         console.log("check", exam);
         // console.log(exam);
         const realAnswer = exam['data']['Items'];
-        // console.log(realAnswer);
+        console.log(realAnswer);
         let tempResult = this.state.tableResult;
 
           userAnswerFromCookie.forEach((item, i) => {
@@ -170,7 +170,10 @@ class ExamToolbar extends Component {
             }
 
             totalCnt++;
-            let temp = {id: item['id'], correct: isCorrect};
+            let temp = {id: item['id'], correct: isCorrect, U: sumbitQuestionAns};
+            // I for id
+            // C for correct
+            // U for userChoice
 
 
             console.log("tempResult: ", tempResult)
@@ -205,7 +208,7 @@ class ExamToolbar extends Component {
             }
         }
         if(flag) {
-          foundUnsubmittedAnswer.push({id: getAnswerResponse[j]['id'], correct: getAnswerResponse[j]['correct']})
+          foundUnsubmittedAnswer.push({id: getAnswerResponse[j]['id'], correct: getAnswerResponse[j]['correct'], U: getAnswerResponse[j]['U']})
         }
       }
       console.log("my result", foundUnsubmittedAnswer)
