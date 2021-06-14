@@ -29,21 +29,31 @@ jobs:
       run: npm install
     - name: Add My Package Build
       run: npm install -g react-scripts
-        
+
 #     - run: npm ci
     - name: Build
       run: react-scripts build
       env:
         CI: false
 #       run: NODE_ENV=production node_modules/react-scripts/bin/react-scripts.js start
-      
+
+    - name: action-slack
+          uses: 8398a7/action-slack@v3
+          with:
+            status: ${{ job.status }}
+            author_name: Github Action Test # default: 8398a7@action-slack
+            fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+          env:
+            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
+          if: always() # Pick up events even if the job fails or is canceled.
+
     - name: Configure AWS credentials from Production account
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ap-northeast-2
-      
+
 #     - run: npm test
     - name: Deploy
 #       env:
@@ -51,6 +61,6 @@ jobs:
 #         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
         aws s3 cp --recursive --region ap-northeast-2 build s3://exam.viassh.com
-        
+
     - name: Cloudfront Invalidation
-      run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_DIST_ID }} --paths "/*" 
+      run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_DIST_ID }} --paths "/*"
