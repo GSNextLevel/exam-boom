@@ -103,6 +103,11 @@ class RecentReplies extends Component {
                             <Card className="text-center">
                               <Card.Header>
                                 <Button variant="primary" href={targetPageUrl} >{data.examType.toUpperCase()} {data.examNum}번 </Button>
+                                {
+                                    data.isWrongAnswer == true &&
+                                    <Button className="ml-4" variant="danger"> 잘못된 답 </Button>
+                                }
+
                               </Card.Header>
                               <Card.Body>
                                 <Card.Title>

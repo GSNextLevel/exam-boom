@@ -41,6 +41,7 @@ class ExamReply extends Component {
           replies: [],
           userInputReplyText: "",
           userModeState: false,
+          isWrongAnswer: false,
           // replyCnt: 0,
           username:  cookies.get('username') === undefined ? "익명" : cookies.get('username'),
           replyOpenStatus:  cookies.get('replyOpenStatus') === undefined ? false : cookies.get('replyOpenStatus') == "false" ? false : true
@@ -81,6 +82,10 @@ class ExamReply extends Component {
       this.setState({userModeState: e.target.checked})
     }
 
+    onChangeWrongAnswerBox(e) {
+      this.setState({isWrongAnswer: e.target.checked})
+    }
+
     autoUrlLink(text) {
       const regURL =  /(((http(s)?:\/\/)\S+(\.[^(\n|\t|\s,)]+)+)|((http(s)?:\/\/)?(([a-zA-z\-_]+[0-9]*)|([0-9]*[a-zA-z\-_]+)){2,}(\.[^(\n|\t|\s,)]+)+))+/gi;
       const replaceFunc = function(url){
@@ -99,6 +104,7 @@ class ExamReply extends Component {
       console.log(this.state.userInputReplyText, this.state.userModeState)
       const userInputReplyText = this.state.userInputReplyText;
       const userModeState = this.state.userModeState;
+      const isWrongAnswer = this.state.isWrongAnswer;
       let passUsername = "";
       if(userModeState) {
           passUsername = "익명";
@@ -107,7 +113,8 @@ class ExamReply extends Component {
         const cookieName = cookies.get('username')
         passUsername = cookieName === undefined ? "👨‍💻" : cookieName;
       }
-      const payload = {"name": passUsername, "content": userInputReplyText, "createdAt": Date.now() };
+      const payload = {"name": passUsername, "content": userInputReplyText, "createdAt": Date.now(), "isWrongAnswer": isWrongAnswer };
+
       await api.updateExamReplyById(type, examNum, payload).then(res => {
         // console.log(exam);
         console.log(res)
@@ -182,12 +189,22 @@ class ExamReply extends Component {
                       </Form.Group>
 
                   </Col>
-                  <Col md="1">
-                    <Form.Group id="formGridCheckbox">
-                      <Form.Check type="checkbox" label="익명" onChange={this.onChangeWriteMode.bind(this)}/>
-                    </Form.Group>
-                  </Col>
                   <Col md="2">
+                    <Row>
+                      <Col md="12">
+                        <Form.Group id="formGridCheckbox">
+                          <Form.Check type="checkbox" label="익명" onChange={this.onChangeWriteMode.bind(this)}/>
+                        </Form.Group>
+                      </Col>
+                      <Col md="12">
+                        <Form.Group id="formGridCheckbox2">
+                          <Form.Check type="checkbox" label="잘못된 답" onChange={this.onChangeWrongAnswerBox.bind(this)}/>
+                        </Form.Group>
+                      </Col>
+                    </Row>
+
+                  </Col>
+                  <Col md="1" className="text-center">
                     <Button variant="primary" onClick={this.writeReply.bind(this)}>
                       작성
                     </Button>
