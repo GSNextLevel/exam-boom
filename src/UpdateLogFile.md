@@ -2,11 +2,12 @@
 - 사용하면서 불편했던 부분이나 개선하고싶은 부분이 있으면 편하게 알려주세요.
 - 틈틈히 공부하면서 개발 중 입니다.
 
-## TODO
-- https://github.com/viassh/exam-boom
+## [링크](https://github.com/viassh/exam-boom)
 
 
 ## 업데이트 로그
+2021년 6월 14일
+
 
 2021년 6월 13일
 - 문제 별 답안 선택률 차트 추가
