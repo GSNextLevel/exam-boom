@@ -35,7 +35,7 @@ class ExamReply extends Component {
 
       const cookies = new Cookies();
 
-      this.autoUrlLink = this.autoUrlLink.bind(this);
+      // this.autoUrlLink = this.autoUrlLink.bind(this);
 
       this.state = {
           replies: [],
@@ -86,14 +86,14 @@ class ExamReply extends Component {
       this.setState({isWrongAnswer: e.target.checked})
     }
 
-    autoUrlLink(text) {
-      const regURL =  /(((http(s)?:\/\/)\S+(\.[^(\n|\t|\s,)]+)+)|((http(s)?:\/\/)?(([a-zA-z\-_]+[0-9]*)|([0-9]*[a-zA-z\-_]+)){2,}(\.[^(\n|\t|\s,)]+)+))+/gi;
-      const replaceFunc = function(url){
-        return '<a href="' + url + '" target="_blank">' + url + '</a>'
-      };
-      const replacedText = text.replace(regURL, replaceFunc);
-      return <div dangerouslySetInnerHTML={ {__html: replacedText} }></div>
-    }
+    // autoUrlLink(text) {
+    //   const regURL =  /(((http(s)?:\/\/)\S+(\.[^(\n|\t|\s,)]+)+)|((http(s)?:\/\/)?(([a-zA-z\-_]+[0-9]*)|([0-9]*[a-zA-z\-_]+)){2,}(\.[^(\n|\t|\s,)]+)+))+/gi;
+    //   const replaceFunc = function(url){
+    //     return '<a href="' + url + '" target="_blank">' + url + '</a>'
+    //   };
+    //   const replacedText = text.replace(regURL, replaceFunc);
+    //   return <div dangerouslySetInnerHTML={ {__html: replacedText} }></div>
+    // }
 
     async writeReply() {
       const cookies = new Cookies();
@@ -237,7 +237,7 @@ class ExamReply extends Component {
 
                           </Col>
                           <Col style={replyDiv} md="9">
-                            {this.autoUrlLink(data.content)}
+                            {data.content}
                           </Col>
                           <Col style={replyDiv} md="1">
 

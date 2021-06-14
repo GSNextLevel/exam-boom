@@ -40,14 +40,14 @@ class RecentReplies extends Component {
 
   }
 
-  autoUrlLink(text) {
-    const regURL =  /(((http(s)?:\/\/)\S+(\.[^(\n|\t|\s,)]+)+)|((http(s)?:\/\/)?(([a-zA-z\-_]+[0-9]*)|([0-9]*[a-zA-z\-_]+)){2,}(\.[^(\n|\t|\s,)]+)+))+/gi;
-    const replaceFunc = function(url){
-      return '<a href="' + url + '" target="_blank">' + url + '</a>'
-    };
-    const replacedText = text.replace(regURL, replaceFunc);
-    return <div dangerouslySetInnerHTML={ {__html: replacedText} }></div>
-  }
+  // autoUrlLink(text) {
+  //   const regURL =  /(((http(s)?:\/\/)\S+(\.[^(\n|\t|\s,)]+)+)|((http(s)?:\/\/)?(([a-zA-z\-_]+[0-9]*)|([0-9]*[a-zA-z\-_]+)){2,}(\.[^(\n|\t|\s,)]+)+))+/gi;
+  //   const replaceFunc = function(url){
+  //     return '<a href="' + url + '" target="_blank">' + url + '</a>'
+  //   };
+  //   const replacedText = text.replace(regURL, replaceFunc);
+  //   return <div dangerouslySetInnerHTML={ {__html: replacedText} }></div>
+  // }
 
   timeForToday(value) {
         const today = new Date();
@@ -116,7 +116,7 @@ class RecentReplies extends Component {
                                       댓글
                                     </Col>
                                     <Col md="11">
-                                      {this.autoUrlLink(data.reply)}
+                                      {data.reply}
                                     </Col>
                                   </Row>
 
