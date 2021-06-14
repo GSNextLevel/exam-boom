@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { NavBar } from '../components'
-import { ExamMain, LeaderBoard, SubmitHistory, Setting, RecentReplies, UpdateLog } from '../pages'
+import { ExamMain, LeaderBoard, SubmitHistory, Setting, RecentReplies, UpdateLog, VoC } from '../pages'
 import { ExamPage, GotoADP } from '../pages'
 
 
@@ -31,6 +31,8 @@ function App() {
           <Route path="/replies" exact component={RecentReplies} />
 
           <Route path="/updateLog" exact component={UpdateLog} />
+
+          <Route path="/voc" exact component={VoC} />
 
 
         </Switch>

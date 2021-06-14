@@ -5,9 +5,11 @@ const api = axios.create({
     baseURL: 'https://api.viassh.com',
     // baseURL: 'https://testapi.viassh.com',
     headers: {
-              "x-api-key": process.env.REACT_APP_AWS_API_KEY
+              "x-api-key": "R2Jp0nUFcr6OoxVx1Ro4Z5WaD2IVzxz29164U4Sk"
+              // process.env.REACT_APP_AWS_API_KEY
             }
 })
+
 
 
 export const getExamById = (type, id, username) => api.get(`/exam/${type}/${id}?username=${username}`)
@@ -26,6 +28,8 @@ export const getPreviousExamByType = (type) => api.get(`/exam/${type}/getpreviou
 
 export const getLeaderBoard = (type) => api.get("/leaderboard")
 
+export const slackSendVoC = (payload) => api.post("/slack/msg", payload)
+
 const apis = {
     getExamById,
     getAllExamAnswer,
@@ -37,7 +41,9 @@ const apis = {
     getPreviousExamByType,
     getLeaderBoard,
     getExamHistory,
-    getRecentReply
+    getRecentReply,
+
+    slackSendVoC
 }
 
 export default apis
