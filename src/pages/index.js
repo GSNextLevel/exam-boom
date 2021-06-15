@@ -11,6 +11,8 @@ import Setting from './Setting';
 import RecentReplies from './RecentReplies';
 import UpdateLog from './UpdateLog';
 import VoC from './VoC';
+import Docs from './Docs';
+import DocsPage from './DocsPage';
 
 export {
   ExamPage,
@@ -23,4 +25,6 @@ export {
   ExamMain,
   GotoADP,
   NotFound,
+  Docs,
+  DocsPage
 };
