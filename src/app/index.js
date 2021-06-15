@@ -9,6 +9,8 @@ import {
   RecentReplies,
   UpdateLog,
   VoC,
+  Docs,
+  DocsPage
 } from '../pages';
 import { ExamPage, GotoADP } from '../pages';
 
@@ -40,6 +42,8 @@ function App() {
         <Route path="/updateLog" exact component={UpdateLog} />
 
         <Route path="/voc" exact component={VoC} />
+        <Route path="/docs" exact component={Docs} />
+        <Route path="/docs/:type" exact component={DocsPage} />
       </Switch>
     </Router>
   );
