@@ -1,16 +1,20 @@
-import NavBar from './NavBar'
+import NavBar from './NavBar';
 
-import TempLoginMenu from './TempLoginMenu'
+import TempLoginMenu from './TempLoginMenu';
 
-import ExamCard from './ExamCard'
-import ExamPagination from './ExamPagination'
-import ExamToolbar from './ExamToolbar'
-import ExamReply from './ExamReply'
+import ExamCard from './ExamCard';
+import ExamPagination from './ExamPagination';
+import ExamToolbar from './ExamToolbar';
+import ExamReply from './ExamReply';
 
-import LoginAlertModal from './LoginAlertModal'
+import LoginAlertModal from './LoginAlertModal';
 
-
-
-export { NavBar,
+export {
+  NavBar,
   LoginAlertModal,
-  TempLoginMenu, ExamCard, ExamPagination, ExamToolbar, ExamReply}
+  TempLoginMenu,
+  ExamCard,
+  ExamPagination,
+  ExamToolbar,
+  ExamReply,
+};

@@ -26,7 +26,7 @@ export const likeExamById = (type, id, payload) => api.post(`/exam/${type}/${id}
 
 export const getPreviousExamByType = (type) => api.get(`/exam/${type}/getprevious`)
 
-export const getLeaderBoard = (type) => api.get("/leaderboard")
+export const getLeaderBoard = () => api.get("/leaderboard")
 
 export const slackSendVoC = (payload) => api.post("/slack/msg", payload)
 

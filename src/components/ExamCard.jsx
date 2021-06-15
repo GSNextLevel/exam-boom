@@ -61,6 +61,8 @@ class ExamCard extends Component {
 
     componentDidMount = async () => {
         this.setState({ isLoading: true })
+        console.log("CHECK " , this.props);
+        const { getProps } = this.props;
         const examNum = this.props.value.match.params.id;
         const username = this.state.username;
         const type = this.props.value.match.params.type;
