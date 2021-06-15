@@ -19,6 +19,8 @@ class RecentReplies extends Component {
 
     const cookies = new Cookies();
 
+    this.autoUrlLink = this.autoUrlLink.bind(this);
+
     this.state = {
         recentReplies: []
     }
@@ -41,7 +43,7 @@ class RecentReplies extends Component {
   }
 
   autoUrlLink(text) {
-    const regURL =  /(((http(s)?:\/\/)\S+(\.[^(\n|\t|\s,)]+)+)|((http(s)?:\/\/)?(([a-zA-z\-_]+[0-9]*)|([0-9]*[a-zA-z\-_]+)){2,}(\.[^(\n|\t|\s,)]+)+))+/gi;
+    const regURL =  /(((http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/|www\.)\S+(\.[^(\n|\t|\s,)]+)+))/gi;
     const replaceFunc = function(url){
       return '<a href="' + url + '" target="_blank">' + url + '</a>'
     };
