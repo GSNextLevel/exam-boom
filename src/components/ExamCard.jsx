@@ -50,7 +50,9 @@ class ExamCard extends Component {
 
           previousExam: [],
           likeList: [],
-          amILiked: false
+          amILiked: false,
+
+          examCreatedAt: 0
 
       }
       // console.log(examNum);
@@ -123,7 +125,9 @@ class ExamCard extends Component {
                 myCorrectCount: correctCnt,
                 myStarred: 0,
                 likeList: examData['likeList'] == undefined ? [] : examData['likeList'],
-                choicesRatio: examData.choicesRatio
+                choicesRatio: examData.choicesRatio,
+
+                examCreatedAt: examData.createAt * 1000
             })
         })
     }
@@ -272,7 +276,7 @@ class ExamCard extends Component {
 
 
     render() {
-      const { question, choices, answer, choiceType,
+      const { question, choices, answer, choiceType, examCreatedAt,
         starred, mySubmitCount, myCorrectCount, starredTotalCount,
         submitTotalCount, correctTotalCount,
         isLoading, answerState, previousExam, likeList, amILiked, choicesRatio } = this.state;
@@ -282,6 +286,7 @@ class ExamCard extends Component {
       // console.log(correctRatePrev)
       let correctRate = isNaN(correctRatePrev) ? "-" : correctRatePrev;
 
+      console.log("t", examCreatedAt)
 
       // console.log("ratio", choicesRatio)
       // console.log(this.props);
@@ -299,6 +304,11 @@ class ExamCard extends Component {
         marginRight: '6px',
         verticalAlign: 'text-top'
 
+      }
+
+      const infoSmallTextStyle = {
+        fontSize: '14px',
+        color: '#999999'
       }
 
           // console.log("@@@@", correctTotalCount, submitTotalCount);
@@ -345,7 +355,20 @@ class ExamCard extends Component {
           </Card.Header>
           <Card.Body>
 
-            <Card.Title>카테고리: 추가예정</Card.Title>
+            <Card.Title>
+              <Row>
+                <Col md={10}>
+                  카테고리: -
+                </Col>
+
+                <Col md={2} style={infoSmallTextStyle} className="text-right">
+                  문제추가 {new Date(
+                    parseInt(examCreatedAt),
+                  ).toLocaleDateString()}
+                </Col>
+              </Row>
+
+            </Card.Title>
             <Card.Text>
             {question}
             </Card.Text>
