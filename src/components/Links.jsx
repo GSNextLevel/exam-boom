@@ -1,31 +1,28 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import styled from 'styled-components'
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
 const Collapse = styled.div.attrs({
-    className: 'collpase navbar-collapse justify-content-end',
-
+  className: 'collpase navbar-collapse justify-content-end',
 })`
   padding-right: 20px;
-`
+`;
 
 const List = styled.div.attrs({
-    className: 'navbar-nav',
-})``
+  className: 'navbar-nav',
+})``;
 
 const Item = styled.div.attrs({
-    className: 'collpase navbar-collapse',
-})``
+  className: 'collpase navbar-collapse',
+})``;
 
 class Links extends Component {
-    render() {
-        return (
-
-            <React.Fragment>
-
-                <Collapse>
-                    <List>{
-                    /*
+  render() {
+    return (
+      <React.Fragment>
+        <Collapse>
+          <List>
+            {/*
                         <Item>
                             <Link to="/exam" className="nav-link">
                                 시험시작
@@ -37,17 +34,16 @@ class Links extends Component {
                             </Link>
                         </Item>
                       */}
-                        <Item>
-                            <Link to="/leaderBoard" className="nav-link">
-                                랭킹
-                            </Link>
-                        </Item>
-
-                    </List>
-                </Collapse>
-            </React.Fragment>
-        )
-    }
+            <Item>
+              <Link to="/leaderBoard" className="nav-link">
+                랭킹
+              </Link>
+            </Item>
+          </List>
+        </Collapse>
+      </React.Fragment>
+    );
+  }
 }
 
-export default Links
+export default Links;
