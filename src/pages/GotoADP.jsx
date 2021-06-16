@@ -38,7 +38,10 @@ class GotoADP extends Component {
                 <Card.Header as="h5">처음부터</Card.Header>
                 <Card.Body>
                   <Card.Text>1번부터 차례대로 풀어요.</Card.Text>
-                  <Button href={movePage} variant="primary">
+                  <Button href={movePage}
+                   variant="primary"
+                   onClick={() => {localStorage.setItem('random', 'false');}}
+                  >
                     이동
                   </Button>
                 </Card.Body>
@@ -51,6 +54,7 @@ class GotoADP extends Component {
                   <Card.Text>무작위로 문제가 나와요.</Card.Text>
                   <Button
                     variant="primary"
+                    onClick={() => {localStorage.setItem('random', 'true');}}
                     href={
                       type + '/random/' + randomQuestionNum(type).toString()
                     }
