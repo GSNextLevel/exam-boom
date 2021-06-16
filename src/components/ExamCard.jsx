@@ -14,7 +14,7 @@ import Container from 'react-bootstrap/Container';
 
 import { FaThumbsUp, FaRegThumbsUp } from 'react-icons/fa';
 
-
+import { randomQuestionNum } from '../utils/random';
 
 import Cookies from 'universal-cookie';
 
@@ -205,6 +205,23 @@ class ExamCard extends Component {
       prevSubmitAnswer.sort((a,b) => a.id - b.id)
 
       cookies.set('submitAnswer', prevSubmitAnswer, {path: '/exam/'+type})
+
+      if(localStorage.getItem("random")=="true"){
+        window.location.href= randomQuestionNum(type).toString();
+        let savedQuestions = []
+        let values;
+        if (values = cookies.get('previousQuestions')){
+          console.log(values);
+          cookies.set('previousQuestions',values + ',' + id)
+        } else {
+          savedQuestions = id
+          cookies.set('previousQuestions',savedQuestions)
+        }
+      } else {
+        {
+          window.location.href= (parseInt(id)+1).toString();
+        }
+      }
 
     }
 
@@ -413,7 +430,7 @@ class ExamCard extends Component {
             >
               <Button variant="success" onClick={this.viewAnswer}>답 바로보기</Button>
               {answerState && ( <span > 답 : {answerToString} </span> )}
-              <Button onClick={() => this.saveAndNext(examNum)} href={(parseInt(examNum)+1).toString()} variant="primary">저장 후 계속</Button>
+              <Button onClick={() => this.saveAndNext(examNum)} variant="primary">저장 후 계속</Button>
               {/*<Button onClick={() => this.saveAndNext(examNum)} variant="primary">저장 후 계속</Button>*/}
 
             </ButtonToolbar>
