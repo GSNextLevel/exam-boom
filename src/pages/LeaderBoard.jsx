@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
 
-import { FcRating, FcOk, FcCheckmark, FcClock } from 'react-icons/fc';
+import { FcRating, FcOk, FcCheckmark, FcClock, FcLinux } from 'react-icons/fc';
 
 import api from '../api';
 
@@ -53,7 +53,7 @@ class LeaderBoard extends Component {
                 <tr>
                   <td>{index + 1}</td>
                   <td>
-                    {index + 1 === 1 && <FcRating className="mr-1" />}
+                    {index + 1 === 1 && <FcLinux className="mr-1" />}
                     {data.point >= 500 ? (
                       <FcOk className="mr-1" />
                     ) : data.point >= 100 ? (
@@ -61,7 +61,13 @@ class LeaderBoard extends Component {
                     ) : (
                       <a />
                     )}
-                    {data.username}
+                    {
+                      data.point >= 1000 ?
+                        <a style={{color: 'cornflowerblue', fontWeight: '600'}}>{data.username}</a>
+                        :
+                        <a>{data.username}</a>
+                    }
+
                   </td>
                   <td>{data.point}</td>
                   <td>
