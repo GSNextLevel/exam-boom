@@ -52,7 +52,8 @@ class ExamCard extends Component {
           likeList: [],
           amILiked: false,
 
-          examCreatedAt: 0
+          examCreatedAt: 0,
+          needHelp: false
 
       }
       // console.log(examNum);
@@ -127,7 +128,8 @@ class ExamCard extends Component {
                 likeList: examData['likeList'] == undefined ? [] : examData['likeList'],
                 choicesRatio: examData.choicesRatio,
 
-                examCreatedAt: examData.createAt * 1000
+                examCreatedAt: examData.createAt * 1000,
+                needHelp: examData.needHelp === undefined ? false : examData.needHelp
             })
         })
     }
@@ -278,7 +280,7 @@ class ExamCard extends Component {
     render() {
       const { question, choices, answer, choiceType, examCreatedAt,
         starred, mySubmitCount, myCorrectCount, starredTotalCount,
-        submitTotalCount, correctTotalCount,
+        submitTotalCount, correctTotalCount, needHelp,
         isLoading, answerState, previousExam, likeList, amILiked, choicesRatio } = this.state;
       let answerToString = answer.join(',');
 
@@ -324,6 +326,10 @@ class ExamCard extends Component {
             >
               <ButtonGroup className="mr-2" aria-label="First group">
                 <Button variant="outline-primary"  >문제 {examNum}</Button>
+                {
+                  needHelp &&
+                  <Button variant="danger" >검토필요</Button>
+                }
                 {
                   previousExam.map((title, index) => {
                     return <Button variant="outline-success" key={index}>{title}</Button>

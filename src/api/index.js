@@ -28,6 +28,8 @@ export const getPreviousExamByType = (type) => api.get(`/exam/${type}/getpreviou
 
 export const getLeaderBoard = () => api.get("/leaderboard")
 
+export const addPreviousExam = (type, id, payload) => api.post(`/exam/${type}/${id}/previousexam`, payload)
+
 export const slackSendVoC = (payload) => api.post("/slack/msg", payload)
 
 const apis = {
@@ -42,6 +44,7 @@ const apis = {
     getLeaderBoard,
     getExamHistory,
     getRecentReply,
+    addPreviousExam,
 
     slackSendVoC
 }
