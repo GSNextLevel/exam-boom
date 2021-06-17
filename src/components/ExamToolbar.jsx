@@ -49,7 +49,8 @@ class ExamToolbar extends Component {
         scoringButtonDisabled: false,
         previousExamTable: cookies.get('previousExamTable') || [],
         showPreviousExamTable: cookies.get('showPreviousExamTable') || false,
-        isRandom: this.props.value.isRandom || false
+        isRandom: this.props.value.isRandom || false,
+        username: cookies.get("username") || "익명"
       }
 
       this.handleRandomNext = this.handleRandomNext.bind(this);
@@ -245,9 +246,22 @@ class ExamToolbar extends Component {
       })
     }
 
+    async addPreviousQuestion() {
+      const { type, pageNum, username } = this.state;
+      const payload = {
+        'username': username,
+        'date': '210617'
+      }
+      const addPreviousExam =  await api.addPreviousExam(type, pageNum, payload).then(res => {
+        console.log("add Exam", res);
+
+      })
+
+    }
+
 
     render() {
-      const { type, pageNum, submitAnswer, currentScore, showTableResult, scoringButtonDisabled, isRandom } = this.state;
+      const { type, pageNum, submitAnswer, currentScore, showTableResult, scoringButtonDisabled, isRandom, username } = this.state;
 
       const correctAnswer = {
         backgroundColor: 'forestgreen',
@@ -305,6 +319,10 @@ class ExamToolbar extends Component {
               </Button>
 
               <Button onClick={this.scoringExam.bind(this)} disabled={scoringButtonDisabled} variant="success" >채점하기</Button>
+              {
+                type == "adp" && (username == "관리자" || username == "한승수" || username == "김범환" || username == "메가존빌런") &&
+                <Button onClick={this.addPreviousQuestion.bind(this)} variant="primary" >기출문제 표시</Button>
+              }
               {
                 type == "sap" &&
                 <OverlayTrigger
