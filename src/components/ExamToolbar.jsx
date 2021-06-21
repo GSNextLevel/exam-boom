@@ -250,7 +250,7 @@ class ExamToolbar extends Component {
       const { type, pageNum, username } = this.state;
       const payload = {
         'username': username,
-        'date': '210617'
+        'date': '210621'
       }
       const addPreviousExam =  await api.addPreviousExam(type, pageNum, payload).then(res => {
         console.log("add Exam", res);
@@ -320,8 +320,8 @@ class ExamToolbar extends Component {
 
               <Button onClick={this.scoringExam.bind(this)} disabled={scoringButtonDisabled} variant="success" >채점하기</Button>
               {
-                type == "adp" && (username == "관리자" || username == "한승수" || username == "김범환" || username == "메가존빌런") &&
-                <Button onClick={this.addPreviousQuestion.bind(this)} variant="primary" >기출문제 표시</Button>
+                type == "adp" && (username == "관리자" || username == "익룡" || username == "김범환" || username == "메가존빌런") &&
+                <Button onClick={this.addPreviousQuestion.bind(this)} variant="primary" >기출문제 등록하기</Button>
               }
               {
                 type == "sap" &&
@@ -340,7 +340,7 @@ class ExamToolbar extends Component {
 
               }
               {
-                type == "sap" &&
+                (type == "sap" || type == "adp") &&
                 <OverlayTrigger
                   key='bottom2'
                   placement='bottom'
