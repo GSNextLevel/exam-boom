@@ -57,7 +57,9 @@ class ExamToolbar extends Component {
       this.handleRandomPrevious = this.handleRandomPrevious.bind(this);
       // console.log(pageNum)
 
+      console.log("aa",this.state.previousExamTable)
     }
+
 
     componentDidMount = async () => {
 
@@ -239,9 +241,32 @@ class ExamToolbar extends Component {
         console.log("prev Exam", exam);
         // console.log(exam);
           console.log(exam['data']['Items'])
-          this.setState({previousExamTable: exam['data']['Items'] })
+          // this.setState({previousExamTable: exam['data']['Items'] })
 
-          cookies.set('previousExamTable', exam['data']['Items'], {path: '/exam/'+type})
+          let prevData = exam['data']['Items'];
+          let makePrevData = [];
+          let prevExamList = [];
+          prevData.map((li, i) => {
+            // console.log(li)
+            let listIndex = prevExamList.indexOf(li.previousExam[li.previousExam.length - 1])
+
+            if(listIndex === -1) {
+              prevExamList.push(li.previousExam[li.previousExam.length - 1])
+              console.log("new push", li.previousExam[li.previousExam.length - 1])
+              listIndex = prevExamList.length - 1;
+            }
+
+            let prevDataObject = {
+              "n": li.examIdx,
+              "t": listIndex
+            }
+
+            makePrevData.push(prevDataObject)
+          })
+          console.log(makePrevData)
+
+          this.setState({previousExamTable: makePrevData })
+          cookies.set('previousExamTable', makePrevData, {path: '/exam/'+type})
 
       })
     }
@@ -291,6 +316,8 @@ class ExamToolbar extends Component {
         width: '100%',
         textAlign: 'center'
       }
+
+      const cellColors = [ '#FADBD8', '#F2F3F4', '#D6EAF8', '#EBDEF0', '#D1F2EB', '#FCF3CF', '#FAE5D3' ];
 
 
       return (
@@ -390,7 +417,14 @@ class ExamToolbar extends Component {
           <Wrapper className={this.state.previousExamTable.length > 0 ? "mt-4" : ""}  >
           {
             this.state.previousExamTable.map((data, index) => {
-              return <Button href={data['examIdx'].toString()} key={index} style={cellStyle2} variant="light">{data['examIdx']}</Button>
+              return <Button href={data['n'].toString()} key={index}
+                        style={{marginRight: '4px',
+                          marginBottom: '4px',
+                          width: '6%',
+                          fontSize: '14px',
+                          backgroundColor: cellColors[data['t'] % 7]}}
+                          variant="light">{data['n']}
+                      </Button>
             })
           }
           </Wrapper>
