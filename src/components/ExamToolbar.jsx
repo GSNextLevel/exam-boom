@@ -258,7 +258,8 @@ class ExamToolbar extends Component {
 
             let prevDataObject = {
               "n": li.examIdx,
-              "t": listIndex
+              "l": listIndex,
+              "t": li.previousExam.length
             }
 
             makePrevData.push(prevDataObject)
@@ -422,7 +423,10 @@ class ExamToolbar extends Component {
                           marginBottom: '4px',
                           width: '6%',
                           fontSize: '14px',
-                          backgroundColor: cellColors[data['t'] % 7]}}
+                          backgroundColor: cellColors[data['l'] % 7],
+                          fontWeight: data['t'] >= 2 ? '700' : '400'
+                        }
+                        }
                           variant="light">{data['n']}
                       </Button>
             })
