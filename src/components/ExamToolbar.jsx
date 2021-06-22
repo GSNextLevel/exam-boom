@@ -47,7 +47,8 @@ class ExamToolbar extends Component {
         submitAnswer: cookies.get('submitAnswer') || [],
         currentScore: 0,
         scoringButtonDisabled: false,
-        previousExamTable: cookies.get('previousExamTable') || [],
+        // previousExamTable: cookies.get('previousExamTable') || [],
+        previousExamTable: JSON.parse(localStorage.getItem('previousExamTable')) || [],
         showPreviousExamTable: cookies.get('showPreviousExamTable') || false,
         isRandom: this.props.value.isRandom || false,
         username: cookies.get("username") || "익명"
@@ -119,7 +120,9 @@ class ExamToolbar extends Component {
 
       cookies.remove('tableResult', {path: '/exam/'+type})
       cookies.remove('submitAnswer', {path: '/exam/'+type})
-      cookies.remove('previousExamTable', {path: '/exam/'+type})
+      cookies.remove('previousExamTable', {path: '/exam/'+type}) // will be deprecated
+      localStorage.removeItem("previousExamTable");
+
     }
 
     async scoringExam() {
@@ -267,7 +270,11 @@ class ExamToolbar extends Component {
           console.log(makePrevData)
 
           this.setState({previousExamTable: makePrevData })
+
+          localStorage.setItem("previousExamTable", JSON.stringify(makePrevData))
           cookies.set('previousExamTable', makePrevData, {path: '/exam/'+type})
+
+          console.log("cookie set!")
 
       })
     }
