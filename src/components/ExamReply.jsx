@@ -246,7 +246,9 @@ class ExamReply extends Component {
                         </OverlayTrigger>
                       </Col>
                       <Col style={replyDiv} md="9">
-                        {this.autoUrlLink(data.content)}
+                        <pre className="mb-0">
+                          {this.autoUrlLink(data.content)}
+                        </pre>
                       </Col>
                       <Col style={replyDiv} md="1">
                         {data.name == username && (
@@ -270,16 +272,5 @@ class ExamReply extends Component {
     );
   }
 }
-
-// <Form>
-// <div key="radio" className="mb-3">
-//   <Form.Check type="radio" id="check-api-radio">
-//     <Form.Check.Input type="radio" isValid />
-//     <Form.Check.Label>asdasd</Form.Check.Label>
-//     <Form.Control.Feedback type="valid">You did it!</Form.Control.Feedback>
-//   </Form.Check>
-// </div>
-//
-// </Form>
 
 export default ExamReply;
