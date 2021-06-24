@@ -355,7 +355,7 @@ class ExamToolbar extends Component {
 
               <Button onClick={this.scoringExam.bind(this)} disabled={scoringButtonDisabled} variant="success" >채점하기</Button>
               {
-                type == "adp" && (username == "관리자" || username == "익룡" || username == "김범환" || username == "메가존빌런") &&
+                type == "adp" && (username == "관리자" || username == "익룡" || username == "김범환" || username == "메가존빌런") && false &&
                 <Button onClick={this.addPreviousQuestion.bind(this)} variant="primary" >기출문제 등록하기</Button>
               }
               {
