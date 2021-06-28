@@ -14,6 +14,8 @@ import VoC from './VoC';
 import Docs from './Docs';
 import DocsPage from './DocsPage';
 
+import SignUp from './SignUp';
+
 export {
   ExamPage,
   LeaderBoard,
@@ -26,5 +28,6 @@ export {
   GotoADP,
   NotFound,
   Docs,
-  DocsPage
+  DocsPage,
+  SignUp
 };

@@ -2,8 +2,8 @@ import axios from 'axios'
 
 const api = axios.create({
     // baseURL: 'http://localhost:3000/api',
-    baseURL: 'https://api.viassh.com',
-    // baseURL: 'https://testapi.viassh.com',
+    // baseURL: 'https://api.viassh.com',
+    baseURL: 'https://testapi.viassh.com',
     headers: {
               "x-api-key": "R2Jp0nUFcr6OoxVx1Ro4Z5WaD2IVzxz29164U4Sk"
               // process.env.REACT_APP_AWS_API_KEY
@@ -32,6 +32,9 @@ export const addPreviousExam = (type, id, payload) => api.post(`/exam/${type}/${
 
 export const slackSendVoC = (payload) => api.post("/slack/msg", payload)
 
+// member
+export const putUser = (payload) => api.put("/user", payload)
+
 const apis = {
     getExamById,
     getAllExamAnswer,
@@ -46,7 +49,8 @@ const apis = {
     getRecentReply,
     addPreviousExam,
 
-    slackSendVoC
+    slackSendVoC,
+    putUser
 }
 
 export default apis
