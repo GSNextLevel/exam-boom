@@ -36,7 +36,9 @@ exports.handler = async (event, context, callback) => {
                 }
             };    
             try {
-                await docClient.put(putParams);
+                let result = await docClient.put(putParams).promise();
+                console.log(putParams);
+                console.log(result);
                 return {"message": "회원가입 성공"}
             } catch (err) {
                 console.err(err);
