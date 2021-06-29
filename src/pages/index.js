@@ -15,6 +15,7 @@ import Docs from './Docs';
 import DocsPage from './DocsPage';
 
 import SignUp from './SignUp';
+import SignIn from './SignIn';
 
 export {
   ExamPage,
@@ -29,5 +30,6 @@ export {
   NotFound,
   Docs,
   DocsPage,
-  SignUp
+  SignUp,
+  SignIn
 };

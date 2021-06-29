@@ -31,11 +31,11 @@ class SignUp extends Component {
         const payload = { email, nickname, password }
         // alert(email);
         api.putUser(payload)
-            .then((result) => {
-                // console.log(result)
-                alert("회원가입 성공");
-                window.location.href = '/';
-            })
+        .then((result) => {
+            // console.log(result)
+            alert("회원가입 성공");
+            window.location.href = '/';
+        })
         event.preventDefault();
     }
 
