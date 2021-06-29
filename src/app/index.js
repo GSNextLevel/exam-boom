@@ -12,7 +12,7 @@ import {
   Docs,
   DocsPage,
   SignUp,
-  SignIn
+  Login
 } from '../pages';
 import { ExamPage, GotoADP } from '../pages';
 
@@ -47,7 +47,7 @@ function App() {
         <Route path="/docs" exact component={Docs} />
         <Route path="/docs/:type" exact component={DocsPage} />
         <Route path="/signup" exact component={SignUp}/>
-        <Route path="/signin" exact component={SignIn}/>
+        <Route path="/login" exact component={Login}/>
       </Switch>
     </Router>
   );

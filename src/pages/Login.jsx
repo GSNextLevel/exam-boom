@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import api from '../api';
 
-class SignIn extends Component {
+class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -71,4 +71,4 @@ class SignIn extends Component {
     }
 }
 
-export default SignIn;
+export default Login;
