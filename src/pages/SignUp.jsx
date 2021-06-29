@@ -32,7 +32,9 @@ class SignUp extends Component {
         // alert(email);
         api.putUser(payload)
             .then((result) => {
-                console.log(result)
+                // console.log(result)
+                alert("회원가입 성공");
+                window.location.href = '/';
             })
         event.preventDefault();
     }
