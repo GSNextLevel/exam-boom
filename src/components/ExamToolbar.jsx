@@ -42,9 +42,11 @@ class ExamToolbar extends Component {
       this.state = {
         pageNum: this.props.value.match.params.id,
         type: this.props.value.match.params.type,
-        tableResult: cookies.get('tableResult') || [],
+        // tableResult: cookies.get('tableResult') || [],
+        tableResult: JSON.parse(localStorage.getItem('tableResult')) || [],
         showTableResult: cookies.get('showTableResult') || false,
-        submitAnswer: cookies.get('submitAnswer') || [],
+        // submitAnswer: cookies.get('submitAnswer') || [],
+        submitAnswer: JSON.parse(localStorage.getItem('submitAnswer')) || [],
         currentScore: 0,
         scoringButtonDisabled: false,
         // previousExamTable: cookies.get('previousExamTable') || [],
@@ -120,6 +122,10 @@ class ExamToolbar extends Component {
 
       cookies.remove('tableResult', {path: '/exam/'+type})
       cookies.remove('submitAnswer', {path: '/exam/'+type})
+
+      localStorage.removeItem("tableResult");
+      localStorage.removeItem("submitAnswer");
+
       cookies.remove('previousExamTable', {path: '/exam/'+type}) // will be deprecated
       localStorage.removeItem("previousExamTable");
 
@@ -130,7 +136,9 @@ class ExamToolbar extends Component {
       const type = this.props.value.match.params.type;
 
       let beforeSubmitAnswer = this.state.tableResult;
-      const userAnswerFromCookie = cookies.get('submitAnswer');
+      // const userAnswerFromCookie = cookies.get('submitAnswer');
+      const userAnswerFromCookie = JSON.parse(localStorage.getItem('submitAnswer'));
+
       console.log(userAnswerFromCookie)
 
       if(userAnswerFromCookie.length == 0){
@@ -193,7 +201,8 @@ class ExamToolbar extends Component {
           this.setState({currentScore: parseInt((correctCnt/totalCnt)*100) })
 
           this.setState({tableResult: tempResult})
-          cookies.set('tableResult', tempResult, {path: '/exam/'+type})
+          // cookies.set('tableResult', tempResult, {path: '/exam/'+type})
+          localStorage.setItem("tableResult", JSON.stringify(tempResult))
 
           this.setState({showTableResult: true, scoringButtonDisabled: false})
 
