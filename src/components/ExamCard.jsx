@@ -34,7 +34,8 @@ class ExamCard extends Component {
           choiceType: "",
           isLoading: false,
           answerState: false,
-          submitAnswer: cookies.get('submitAnswer') || [],
+          // submitAnswer: cookies.get('submitAnswer') || [],
+          submitAnswer: JSON.parse(localStorage.getItem('submitAnswer')) || [],
           isSolved: false,
           username:  username === undefined ? "익명" : username,
 
@@ -206,7 +207,8 @@ class ExamCard extends Component {
       console.log("Cookie Data", prevSubmitAnswer)
       prevSubmitAnswer.sort((a,b) => a.id - b.id)
 
-      cookies.set('submitAnswer', prevSubmitAnswer, {path: '/exam/'+type})
+      // cookies.set('submitAnswer', prevSubmitAnswer, {path: '/exam/'+type})
+      localStorage.setItem("submitAnswer", JSON.stringify(prevSubmitAnswer))
 
       if(localStorage.getItem("random")=="true"){
         window.location.href= randomQuestionNum(type).toString();
