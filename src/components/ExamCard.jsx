@@ -320,6 +320,7 @@ class ExamCard extends Component {
 
       const answerStyle = {
             color: (answerState) ? 'green' : 'black',
+            fontWeight: (answerState) ? '600' : '400',
           };
       const thumsUpStyle = {
         marginRight: '6px',
