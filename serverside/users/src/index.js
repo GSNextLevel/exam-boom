@@ -9,6 +9,7 @@ const bcrypt = require('bcrypt')
 exports.handler = async (event, context, callback) => {
 
     if(event.context['http-method'] == "GET") {
+        
 
     }
     else if(event.context['http-method'] == "PUT") {

@@ -1,0 +1,14 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: auth
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  
+  function:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/.
+      Description: auth
+      MemorySize: 128
+      Timeout: 10
+      Runtime: nodejs14.x
+      Handler: index.handler
