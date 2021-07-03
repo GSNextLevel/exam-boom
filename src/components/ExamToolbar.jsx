@@ -213,11 +213,11 @@ class ExamToolbar extends Component {
       console.log("diff", getAnswerResponse , beforeSubmitAnswer)
       for(let j=0 ; j<getAnswerResponse.length ; j++) {
         let flag = true;
-        console.log("loop j", j)
+        //console.log("loop j", j)
         for(let k=0 ; k<beforeSubmitAnswer.length ; k++) {
-          console.log("forloop",getAnswerResponse[j], beforeSubmitAnswer[k])
+         // console.log("forloop",getAnswerResponse[j], beforeSubmitAnswer[k])
             if(getAnswerResponse[j]['id'] == beforeSubmitAnswer[k]['id'] && getAnswerResponse[j]['correct'] === beforeSubmitAnswer[k]['correct']) {
-              console.log("same : ", getAnswerResponse[j]['id'], getAnswerResponse[j]['correct'], "check", getAnswerResponse[j]);
+            //  console.log("same : ", getAnswerResponse[j]['id'], getAnswerResponse[j]['correct'], "check", getAnswerResponse[j]);
               flag = false;
               break;
             }
