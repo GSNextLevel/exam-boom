@@ -431,7 +431,7 @@ class ExamToolbar extends Component {
 
           </Wrapper>
 
-          <Wrapper className={this.state.previousExamTable.length > 0 ? "mt-4" : ""}  >
+          <div className={this.state.previousExamTable.length > 0 ? "mt-4" : ""}  >
           {
             this.state.previousExamTable.map((data, index) => {
               return <Button href={data['n'].toString()} key={index}
@@ -440,14 +440,16 @@ class ExamToolbar extends Component {
                           width: '6%',
                           fontSize: '14px',
                           backgroundColor: cellColors[data['l'] % 7],
-                          fontWeight: data['t'] >= 2 ? '700' : '400'
+                          fontWeight: data['t'] >= 2 ? '700' : '400',
+                          paddingRight: '0px',
+                          paddingLeft: '0px'
                         }
                         }
                           variant="light">{data['n']}
                       </Button>
             })
           }
-          </Wrapper>
+          </div>
 
 
         </Container>
