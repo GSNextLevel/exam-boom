@@ -10,6 +10,7 @@ const jwtSecret = "verySecret";
 exports.handler = async event => {
     const [type, token] = splitByDelimiter(event.authorizationToken, " ");
     const allow = type === "Bearer" && !!jwt.verify(token, jwtSecret);
+    let decoded = jwt.verify(token, jwtSecret);
     return {
       principalId: "user",
       policyDocument: {
@@ -21,6 +22,10 @@ exports.handler = async event => {
             Resource: event.methodArn
           }
         ]
+      },
+      context: {
+          email: decoded.email,
+          nickname: decoded.nickname
       }
     };
   };

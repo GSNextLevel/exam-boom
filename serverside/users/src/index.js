@@ -4,15 +4,32 @@ AWS.config.update({
     endpoint: "http://dynamodb.ap-northeast-2.amazonaws.com"
 })
 const docClient = new AWS.DynamoDB.DocumentClient();
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+const table = 'examBoom-users';
 
 exports.handler = async (event, context, callback) => {
 
-    if(event.context['http-method'] == "GET") {
+    if(event.context['http-method'] === "GET") {
+        let email = event.params.email;
+        let getParams = {
+            TableName: table,
+            Key: {
+                "email": email
+            }
+        }
+        try {
+            let user = await docClient.get(getParams).promise();
+            return {
+                email: user.email,
+                nickname: user.nickname,
+                emailValidation: user.emailValidation
+            }
+        } catch (error) {
+            callback(new Error("Unknown user")); 
+        }
         
-
     }
-    else if(event.context['http-method'] == "PUT") {
+    else if(event.context['http-method'] === "PUT") {
         let email = event['body-json']['email']
         var findParams = {
             TableName : 'examBoom-users',

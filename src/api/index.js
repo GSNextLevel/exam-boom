@@ -34,8 +34,13 @@ export const slackSendVoC = (payload) => api.post("/slack/msg", payload)
 
 // member
 export const putUser = (payload) => api.put("/user", payload)
+export const getUser = (email) => {
+    let {token} = JSON.parse(localStorage.getItem("userToken"));
+    return api.get(`/user/${email}`, {headers: {"Authorization": `Bearer ${token}`}});
+}
 
 export const login = (email,password) => api.get("/login", {auth: {username: email, password:password}})
+
 
 const apis = {
     getExamById,
@@ -53,6 +58,7 @@ const apis = {
 
     slackSendVoC,
     putUser,
+    getUser,
     login
 }
 
