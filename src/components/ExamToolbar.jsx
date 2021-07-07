@@ -440,7 +440,10 @@ class ExamToolbar extends Component {
                           width: '6%',
                           fontSize: '14px',
                           backgroundColor: cellColors[data['l'] % 7],
-                          fontWeight: data['t'] >= 2 ? '700' : '400',
+                          // fontWeight: data['t'] >= 3 ? '700' : '400',
+                          fontWeight: data['t'] >= 4 ? '700' : data['t'] >= 3 ? '500' : '400',
+                          border: data['t'] >= 4 ? '1px solid #333333' : 'none',
+                          // border: data['t'] >= 4 ? '1px solid #222222' : data['t'] >= 3 ? '1px solid #888888' : 'none',
                           paddingRight: '0px',
                           paddingLeft: '0px'
                         }
