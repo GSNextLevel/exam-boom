@@ -16,6 +16,7 @@ import {
   MyPage
 } from '../pages';
 import { ExamPage, GotoADP } from '../pages';
+import PrivateRoute from '../utils/PrivateRoute';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -24,9 +25,7 @@ function App() {
     <Router>
       <NavBar />
       <Switch>
-        <Route exact path="/">
-          <ExamMain />
-        </Route>
+        <PrivateRoute exact path="/" component={ExamMain}/>
 
         <Route path="/exam" exact component={ExamMain} />
         <Route path="/exam/:type" exact component={GotoADP} />
@@ -49,7 +48,7 @@ function App() {
         <Route path="/docs/:type" exact component={DocsPage} />
         <Route path="/signup" exact component={SignUp}/>
         <Route path="/login" exact component={Login}/>
-        <Route path="/mypage" exact component={MyPage}/>
+        <PrivateRoute path="/mypage" exact component={MyPage}/>
       </Switch>
     </Router>
   );
