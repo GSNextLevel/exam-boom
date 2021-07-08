@@ -44,6 +44,7 @@ class LeaderBoard extends Component {
               <th>순위</th>
               <th>이름</th>
               <th>점수</th>
+              <th>댓글</th>
               <th>마지막 참여 시간</th>
             </tr>
           </thead>
@@ -70,6 +71,7 @@ class LeaderBoard extends Component {
 
                   </td>
                   <td>{data.point}</td>
+                  <td>{data.writeReplyCount || 0}</td>
                   <td>
                     {new Date().getTime() - data.updateAt * 1000 <
                     1000 * 60 * 60 * 24 ? (
