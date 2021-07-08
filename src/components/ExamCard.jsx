@@ -352,15 +352,15 @@ class ExamCard extends Component {
                 }
                 {
                   previousExam.map((title, index) => {
-                    return <Button variant="outline-success" key={index}>{title}</Button>
+                    return <Button style={{fontSize: '13px', padding: '0px 8px'}} variant="outline-success" key={index}>{title}</Button>
                   })
                 }
               </ButtonGroup>
 
 
               <ButtonGroup className="mr-2" aria-label="First group">
-              <Button variant="outline-secondary"  >내가 푼 횟수: {mySubmitCount}회</Button>
-              <Button variant="outline-secondary"  >내가 틀린 횟수: {mySubmitCount-myCorrectCount}회</Button>
+              <Button variant="outline-secondary"  style={{fontSize: '14px'}} >내가 푼 횟수: {mySubmitCount}회</Button>
+              <Button variant="outline-secondary"  style={{fontSize: '14px'}} >내가 틀린 횟수: {mySubmitCount-myCorrectCount}회</Button>
               <Button variant="outline-secondary"  >전체 정답률: {correctRate}%</Button>
               <Button variant="outline-primary" onClick={() => this.pushLike(examNum)} >
 
