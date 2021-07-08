@@ -42,7 +42,7 @@ class NavBar extends Component {
             </Nav>
 
             <Nav>
-              <Nav.Link href="/docs">문서</Nav.Link>
+              <Nav.Link href="/replies">최근활동</Nav.Link>
               <Nav.Link href="/leaderBoard">랭킹</Nav.Link>
               <NavDropdown title="내 정보" id="collasible-nav-dropdown">
                 <NavDropdown.Item href="/history">제출이력</NavDropdown.Item>
@@ -55,7 +55,7 @@ class NavBar extends Component {
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="/voc">건의사항</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="/replies">최근활동</NavDropdown.Item>
+                <NavDropdown.Item href="/docs">문서</NavDropdown.Item>
               </NavDropdown>
             </Nav>
           </Navbar.Collapse>
