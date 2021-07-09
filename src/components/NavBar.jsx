@@ -55,6 +55,8 @@ class NavBar extends Component {
               <NavDropdown title="실험실" id="collasible-nav-dropdown">
                 <NavDropdown.Item href="/updateLog">버전기록</NavDropdown.Item>
                 <NavDropdown.Divider />
+                <NavDropdown.Item href="/license">License</NavDropdown.Item>
+                <NavDropdown.Divider />
                 <NavDropdown.Item href="/voc">건의사항</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="/docs">문서</NavDropdown.Item>

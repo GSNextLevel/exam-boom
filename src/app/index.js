@@ -1,5 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom';
 import { NavBar } from '../components';
 import {
   ExamMain,
@@ -41,6 +46,9 @@ function App() {
         <Route path="/replies" exact component={RecentReplies} />
 
         <Route path="/updateLog" exact component={UpdateLog} />
+        <Route path="/license" exact>
+          <Redirect push to={'/license.html'} />
+        </Route>
 
         <Route path="/voc" exact component={VoC} />
         <Route path="/docs" exact component={Docs} />
