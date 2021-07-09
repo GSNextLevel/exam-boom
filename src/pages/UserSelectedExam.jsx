@@ -37,22 +37,12 @@ class UserSelectedExam extends Component {
       initArrayLength = curBookmarkedList.length
     }
     this.state = {
-      // examNum: props.match.params.id,
-      examNum: curBookmarkedList[0]['examNum'] || 1,
-      question: '',
-      choices: [],
-      answer: [],
-      choiceType: '',
-      // type: props.match.params.type,
-      type: curBookmarkedList[0]['examType'] || "adp",
-      isRandom: props.isRandom || false,
-
       items: Array.from({ length: initArrayLength }),
       hasMore: true,
       bookmarkedList: curBookmarkedList,
     };
 
-    console.log(this.state.examNum);
+    // console.log(this.state.examNum);
   }
 
   fetchMoreData = () => {
@@ -75,10 +65,7 @@ class UserSelectedExam extends Component {
   };
 
   render() {
-    // const { params } = this.props.match;
-    const { examNum, bookmarkedList } = this.state;
-    const isValidExamNum = isNaN(examNum) ? false : true;
-    console.log('examNum : ', examNum, isValidExamNum);
+    const { bookmarkedList } = this.state;
     console.log("bookmark", bookmarkedList)
 
     return (
@@ -88,35 +75,41 @@ class UserSelectedExam extends Component {
           <h5>저장 후 계속하기 기능은 아직 미완성입니다. </h5>
         </div>
 
+        {
+          bookmarkedList.length == 0 ?
+          <div style={{textAlign: 'center', paddingTop: '10px'}}>
+            <h3> 저장한 문제가 없습니다. </h3>
+          </div>
+          :
+          <InfiniteScroll
+            dataLength={this.state.items.length}
+            next={this.fetchMoreData}
+            hasMore={this.state.hasMore}
+            loader={<h5>로딩중...</h5>}
+            pullDownToRefreshThreshold={50}
+            endMessage={
+              <p style={{ textAlign: "center" }}>
+                <b>마지막 문제입니다. 고생하셨습니다.</b>
+              </p>
+            }
+          >
+            {this.state.items.map((i, index) => (
+              <Container>
+                <ExamCard key={index} value={{
+                        match: {
+                          params: {
+                            id: bookmarkedList[index]['examNum'] || 1,
+                            type: bookmarkedList[index]['examType'] || "adp"
+                          }
 
-        <InfiniteScroll
-          dataLength={this.state.items.length}
-          next={this.fetchMoreData}
-          hasMore={this.state.hasMore}
-          loader={<h5>로딩중...</h5>}
-          pullDownToRefreshThreshold={50}
-          endMessage={
-            <p style={{ textAlign: "center" }}>
-              <b>마지막 문제입니다. 고생하셨습니다.</b>
-            </p>
-          }
-        >
-          {this.state.items.map((i, index) => (
-            <Container>
-              <ExamCard key={index} value={{
-                      match: {
-                        params: {
-                          // id: 1,
-                          // type: "adp"
-                          id: bookmarkedList[index]['examNum'] || 1,
-                          type: bookmarkedList[index]['examType'] || "adp"
-                        }
+                    }
+                }} />
+              </Container>
+            ))}
+          </InfiniteScroll>
+        }
 
-                  }
-              }} />
-            </Container>
-          ))}
-        </InfiniteScroll>
+
 
       </React.Fragment>
     );
