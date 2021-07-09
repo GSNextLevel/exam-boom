@@ -45,9 +45,11 @@ class NavBar extends Component {
               <Nav.Link href="/replies">최근활동</Nav.Link>
               <Nav.Link href="/leaderBoard">랭킹</Nav.Link>
               <NavDropdown title="내 정보" id="collasible-nav-dropdown">
-                <NavDropdown.Item href="/history">제출이력</NavDropdown.Item>
+                <NavDropdown.Item href="/user/history">제출이력</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="/setting">개인설정</NavDropdown.Item>
+                <NavDropdown.Item href="/user/setting">개인설정</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item href="/user/exam">나만의 문제</NavDropdown.Item>
               </NavDropdown>
 
               <NavDropdown title="실험실" id="collasible-nav-dropdown">

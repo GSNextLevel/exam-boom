@@ -10,7 +10,8 @@ import {
   UpdateLog,
   VoC,
   Docs,
-  DocsPage
+  DocsPage,
+  UserSelectedExam
 } from '../pages';
 import { ExamPage, GotoADP } from '../pages';
 
@@ -34,9 +35,9 @@ function App() {
         <Route path="/exam/:type/:id" component={ExamPage} />
 
         <Route path="/leaderBoard" exact component={LeaderBoard} />
-        <Route path="/history" exact component={SubmitHistory} />
+        <Route path="/user/history" exact component={SubmitHistory} />
 
-        <Route path="/setting" exact component={Setting} />
+        <Route path="/user/setting" exact component={Setting} />
         <Route path="/replies" exact component={RecentReplies} />
 
         <Route path="/updateLog" exact component={UpdateLog} />
@@ -44,6 +45,8 @@ function App() {
         <Route path="/voc" exact component={VoC} />
         <Route path="/docs" exact component={Docs} />
         <Route path="/docs/:type" exact component={DocsPage} />
+
+        <Route path="/user/exam" exact component={UserSelectedExam} />
       </Switch>
     </Router>
   );
