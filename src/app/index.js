@@ -16,13 +16,10 @@ import {
   VoC,
   Docs,
   DocsPage,
-<<<<<<< HEAD
   SignUp,
   Login,
-  MyPage
-=======
+  MyPage,
   UserSelectedExam
->>>>>>> 011c1af007d4c3845c7139b602e9605a8cc917e8
 } from '../pages';
 import { ExamPage, GotoADP } from '../pages';
 import PrivateRoute from '../utils/PrivateRoute';
@@ -58,14 +55,11 @@ function App() {
         <Route path="/voc" exact component={VoC} />
         <Route path="/docs" exact component={Docs} />
         <Route path="/docs/:type" exact component={DocsPage} />
-<<<<<<< HEAD
         <Route path="/signup" exact component={SignUp}/>
         <Route path="/login" exact component={Login}/>
         <PrivateRoute path="/mypage" exact component={MyPage}/>
-=======
 
         <Route path="/user/exam" exact component={UserSelectedExam} />
->>>>>>> 011c1af007d4c3845c7139b602e9605a8cc917e8
       </Switch>
     </Router>
   );

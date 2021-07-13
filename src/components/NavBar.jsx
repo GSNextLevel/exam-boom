@@ -59,7 +59,6 @@ class NavBar extends Component {
                 <NavDropdown.Item href="/user/setting">개인설정</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="/user/exam">나만의 문제</NavDropdown.Item>
-                {isToken?<NavDropdown.Item onClick={this.handleLogout}>로그아웃</NavDropdown.Item>:<NavDropdown.Item href="/login">로그인</NavDropdown.Item>}
               </NavDropdown>
 
               <NavDropdown title="실험실" id="collasible-nav-dropdown">
@@ -70,7 +69,12 @@ class NavBar extends Component {
                 <NavDropdown.Item href="/voc">건의사항</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="/replies">최근활동</NavDropdown.Item>
-                {isToken?<NavDropdown.Item href="/mypage">내 정보</NavDropdown.Item>:<NavDropdown.Item href="/login">로그인</NavDropdown.Item>}
+                {isToken?
+                  <span>
+                    <NavDropdown.Item href="/mypage">내 정보</NavDropdown.Item>
+                    <NavDropdown.Item onClick={this.handleLogout}>로그아웃</NavDropdown.Item>
+                  </span>:
+                  <NavDropdown.Item href="/login">로그인</NavDropdown.Item>}
                 <NavDropdown.Item href="/docs">문서</NavDropdown.Item>
               </NavDropdown>
             </Nav>
