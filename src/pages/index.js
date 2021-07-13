@@ -13,6 +13,7 @@ import UpdateLog from './UpdateLog';
 import VoC from './VoC';
 import Docs from './Docs';
 import DocsPage from './DocsPage';
+import UserSelectedExam from './UserSelectedExam';
 
 import SignUp from './SignUp';
 import Login from './Login';
@@ -33,5 +34,6 @@ export {
   DocsPage,
   SignUp,
   Login,
-  MyPage
+  MyPage,
+  UserSelectedExam
 };

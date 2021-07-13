@@ -95,7 +95,7 @@ class ExamReply extends Component {
       return '<a href="' + url + '" target="_blank">' + url + '</a>';
     };
     const replacedText = text.replace(regURL, replaceFunc);
-    return <div dangerouslySetInnerHTML={{ __html: replacedText }}></div>;
+    return <span style={{whiteSpace:'pre-wrap'}} dangerouslySetInnerHTML={{ __html: replacedText }}></span>;
   }
 
   async writeReply() {
