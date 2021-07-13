@@ -66,8 +66,7 @@ class NavBar extends Component {
                 <NavDropdown.Item href="/voc">건의사항</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="/replies">최근활동</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="/signup">회원가입</NavDropdown.Item>
+                {isToken?<NavDropdown.Item href="/mypage">내 정보</NavDropdown.Item>:<NavDropdown.Item href="/login">로그인</NavDropdown.Item>}
               </NavDropdown>
             </Nav>
           </Navbar.Collapse>

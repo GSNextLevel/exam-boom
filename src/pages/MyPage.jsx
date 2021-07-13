@@ -18,10 +18,14 @@ class MyPage extends Component {
         let { token } = JSON.parse(localStorage.getItem("userToken"));
         let decoded = jwt_decode(token);
         let email = decoded.email; 
+        console.log(email);
         api.getUser(email)
         .then((result)=> {
             this.setState({isValidToken: true});
             let { email,nickname,emailValidation } = result.data;
+            // console.log(email);
+            console.log(result);
+            console.log(result.data);
             this.setState({ email, nickname, emailValidation });
         }).catch((err) => {
             localStorage.removeItem("userToken");

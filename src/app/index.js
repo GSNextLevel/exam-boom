@@ -25,7 +25,7 @@ function App() {
     <Router>
       <NavBar />
       <Switch>
-        <PrivateRoute exact path="/" component={ExamMain}/>
+        <Route exact path="/" component={ExamMain}/>
 
         <Route path="/exam" exact component={ExamMain} />
         <Route path="/exam/:type" exact component={GotoADP} />
