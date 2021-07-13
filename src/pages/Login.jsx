@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import api from '../api';
+import { Link } from 'react-router-dom';
 
 class Login extends Component {
     constructor(props) {
@@ -50,7 +51,7 @@ class Login extends Component {
 
     render() {
         return (
-            <Container>
+            <Container width="50%">
                 <p />
                 <Form onSubmit={this.handleSubmit}>
                     <div className="form-group">
@@ -66,6 +67,10 @@ class Login extends Component {
                     </div>
                     <Button type="submit" className="btn btn-primary">로그인</Button>
                 </Form>
+                <Link to='/signup'>
+                    <p></p>
+                    <Button className="btn-dark">회원가입</Button>
+                </Link>
             </Container>
         );
     }

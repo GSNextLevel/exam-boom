@@ -9,7 +9,6 @@ class SignUp extends Component {
         super(props);
         this.state = {
             email: '',
-            nickname: '',
             password: ''
         }
 
@@ -27,15 +26,18 @@ class SignUp extends Component {
     }
 
     handleSubmit(event) {
-        const { email, nickname, password } = this.state;
-        const payload = { email, nickname, password }
+        const { email, password } = this.state;
+        const payload = { email, password }
         // alert(email);
         api.putUser(payload)
         .then((result) => {
             // console.log(result)
             alert("회원가입 성공");
             window.location.href = '/';
-        })
+        }).catch((err)=> {
+            alert("실패!");
+            window.location.href = '/signup';
+        });
         event.preventDefault();
     }
 
@@ -51,16 +53,11 @@ class SignUp extends Component {
                         <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="nickname">닉네임</label>
-                        <input type="text" className="form-control" id="nickname" placeholder="닉네임"
-                            name="nickname" value={this.state.nickname} onChange={this.handleChange} />
-                    </div>
-                    <div className="form-group">
                         <label htmlFor="inputPassword">Password</label>
                         <input type="password" className="form-control" id="inputPassword1" placeholder="비밀번호"
                             name="password" value={this.state.password} onChange={this.handleChange} />
                     </div>
-                    <Button type="submit" className="btn btn-primary">Submit</Button>
+                    <Button type="submit" className="btn btn-primary">제출</Button>
                 </Form>
             </Container>
         );

@@ -41,14 +41,14 @@ exports.handler = async (event, context, callback) => {
         // console.log(findAny)
         
         if (Object.keys(findAny).length === 0 ){
-            let nickname = event['body-json']['nickname']
+            // let nickname = event['body-json']['nickname']
             let password = event['body-json']['password']
             let hashedPassword = bcrypt.hashSync(password, 10)
             let putParams = {
                 TableName: "examBoom-users",
                 Item: {
                     "email": email,
-                    "nickname": nickname,
+                    // "nickname": nickname,
                     "password": hashedPassword,
                     "emailValidation": false
                 }
