@@ -14,10 +14,19 @@ const Container = styled.div.attrs({
 })``;
 
 class NavBar extends Component {
+
+  handleLogout = () => {
+    localStorage.removeItem("userToken");
+    alert("로그아웃 성공!");
+    window.location= "/";
+  }
+
   render() {
     const logoStyle = {
       marginRight: '8px',
     };
+    const isToken = localStorage.getItem("userToken");
+    
 
     return (
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -59,6 +68,13 @@ class NavBar extends Component {
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="/voc">건의사항</NavDropdown.Item>
                 <NavDropdown.Divider />
+                <NavDropdown.Item href="/replies">최근활동</NavDropdown.Item>
+                {isToken?
+                  <span>
+                    <NavDropdown.Item href="/mypage">내 정보</NavDropdown.Item>
+                    <NavDropdown.Item onClick={this.handleLogout}>로그아웃</NavDropdown.Item>
+                  </span>:
+                  <NavDropdown.Item href="/login">로그인</NavDropdown.Item>}
                 <NavDropdown.Item href="/docs">문서</NavDropdown.Item>
               </NavDropdown>
             </Nav>
