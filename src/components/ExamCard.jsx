@@ -380,7 +380,7 @@ class ExamCard extends Component {
               className="justify-content-between"
             >
               <ButtonGroup className="mr-2" aria-label="First group">
-                <Button variant="outline-primary"  >문제 {examNum}</Button>
+                <Button variant="outline-primary"  href={`/exam/${examType}/${examNum}`} >문제 {examNum}</Button>
                 {
                   needHelp &&
                   <Button variant="danger" >검토필요</Button>
