@@ -252,10 +252,10 @@ class ExamToolbar extends Component {
 
     async viewPreviousExamTable() {
       const cookies = new Cookies();
-      const type = this.props.value.match.params.type;
-      const getPreviousExam =  await api.getPreviousExamByType(type).then(exam => {
+      const examType = this.props.value.match.params.type;
+      const getPreviousExam =  await api.getPreviousExamByType(examType).then(exam => {
         console.log("prev Exam", exam);
-        // console.log(exam);
+        
           console.log(exam['data']['Items'])
           // this.setState({previousExamTable: exam['data']['Items'] })
 
@@ -263,33 +263,28 @@ class ExamToolbar extends Component {
           let makePrevData = [];
           let prevExamList = [];
           prevData.map((li, i) => {
-            // console.log(li)
-            let listIndex = prevExamList.indexOf(li.previousExam[li.previousExam.length - 1])
-
-            if(listIndex === -1) {
-              prevExamList.push(li.previousExam[li.previousExam.length - 1])
-              console.log("new push", li.previousExam[li.previousExam.length - 1])
-              listIndex = prevExamList.length - 1;
+            for(let i=0 ; i<li.previousExam.length ; i++) {
+              if(!prevExamList.includes(li.previousExam[i])) {
+                console.log("new push", li.previousExam[li.previousExam.length - 1])
+                prevExamList.push(li.previousExam[i])
+              }
             }
-
             let prevDataObject = {
               "n": li.examIdx,
-              "l": listIndex,
               "t": li.previousExam.length,
               "list": li.previousExam
             }
-
-            makePrevData.push(prevDataObject)
-          })
-          console.log(makePrevData)
+            makePrevData.push(prevDataObject);
+          });
           prevExamList.push("해제")
+          console.log("prevExamList", prevExamList)
           console.log("List", prevExamList.sort())
 
           this.setState({previousExamTable: makePrevData, prevExamList: prevExamList.sort() })
 
           localStorage.setItem("previousExamTable", JSON.stringify(makePrevData))
           localStorage.setItem("prevExamList", JSON.stringify(prevExamList))
-          cookies.set('previousExamTable', makePrevData, {path: '/exam/'+type})
+          cookies.set('previousExamTable', makePrevData, {path: '/exam/'+examType})
 
           console.log("cookie set!")
 
