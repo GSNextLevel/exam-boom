@@ -10,7 +10,8 @@ import {
   UpdateLog,
   VoC,
   Docs,
-  DocsPage
+  DocsPage,
+  SideMenu,
 } from '../pages';
 import { ExamPage, GotoADP } from '../pages';
 
@@ -22,6 +23,7 @@ function App() {
       <NavBar />
       <Switch>
         <Route exact path="/">
+          <SideMenu />
           <ExamMain />
         </Route>
 

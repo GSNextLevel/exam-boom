@@ -13,6 +13,7 @@ import UpdateLog from './UpdateLog';
 import VoC from './VoC';
 import Docs from './Docs';
 import DocsPage from './DocsPage';
+import SideMenu from './SideMenu';
 
 export {
   ExamPage,
@@ -26,5 +27,6 @@ export {
   GotoADP,
   NotFound,
   Docs,
-  DocsPage
+  DocsPage,
+  SideMenu,
 };
