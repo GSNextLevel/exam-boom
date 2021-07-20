@@ -23,6 +23,7 @@ const Wrapper = styled.div`
 class ExamMain extends Component {
   constructor(props) {
     super(props);
+    
   }
 
   render() {
