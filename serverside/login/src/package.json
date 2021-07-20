@@ -1,0 +1,10 @@
+{
+    "name": "login",
+    "version": "1.0.0",
+    "priavte": "true",
+    "dependencies": {
+      "bcrypt": "5.0.1",
+      "jsonwebtoken": "8.5.1"
+    },
+    "scripts": {}
+  }

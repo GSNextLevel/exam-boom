@@ -120,7 +120,7 @@ class SubmitHistory extends Component {
         // const type = this.props.value.match.params.type;
         //
         const type = "adp";
-        
+
         const username = this.state.username;
         await api.getExamHistory(type, username).then(res => {
           console.log("history ", res);
@@ -180,7 +180,8 @@ class SubmitHistory extends Component {
       const onRowClicked = (e) => {
         const curExamNum = e.examNum;
         const curExamType = e.type;
-        history.push(`/exam/${curExamType}/${curExamNum}`)
+        // history.push(`/exam/${curExamType}/${curExamNum}`)
+        window.open(`/exam/${curExamType}/${curExamNum}`, "_blank");
       }
 
       return (

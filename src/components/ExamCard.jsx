@@ -12,7 +12,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 
-import { FaThumbsUp, FaRegThumbsUp } from 'react-icons/fa';
+import { FaThumbsUp, FaRegThumbsUp, FaBookmark } from 'react-icons/fa';
 
 import { randomQuestionNum } from '../utils/random';
 
@@ -54,8 +54,10 @@ class ExamCard extends Component {
           amILiked: false,
 
           examCreatedAt: 0,
-          needHelp: false
+          needHelp: false,
 
+          bookmarkedList: JSON.parse(localStorage.getItem('bookmark')) || [],
+          amIBookmarked: false
       }
       // console.log(examNum);
     }
@@ -108,7 +110,15 @@ class ExamCard extends Component {
             })
           }
 
-
+          // is in bookmark?
+          let idxCurBookmarkList = this.state.bookmarkedList.findIndex(obj => obj.examType ==  type && obj.examNum == examNum)
+          let isInCurBookmarkList = false;
+          if(idxCurBookmarkList >= 0){
+            isInCurBookmarkList = true
+          }
+          else{
+            isInCurBookmarkList = false
+          }
 
             this.setState({
                 question: examData.question,
@@ -130,7 +140,8 @@ class ExamCard extends Component {
                 choicesRatio: examData.choicesRatio,
 
                 examCreatedAt: examData.createAt * 1000,
-                needHelp: examData.needHelp === undefined ? false : examData.needHelp
+                needHelp: examData.needHelp === undefined ? false : examData.needHelp,
+                amIBookmarked: isInCurBookmarkList
             })
         })
     }
@@ -295,12 +306,35 @@ class ExamCard extends Component {
       return false;
     }
 
+    addBookMark(value) {
+      const examNum = parseInt(this.props.value.match.params.id);
+      const examType = this.props.value.match.params.type;
+      console.log(examNum, examType)
+      let curBookmarkedList = this.state.bookmarkedList;
+      // let currentExamObject = {'examType': examType, 'examNum': examNum};
+
+      let isInCurBookmarkList = curBookmarkedList.findIndex(obj => obj.examType ==  examType && obj.examNum == examNum)
+
+      if(!value){
+        // console.log("yes")
+        curBookmarkedList.splice(isInCurBookmarkList, 1)
+      }
+      else{
+        curBookmarkedList.push({'examType': examType, 'examNum': examNum})
+
+      }
+      localStorage.setItem("bookmark", JSON.stringify(curBookmarkedList))
+      this.setState({amIBookmarked: value})
+    }
+
 
     render() {
       const { question, choices, answer, choiceType, examCreatedAt,
         starred, mySubmitCount, myCorrectCount, starredTotalCount,
         submitTotalCount, correctTotalCount, needHelp,
-        isLoading, answerState, previousExam, likeList, amILiked, choicesRatio } = this.state;
+        isLoading, answerState, previousExam, likeList, amILiked, choicesRatio,
+        bookmarkedList, amIBookmarked
+       } = this.state;
       let answerToString = answer.join(',');
 
       let correctRatePrev = parseInt((parseInt(correctTotalCount)/parseInt(submitTotalCount)) * 100);
@@ -313,6 +347,7 @@ class ExamCard extends Component {
       // console.log(this.props);
 
       const examNum = this.props.value.match.params.id;
+      const examType = this.props.value.match.params.type;
       let examNumKey = "exam-" + examNum;
       const examChoiceAlpha = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
       let examChoiceIdx = 0;
@@ -345,23 +380,23 @@ class ExamCard extends Component {
               className="justify-content-between"
             >
               <ButtonGroup className="mr-2" aria-label="First group">
-                <Button variant="outline-primary"  >문제 {examNum}</Button>
+                <Button variant="outline-primary"  href={`/exam/${examType}/${examNum}`} >문제 {examNum}</Button>
                 {
                   needHelp &&
                   <Button variant="danger" >검토필요</Button>
                 }
                 {
                   previousExam.map((title, index) => {
-                    return <Button variant="outline-success" key={index}>{title}</Button>
+                    return <Button style={{fontSize: '13px', padding: '0px 8px'}} variant="outline-success" key={index}>{title}</Button>
                   })
                 }
               </ButtonGroup>
 
 
               <ButtonGroup className="mr-2" aria-label="First group">
-              <Button variant="outline-secondary"  >내가 푼 횟수: {mySubmitCount}회</Button>
-              <Button variant="outline-secondary"  >내가 틀린 횟수: {mySubmitCount-myCorrectCount}회</Button>
-              <Button variant="outline-secondary"  >전체 정답률: {correctRate}%</Button>
+              <Button variant="outline-secondary"  style={{fontSize: '14px'}} >푼 횟수: {mySubmitCount}회</Button>
+              <Button variant="outline-secondary"  style={{fontSize: '14px'}} >틀린 횟수: {mySubmitCount-myCorrectCount}회</Button>
+              <Button variant="outline-secondary"  >정답률: {correctRate}%</Button>
               <Button variant="outline-primary" onClick={() => this.pushLike(examNum)} >
 
               {
@@ -373,7 +408,23 @@ class ExamCard extends Component {
 
 
 
-              추천: {likeList.length}회 .</Button>
+              추천: {likeList.length}회</Button>
+              {
+                amIBookmarked ?
+                <Button variant="outline-primary"
+                  onClick={() => this.addBookMark(false)}
+                >
+                  <FaBookmark style={thumsUpStyle}/>
+                  저장취소
+                </Button>
+                :
+                <Button variant="outline-secondary"
+                  onClick={() => this.addBookMark(true)}
+                >
+                  <FaBookmark style={thumsUpStyle}/>
+                  저장
+                </Button>
+              }
 
               </ButtonGroup>
             </ButtonToolbar>

@@ -1,5 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom';
 import { NavBar } from '../components';
 import {
   ExamMain,
@@ -12,8 +17,13 @@ import {
   Docs,
   DocsPage,
   SideMenu,
+  SignUp,
+  Login,
+  MyPage,
+  UserSelectedExam,
 } from '../pages';
 import { ExamPage, GotoADP } from '../pages';
+import PrivateRoute from '../utils/PrivateRoute';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -36,16 +46,24 @@ function App() {
         <Route path="/exam/:type/:id" component={ExamPage} />
 
         <Route path="/leaderBoard" exact component={LeaderBoard} />
-        <Route path="/history" exact component={SubmitHistory} />
+        <Route path="/user/history" exact component={SubmitHistory} />
 
-        <Route path="/setting" exact component={Setting} />
+        <Route path="/user/setting" exact component={Setting} />
         <Route path="/replies" exact component={RecentReplies} />
 
         <Route path="/updateLog" exact component={UpdateLog} />
+        <Route path="/license" exact>
+          <Redirect push to={'/license.html'} />
+        </Route>
 
         <Route path="/voc" exact component={VoC} />
         <Route path="/docs" exact component={Docs} />
         <Route path="/docs/:type" exact component={DocsPage} />
+        <Route path="/signup" exact component={SignUp} />
+        <Route path="/login" exact component={Login} />
+        <PrivateRoute path="/mypage" exact component={MyPage} />
+
+        <Route path="/user/exam" exact component={UserSelectedExam} />
       </Switch>
     </Router>
   );

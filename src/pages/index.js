@@ -13,8 +13,11 @@ import UpdateLog from './UpdateLog';
 import VoC from './VoC';
 import Docs from './Docs';
 import DocsPage from './DocsPage';
+import UserSelectedExam from './UserSelectedExam';
 import SideMenu from './SideMenu';
-
+import SignUp from './SignUp';
+import Login from './Login';
+import MyPage from './MyPage';
 export {
   ExamPage,
   LeaderBoard,
@@ -29,4 +32,8 @@ export {
   Docs,
   DocsPage,
   SideMenu,
+  SignUp,
+  Login,
+  MyPage,
+  UserSelectedExam,
 };

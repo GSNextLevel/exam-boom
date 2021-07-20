@@ -1,0 +1,9 @@
+{
+    "name": "auth",
+    "version": "0.0.5",
+    "priavte": "true",
+    "dependencies": {
+      "jsonwebtoken": "8.5.1"
+    },
+    "scripts": {}
+  }

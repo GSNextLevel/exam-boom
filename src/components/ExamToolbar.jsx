@@ -53,7 +53,8 @@ class ExamToolbar extends Component {
         previousExamTable: JSON.parse(localStorage.getItem('previousExamTable')) || [],
         showPreviousExamTable: cookies.get('showPreviousExamTable') || false,
         isRandom: this.props.value.isRandom || false,
-        username: cookies.get("username") || "익명"
+        username: cookies.get("username") || "익명",
+        prevExamList: JSON.parse(localStorage.getItem('prevExamList')) || [],
       }
 
       this.handleRandomNext = this.handleRandomNext.bind(this);
@@ -118,13 +119,16 @@ class ExamToolbar extends Component {
 
       this.setState({showPreviousExamTable: false})
       this.setState({previousExamTable: []})
+      this.setState({prevExamList: []})
       this.setState({submitAnswer: []})
+
 
       cookies.remove('tableResult', {path: '/exam/'+type})
       cookies.remove('submitAnswer', {path: '/exam/'+type})
 
       localStorage.removeItem("tableResult");
       localStorage.removeItem("submitAnswer");
+      localStorage.removeItem("prevExamList");
 
       cookies.remove('previousExamTable', {path: '/exam/'+type}) // will be deprecated
       localStorage.removeItem("previousExamTable");
@@ -248,10 +252,10 @@ class ExamToolbar extends Component {
 
     async viewPreviousExamTable() {
       const cookies = new Cookies();
-      const type = this.props.value.match.params.type;
-      const getPreviousExam =  await api.getPreviousExamByType(type).then(exam => {
+      const examType = this.props.value.match.params.type;
+      const getPreviousExam =  await api.getPreviousExamByType(examType).then(exam => {
         console.log("prev Exam", exam);
-        // console.log(exam);
+        
           console.log(exam['data']['Items'])
           // this.setState({previousExamTable: exam['data']['Items'] })
 
@@ -259,29 +263,28 @@ class ExamToolbar extends Component {
           let makePrevData = [];
           let prevExamList = [];
           prevData.map((li, i) => {
-            // console.log(li)
-            let listIndex = prevExamList.indexOf(li.previousExam[li.previousExam.length - 1])
-
-            if(listIndex === -1) {
-              prevExamList.push(li.previousExam[li.previousExam.length - 1])
-              console.log("new push", li.previousExam[li.previousExam.length - 1])
-              listIndex = prevExamList.length - 1;
+            for(let i=0 ; i<li.previousExam.length ; i++) {
+              if(!prevExamList.includes(li.previousExam[i])) {
+                console.log("new push", li.previousExam[li.previousExam.length - 1])
+                prevExamList.push(li.previousExam[i])
+              }
             }
-
             let prevDataObject = {
               "n": li.examIdx,
-              "l": listIndex,
-              "t": li.previousExam.length
+              "t": li.previousExam.length,
+              "list": li.previousExam
             }
+            makePrevData.push(prevDataObject);
+          });
+          prevExamList.push("해제")
+          console.log("prevExamList", prevExamList)
+          console.log("List", prevExamList.sort())
 
-            makePrevData.push(prevDataObject)
-          })
-          console.log(makePrevData)
-
-          this.setState({previousExamTable: makePrevData })
+          this.setState({previousExamTable: makePrevData, prevExamList: prevExamList.sort() })
 
           localStorage.setItem("previousExamTable", JSON.stringify(makePrevData))
-          cookies.set('previousExamTable', makePrevData, {path: '/exam/'+type})
+          localStorage.setItem("prevExamList", JSON.stringify(prevExamList))
+          cookies.set('previousExamTable', makePrevData, {path: '/exam/'+examType})
 
           console.log("cookie set!")
 
@@ -299,6 +302,28 @@ class ExamToolbar extends Component {
 
       })
 
+    }
+
+    highlightPrevExam(e) {
+      let list = e.target.innerText
+      console.log(list)
+
+      console.log(this.state.previousExamTable)
+      let highlistPreviousExam = this.state.previousExamTable
+      for(let i=0 ; i<highlistPreviousExam.length ; i++){
+        // this.state.previousExamTable.list
+        if(highlistPreviousExam[i].list.indexOf(list) !== -1) {
+          highlistPreviousExam[i].highlight = 1
+          // console.log("found")
+          // break;
+        }
+        else{
+          highlistPreviousExam[i].highlight = 0
+        }
+      }
+
+      this.setState({previousExamTable: highlistPreviousExam})
+      localStorage.setItem("previousExamTable", JSON.stringify(highlistPreviousExam))
     }
 
 
@@ -334,7 +359,8 @@ class ExamToolbar extends Component {
         textAlign: 'center'
       }
 
-      const cellColors = [ '#FADBD8', '#F2F3F4', '#D6EAF8', '#EBDEF0', '#D1F2EB', '#FCF3CF', '#FAE5D3' ];
+      // const cellColors = [ '#FADBD8', '#F2F3F4', '#D6EAF8', '#EBDEF0', '#D1F2EB', '#FCF3CF', '#FAE5D3' ];
+      const cellColors = ['#ffffff','#F2F3F4', '#FCF3CF', '#FAD7A0', '#F5B7B1', '#F2D7D5']
 
 
       return (
@@ -430,8 +456,29 @@ class ExamToolbar extends Component {
           }
 
           </Wrapper>
+          {
 
-          <Wrapper className={this.state.previousExamTable.length > 0 ? "mt-4" : ""}  >
+          }
+          {
+            this.state.previousExamTable.length > 0  &&
+            <div style={{marginTop: '8px'}}>
+              {
+                this.state.prevExamList.map((list, index) => {
+                  return <Button variant="outline-dark"
+                      style={{
+                        fontSize: '14px',
+                        margin: '0px 4px'
+                      }}
+                      onClick={this.highlightPrevExam.bind(this)}
+                    >
+                    {list}
+                  </Button>
+                })
+              }
+            </div>
+          }
+
+          <div className={this.state.previousExamTable.length > 0 ? "mt-4" : ""}  >
           {
             this.state.previousExamTable.map((data, index) => {
               return <Button href={data['n'].toString()} key={index}
@@ -439,15 +486,22 @@ class ExamToolbar extends Component {
                           marginBottom: '4px',
                           width: '6%',
                           fontSize: '14px',
-                          backgroundColor: cellColors[data['l'] % 7],
-                          fontWeight: data['t'] >= 2 ? '700' : '400'
+                          backgroundColor: cellColors[data['t'] % 7],
+                          // backgroundColor: cellColors[data['l'] % 7],
+                          // fontWeight: data['t'] >= 3 ? '700' : '400',
+                          // fontWeight: data['t'] >= 4 ? '700' : data['t'] >= 3 ? '500' : '400',
+                          // border: data['t'] >= 4 ? '1px solid #333333' : 'none',
+                          border: data['highlight'] == 1 ? '1px solid #333333' : 'none',
+                          // border: data['t'] >= 4 ? '1px solid #222222' : data['t'] >= 3 ? '1px solid #888888' : 'none',
+                          paddingRight: '0px',
+                          paddingLeft: '0px'
                         }
                         }
                           variant="light">{data['n']}
                       </Button>
             })
           }
-          </Wrapper>
+          </div>
 
 
         </Container>
