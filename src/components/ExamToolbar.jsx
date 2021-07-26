@@ -255,7 +255,7 @@ class ExamToolbar extends Component {
       const examType = this.props.value.match.params.type;
       const getPreviousExam =  await api.getPreviousExamByType(examType).then(exam => {
         console.log("prev Exam", exam);
-        
+
           console.log(exam['data']['Items'])
           // this.setState({previousExamTable: exam['data']['Items'] })
 
@@ -360,7 +360,7 @@ class ExamToolbar extends Component {
       }
 
       // const cellColors = [ '#FADBD8', '#F2F3F4', '#D6EAF8', '#EBDEF0', '#D1F2EB', '#FCF3CF', '#FAE5D3' ];
-      const cellColors = ['#ffffff','#F2F3F4', '#FCF3CF', '#FAD7A0', '#F5B7B1', '#F2D7D5']
+      const cellColors = ['#ffffff','#F2F3F4', '#FCF3CF', '#FAD7A0', '#F2D7D5', '#F5B7B1', '#F67E73']
 
 
       return (
