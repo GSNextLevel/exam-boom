@@ -6,6 +6,7 @@ import ExamCard from './ExamCard';
 import ExamPagination from './ExamPagination';
 import ExamToolbar from './ExamToolbar';
 import ExamReply from './ExamReply';
+import ExamMemo from './ExamMemo';
 
 import LoginAlertModal from './LoginAlertModal';
 
@@ -17,4 +18,6 @@ export {
   ExamPagination,
   ExamToolbar,
   ExamReply,
+  ExamMemo
+  
 };

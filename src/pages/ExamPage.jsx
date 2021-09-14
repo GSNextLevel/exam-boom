@@ -6,6 +6,7 @@ import {
   ExamPagination,
   ExamToolbar,
   ExamReply,
+  ExamMemo,
   LoginAlertModal,
 } from '../components';
 
@@ -55,6 +56,7 @@ class ExamPage extends Component {
             <ExamCard value={this.props} />
 
             <ExamReply value={this.props} />
+            <ExamMemo value={this.props} />
             <ExamPagination value={this.props} />
             <LoginAlertModal />
           </Container>
