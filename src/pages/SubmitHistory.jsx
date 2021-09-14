@@ -5,6 +5,11 @@ import Cookies from 'universal-cookie';
 
 import Container from 'react-bootstrap/Container';
 import BTable from 'react-bootstrap/Table';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
+import Select from 'react-select';
 
 // import { useTable, useSortBy, useFilters, useGlobalFilter, useAsyncDebounce } from 'react-table'
 //
@@ -127,7 +132,12 @@ class SubmitHistory extends Component {
           let userdataResult = res['data']['Items'];
 
           userdataResult.sort(function(a, b) {
+            // return a.type - b.type;
+            // if(a.examNum === b.examNum) {
+            //   return a.type - b.type;
+            // }
             return a.examNum - b.examNum;
+
           })
           console.log("after sort", userdataResult)
 
@@ -135,7 +145,8 @@ class SubmitHistory extends Component {
           const q2 = userdataResult.reduce((s, { examNum, correct, type, timestamp }) => (s[examNum] = correct ? (s[examNum] || 0) + 1 :  (s[examNum] || 0), s), {});
           let totalCalc = Object.keys(q).map((key) => ({ examNum: parseInt(key), totalCnt: q[key] }));
           let correctCalc = Object.keys(q2).map((key) => ({ examNum: parseInt(key), correctCnt: q2[key] }));
-
+          console.log(totalCalc);
+          console.log(correctCalc);
           let findIdx = 0;
           let prevNum = userdataResult[0].examNum;
           for(let i=0 ; i< userdataResult.length ; i++) {
@@ -176,6 +187,12 @@ class SubmitHistory extends Component {
       const { history } = this.props;
 
       // console.log(match, location, history)
+      const selectOptions = [
+        {value: 'adp', label: 'AWS DevOps Pro'},
+        {value: 'sap', label: 'AWS Solution Architect Pro'},
+        {value: 'mls', label: 'AWS MachineLearing Speacialty'},
+        {value: 'gap', label: 'GCP Architect Pro'}
+      ]
 
       const onRowClicked = (e) => {
         const curExamNum = e.examNum;
@@ -188,6 +205,20 @@ class SubmitHistory extends Component {
         <Container>
           <p className="mt-4"> 내가 푼 문제 중 정답률이 50%이하고 틀렸을 경우 빨간색으로 표시됩니다. 자주 틀리는 문제이니 다시한번 확인하세요</p>
           <p className="mt-4"> 초록색은 정답률이 80% 이상인 경우에 표시됩니다.</p>
+
+          <Row>
+            <Col md={{span: 4}}>
+              <span>유형 선택</span>
+            </Col>
+
+            <Col md={{span: 8}}>
+              <Select options={selectOptions}
+                  defaultValue={selectOptions[0]}
+              />
+            </Col>
+          </Row>
+
+
           <DataTable
            title={titleWithUsername}
            columns={columns}
