@@ -148,7 +148,14 @@ class ExamCard extends Component {
 
 
     viewAnswer() {
+      console.log("click")
+      if(this.state.answerState) {
+        this.setState({answerState: false});
+      }
+      else{
         this.setState({answerState: true});
+      }
+        
 
         // console.log(this.state.answer);
     }
@@ -354,8 +361,7 @@ class ExamCard extends Component {
 
 
       const answerStyle = {
-            color: (answerState) ? 'green' : 'black',
-            fontWeight: (answerState) ? '600' : '400',
+            color: (answerState) ? 'green' : 'black'
           };
       const thumsUpStyle = {
         marginRight: '6px',
@@ -476,7 +482,7 @@ class ExamCard extends Component {
                       </Row>
                       :
                       <Row className="mb-1" key={answerKey}>
-                        <Form.Check defaultChecked={this.checkUserChoice(examNum, examChoiceAlpha[index])} inline label={choice} value={examChoiceAlpha[index]} name={answerName} type={thisChoiceType} id={answerKey} key={answerKey} />
+                        <Form.Check defaultChecked={this.checkUserChoice(examNum, examChoiceAlpha[index])} inline style={{'color': 'black'}} label={choice} value={examChoiceAlpha[index]} name={answerName} type={thisChoiceType} id={answerKey} key={answerKey} />
                       </Row>
 
                   }
