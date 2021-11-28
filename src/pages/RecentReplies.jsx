@@ -11,6 +11,7 @@ import Accordion from 'react-bootstrap/Accordion';
 import Cookies from 'universal-cookie';
 
 import api from '../api';
+import api2 from '../api';
 
 class RecentReplies extends Component {
   constructor(props) {
@@ -94,14 +95,14 @@ class RecentReplies extends Component {
         <h3> 최근 댓글 </h3>
         {recentReplies.length > 0 &&
           recentReplies.map((data, index) => {
-            const targetPageUrl = '/exam/' + data.examType + '/' + data.examNum;
+            const targetPageUrl = '/exam/' + data.code + '/' + data.question_num;
             return (
               <Row className="mb-4">
                 <Col>
                   <Card className="text-center">
                     <Card.Header>
                       <Button variant="primary" href={targetPageUrl}>
-                        {data.examType.toUpperCase()} {data.examNum}번{' '}
+                        {data.code.toUpperCase()} {data.question_num}번{' '}
                       </Button>
                       {data.isWrongAnswer == true && (
                         <Button className="ml-4" variant="danger">
@@ -116,7 +117,7 @@ class RecentReplies extends Component {
                           <Col md="1" style={contentDiscription}>
                             댓글
                           </Col>
-                          <Col md="11">{this.autoUrlLink(data.reply)}</Col>
+                          <Col md="11">{this.autoUrlLink(data.content)}</Col>
                         </Row>
                       </Card.Title>
                       <div style={myCustom}>
@@ -125,13 +126,13 @@ class RecentReplies extends Component {
                             <Col md="1" style={contentDiscription}>
                               문제
                             </Col>
-                            <Col md="11">{data.question}</Col>
+                            <Col md="11">{data.question_content}</Col>
                           </Row>
                         </Card.Text>
                       </div>
                     </Card.Body>
                     <Card.Footer className="text-muted">
-                      {data.writer} {this.timeForToday(data.timestamp)}
+                      {data.nickname} {this.timeForToday(data.created_at)}
                     </Card.Footer>
                   </Card>
                 </Col>

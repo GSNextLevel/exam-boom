@@ -29,43 +29,47 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
-    <Router>
-      <NavBar />
-      <Switch>
-        <Route exact path="/">
-          <SideMenu />
-          <ExamMain />
-        </Route>
+    // <React.Suspense>
+      <Router>
+        <NavBar />
+        <Switch>
+          <Route exact path="/">
+            {/* <SideMenu /> */}
+            <ExamMain />
+          </Route> 
 
-        <Route path="/exam" exact component={ExamMain} />
-        <Route path="/exam/:type" exact component={GotoADP} />
-        <Route
-          path="/exam/:type/random/:id"
-          render={(props) => <ExamPage {...props} isRandom={true} />}
-        />
-        <Route path="/exam/:type/:id" component={ExamPage} />
+          <Route path="/exam" exact component={ExamMain} />
+          <PrivateRoute path="/exam/:type" exact component={GotoADP} />
+          <Route
+            path="/exam/:type/random/:id"
+            render={(props) => <ExamPage {...props} isRandom={true} />}
+          />
 
-        <Route path="/leaderBoard" exact component={LeaderBoard} />
-        <Route path="/user/history" exact component={SubmitHistory} />
+          {/* <Route path="/exam/:type/:id" component={ExamPage} /> */}
+          <PrivateRoute path="/exam/:type/:id" component={ExamPage} />
 
-        <Route path="/user/setting" exact component={Setting} />
-        <Route path="/replies" exact component={RecentReplies} />
+          <Route path="/leaderBoard" exact component={LeaderBoard} />
+          <PrivateRoute path="/user/history" exact component={SubmitHistory} />
 
-        <Route path="/updateLog" exact component={UpdateLog} />
-        <Route path="/license" exact>
-          <Redirect push to={'/license.html'} />
-        </Route>
+          <Route path="/user/setting" exact component={Setting} />
+          <Route path="/replies" exact component={RecentReplies} />
 
-        <Route path="/voc" exact component={VoC} />
-        <Route path="/docs" exact component={Docs} />
-        <Route path="/docs/:type" exact component={DocsPage} />
-        <Route path="/signup" exact component={SignUp} />
-        <Route path="/login" exact component={Login} />
-        <PrivateRoute path="/mypage" exact component={MyPage} />
+          <Route path="/updateLog" exact component={UpdateLog} />
+          <Route path="/license" exact>
+            <Redirect push to={'/license.html'} />
+          </Route>
 
-        <Route path="/user/exam" exact component={UserSelectedExam} />
-      </Switch>
-    </Router>
+          <Route path="/voc" exact component={VoC} />
+          <Route path="/docs" exact component={Docs} />
+          <Route path="/docs/:type" exact component={DocsPage} />
+          <Route path="/signup" exact component={SignUp} />
+          <Route path="/login" exact component={Login} />
+          <PrivateRoute path="/mypage" exact component={MyPage} />
+
+          <PrivateRoute path="/user/exam" exact component={UserSelectedExam} />
+        </Switch>
+      </Router>
+    //  </React.Suspense> 
   );
 }
 

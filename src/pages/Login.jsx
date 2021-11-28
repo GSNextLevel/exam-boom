@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import api from '../api';
-import { Link } from 'react-router-dom';
+// import Button from 'react-bootstrap/Button';
+import api2 from '../api';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
+import "../style/login.css"
 
 class Login extends Component {
     constructor(props) {
@@ -31,28 +33,71 @@ class Login extends Component {
         const { email, password } = this.state;
         // const payload = { email, password }
         // alert(email);
-        api.login(email, password)
+        console.log(email, password);
+
+        api2.login(email, password)
         .then((result) => {
-            // console.log(result)
+            console.log(result)
             // console.log(result.body)
 
-            if(result.data.statusCode === 401) alert("로그인 실패!");
+            if(result.status !== 200) {
+                console.log("login error")
+                // alert("로그인 실패!");
+            } 
 
             else {
-                localStorage.setItem('userToken',result.data.body);
-                alert("로그인 성공 ");
-                window.location.href = '/';
+                localStorage.setItem('userToken',result.data.token);
+                localStorage.setItem('user_id',result.data.user_id);
+                console.log("login ok");
+                // alert("로그인 성공 ");
+                // window.location.href = '/';
             }
         }).catch((err) =>{
-            alert("로그인 실패!", err)
+            console.log("login catch error")
+            // alert("로그인 실패!", err)
         } )
         
     }
 
     render() {
         return (
-            <Container width="50%">
-                <p />
+            <Container id="login-container" >
+                <div className="login-div">
+                    <h4 className="login-header">로그인</h4>
+                    <form className ="login-form" onSubmit={this.handleSubmit}>
+                    <div className="login-text-area">
+                        <input
+                        type="text"
+                        id="inputEmail"
+                        name="email"
+                        className="login-text-input"
+                        placeholder="이메일"
+
+                        value={this.state.email} onChange={this.handleChange}
+                        />
+                    </div>
+                    <div className="login-text-area">
+                        <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        className="login-text-input"
+                        placeholder="비밀번호"
+                        value={this.state.password} onChange={this.handleChange}
+
+                        />
+                    </div>
+                    <input
+                        type="submit"
+                        value="로그인"
+                        className="login-btn"
+
+                    />
+                    </form>
+                    <a className="login-link" href="/signup">회원가입</a>
+                </div>
+                
+                {/* <p />
                 <Form onSubmit={this.handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="inputEmail">Email 주소</label>
@@ -70,7 +115,7 @@ class Login extends Component {
                 <Link to='/signup'>
                     <p></p>
                     <Button className="btn-dark">회원가입</Button>
-                </Link>
+                </Link> */}
             </Container>
         );
     }

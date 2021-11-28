@@ -10,14 +10,32 @@ const api = axios.create({
             }
 })
 
+const api2 = axios.create({
+    
+    // baseURL: 'http://3.38.150.150:8080',
+    baseURL: 'http://localhost:8080',
+    headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("userToken")
+        //  eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YWE2MDk5YjdkNGNjNTNjMDE3ZDRjYzU1YTRiMDAwMCIsImlzcyI6ImV4YW1ib29tIiwiaWF0IjoxNjM3OTk0MjY2LCJleHAiOjE2Mzg4NTgyNjZ9.Bs86cQcURn08i8goE7d6D4IFMMvh6A13THtcP21tBns"
+    }
 
+})
 
-export const getExamById = (type, id, username) => api.get(`/exam/${type}/${id}?username=${username}`)
+export const getExamById = (type, id, username) => api2.get(`/exam/${type}/${id}?username=${username}`)
+
+// export const getExamById = (type, id, username) => api.get(`/exam/${type}/${id}?username=${username}`)
 export const getAllExamAnswer = (type, front, end) => api.get(`/exam/${type}/getanswer?front=${front}&end=${end}`)
-export const getExamReplyById = (type, id) => api.get(`/exam/${type}/${id}/reply`)
+
+export const getExamReplyById = (type, id) => api2.get(`/exam/${type}/${id}/reply`)
+// export const getExamReplyById = (type, id) => api.get(`/exam/${type}/${id}/reply`)
+
+
 export const updateExamReplyById = (type, id, payload) => api.put(`/exam/${type}/${id}/reply`, payload)
 export const deleteExamReplyById = (type, id, username, replyIdx) => api.delete(`/exam/${type}/${id}/reply?username=${username}&replyIdx=${replyIdx}`)
-export const getRecentReply = () => api.get(`/exam/all/0/reply`)
+
+// export const getRecentReply = () => api.get(`/exam/all/0/reply`)
+export const getRecentReply = () => api2.get(`exam/reply/recent`)
 
 export const scoringExam = (type, payload) => api.post(`/exam/${type}/scoring`, payload)
 export const getExamHistory = (type, username) => api.get(`/exam/${type}/scoring?username=${username}`)
@@ -39,7 +57,8 @@ export const getUser = (email) => {
     return api.get(`/user/${email}`, {headers: {"Authorization": `Bearer ${token}`}});
 }
 
-export const login = (email,password) => api.get("/login", {auth: {username: email, password:password}})
+// export const login = (email,password) => api.get("/login", {auth: {username: email, password:password}})
+export const login = (email,password) => api2.post("/auth/signin", {email: email, password: password})
 
 
 const apis = {

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 import api from '../api';
+import api2 from '../api';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -61,15 +62,15 @@ class ExamReply extends Component {
     const examNum = this.props.value.match.params.id;
     const type = this.props.value.match.params.type;
 
-    await api.getExamReplyById(type, examNum).then((exam) => {
+    await api2.getExamReplyById(type, examNum).then((exam) => {
       console.log('Reply ', exam);
-      if (exam.data.Item.reply == undefined) {
+      if (exam.data == undefined) {
         this.setState({
           replies: [],
         });
       } else {
         this.setState({
-          replies: exam.data.Item.reply,
+          replies: exam.data,
         });
       }
     });
@@ -237,12 +238,12 @@ class ExamReply extends Component {
                           overlay={
                             <Tooltip id="tooltip-bottom1">
                               {new Date(
-                                parseInt(data.createdAt),
+                                data.created_at,
                               ).toLocaleString()}
                             </Tooltip>
                           }
                         >
-                          <MyBadge variant="success">{data.name}</MyBadge>
+                          <MyBadge variant="success">{data.nickname}</MyBadge>
                         </OverlayTrigger>
                       </Col>
                       <Col style={replyDiv} md="9">
@@ -251,10 +252,10 @@ class ExamReply extends Component {
                         </pre>
                       </Col>
                       <Col style={replyDiv} md="1">
-                        {data.name == username && (
+                        {data.user_id == username && (
                           <Button
                             variant="light"
-                            onClick={() => this.deleteReply(data.name, index)}
+                            onClick={() => this.deleteReply(data.user_id, index)}
                             size="sm"
                           >
                             {' '}
