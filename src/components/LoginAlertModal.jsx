@@ -12,7 +12,8 @@ class LoginAlertModal extends Component {
       const cookies = new Cookies();
 
       this.state = {
-        modalShow: cookies.get('username') === undefined ? true : false
+        // modalShow: cookies.get('username') === undefined ? true : false
+        modalShow: false
       }
 
     }

@@ -49,8 +49,8 @@ class Login extends Component {
                 localStorage.setItem('userToken',result.data.token);
                 localStorage.setItem('user_id',result.data.user_id);
                 console.log("login ok");
-                // alert("로그인 성공 ");
-                // window.location.href = '/';
+                alert("로그인 성공 ");
+                window.location.href = '/';
             }
         }).catch((err) =>{
             console.log("login catch error")

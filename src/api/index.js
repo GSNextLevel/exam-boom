@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { API_BASE_URL } from '../app-config'
 
 const api = axios.create({
     // baseURL: 'http://localhost:3000/api',
@@ -12,8 +13,8 @@ const api = axios.create({
 
 const api2 = axios.create({
     
-    // baseURL: 'http://3.38.150.150:8080',
-    baseURL: 'http://localhost:8080',
+    baseURL: 'http://3.38.150.150:8080',
+    // baseURL: API_BASE_URL,
     headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer " + localStorage.getItem("userToken")
@@ -21,6 +22,8 @@ const api2 = axios.create({
     }
 
 })
+
+console.log("after index.js ", API_BASE_URL);
 
 export const getExamById = (type, id, username) => api2.get(`/exam/${type}/${id}?username=${username}`)
 
@@ -60,6 +63,7 @@ export const getUser = (email) => {
 // export const login = (email,password) => api.get("/login", {auth: {username: email, password:password}})
 export const login = (email,password) => api2.post("/auth/signin", {email: email, password: password})
 
+export const signup = (payload) => api2.post("/auth/signup", payload)
 
 const apis = {
     getExamById,
@@ -78,7 +82,8 @@ const apis = {
     slackSendVoC,
     putUser,
     getUser,
-    login
+    login,
+    signup
 }
 
 export default apis
