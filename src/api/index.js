@@ -13,8 +13,9 @@ const api = axios.create({
 
 const api2 = axios.create({
     
-    baseURL: 'http://3.38.150.150:8080',
-    // baseURL: API_BASE_URL,
+    // baseURL: 'https://3.38.150.150',
+    // baseURL: 'https://test.viassh.com',
+    baseURL: API_BASE_URL,
     headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer " + localStorage.getItem("userToken")
@@ -25,20 +26,21 @@ const api2 = axios.create({
 
 console.log("after index.js ", API_BASE_URL);
 
-export const getExamById = (type, id, username) => api2.get(`/exam/${type}/${id}?username=${username}`)
+export const getExamById = (type, id, username) => api2.get(`/api/exam/${type}/${id}?username=${username}`)
 
 // export const getExamById = (type, id, username) => api.get(`/exam/${type}/${id}?username=${username}`)
 export const getAllExamAnswer = (type, front, end) => api.get(`/exam/${type}/getanswer?front=${front}&end=${end}`)
 
-export const getExamReplyById = (type, id) => api2.get(`/exam/${type}/${id}/reply`)
+export const getExamReplyById = (type, id) => api2.get(`/api/exam/${type}/${id}/reply`)
 // export const getExamReplyById = (type, id) => api.get(`/exam/${type}/${id}/reply`)
 
 
-export const updateExamReplyById = (type, id, payload) => api.put(`/exam/${type}/${id}/reply`, payload)
-export const deleteExamReplyById = (type, id, username, replyIdx) => api.delete(`/exam/${type}/${id}/reply?username=${username}&replyIdx=${replyIdx}`)
+// export const updateExamReplyById = (type, id, payload) => api.put(`/exam/${type}/${id}/reply`, payload)
+export const updateExamReplyById = (type, id, payload) => api2.post(`/api/exam/${type}/${id}/reply`, payload)
+export const deleteExamReplyById = (type, id, reply_id) => api2.delete(`/api/exam/${type}/${id}/reply/${reply_id}`)
 
 // export const getRecentReply = () => api.get(`/exam/all/0/reply`)
-export const getRecentReply = () => api2.get(`exam/reply/recent`)
+export const getRecentReply = () => api2.get(`/api/exam/reply/recent`)
 
 export const scoringExam = (type, payload) => api.post(`/exam/${type}/scoring`, payload)
 export const getExamHistory = (type, username) => api.get(`/exam/${type}/scoring?username=${username}`)
@@ -61,9 +63,9 @@ export const getUser = (email) => {
 }
 
 // export const login = (email,password) => api.get("/login", {auth: {username: email, password:password}})
-export const login = (email,password) => api2.post("/auth/signin", {email: email, password: password})
+export const login = (email,password) => api2.post("/api/auth/signin", {email: email, password: password})
 
-export const signup = (payload) => api2.post("/auth/signup", payload)
+export const signup = (payload) => api2.post("/api/auth/signup", payload)
 
 const apis = {
     getExamById,
