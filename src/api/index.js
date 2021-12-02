@@ -26,7 +26,7 @@ const api2 = axios.create({
 
 console.log("after index.js ", API_BASE_URL);
 
-export const getExamById = (type, id, username) => api2.get(`/api/exam/${type}/${id}?username=${username}`)
+export const getExamById = (type, id, username) => api2.get(`/api/exam/${type}/${id}`)
 
 // export const getExamById = (type, id, username) => api.get(`/exam/${type}/${id}?username=${username}`)
 export const getAllExamAnswer = (type, front, end) => api.get(`/exam/${type}/getanswer?front=${front}&end=${end}`)

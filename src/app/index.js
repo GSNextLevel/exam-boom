@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+
+import { createBrowserHistory } from 'history';
+
+
 import {
   BrowserRouter as Router,
   Route,
   Switch,
   Redirect,
+  useLocation
 } from 'react-router-dom';
 import { NavBar } from '../components';
 import {
@@ -24,23 +29,43 @@ import {
 } from '../pages';
 import { ExamPage, GotoADP } from '../pages';
 import PrivateRoute from '../utils/PrivateRoute';
+import GARoute from '../utils/GARoute';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+
+
+
+// function usePageTracking() {
+//   const location = useLocation();
+
+//   // useEffect(() => {
+//   //   ReactGA.initialize("UA-213891838-1");
+//   //   ReactGA.pageview(location.pathname + location.search);
+//   //   console.log(location.pathname);
+//   // }, [location]);
+// }
+
 function App() {
+  
+  // GoogleAnalytics();
+  
   return (
     // <React.Suspense>
-      <Router>
+    
+    <>
+      <Router >
+        
         <NavBar />
         <Switch>
-          <Route exact path="/">
+          <GARoute exact path="/">
             {/* <SideMenu /> */}
             <ExamMain />
-          </Route> 
+          </GARoute> 
 
-          <Route path="/exam" exact component={ExamMain} />
+          <GARoute path="/exam" exact component={ExamMain} />
           <PrivateRoute path="/exam/:type" exact component={GotoADP} />
-          <Route
+          <GARoute
             path="/exam/:type/random/:id"
             render={(props) => <ExamPage {...props} isRandom={true} />}
           />
@@ -48,27 +73,28 @@ function App() {
           {/* <Route path="/exam/:type/:id" component={ExamPage} /> */}
           <PrivateRoute path="/exam/:type/:id" component={ExamPage} />
 
-          <Route path="/leaderBoard" exact component={LeaderBoard} />
+          <GARoute path="/leaderBoard" exact component={LeaderBoard} />
           <PrivateRoute path="/user/history" exact component={SubmitHistory} />
 
-          <Route path="/user/setting" exact component={Setting} />
-          <Route path="/replies" exact component={RecentReplies} />
+          <GARoute path="/user/setting" exact component={Setting} />
+          <GARoute path="/replies" exact component={RecentReplies} />
 
-          <Route path="/updateLog" exact component={UpdateLog} />
-          <Route path="/license" exact>
+          <GARoute path="/updateLog" exact component={UpdateLog} />
+          <GARoute path="/license" exact>
             <Redirect push to={'/license.html'} />
-          </Route>
+          </GARoute>
 
-          <Route path="/voc" exact component={VoC} />
-          <Route path="/docs" exact component={Docs} />
-          <Route path="/docs/:type" exact component={DocsPage} />
-          <Route path="/signup" exact component={SignUp} />
-          <Route path="/login" exact component={Login} />
+          <GARoute path="/voc" exact component={VoC} />
+          <GARoute path="/docs" exact component={Docs} />
+          <GARoute path="/docs/:type" exact component={DocsPage} />
+          <GARoute path="/signup" exact component={SignUp} />
+          <GARoute path="/login" exact component={Login} />
           <PrivateRoute path="/mypage" exact component={MyPage} />
 
           <PrivateRoute path="/user/exam" exact component={UserSelectedExam} />
         </Switch>
       </Router>
+    </>
     //  </React.Suspense> 
   );
 }
