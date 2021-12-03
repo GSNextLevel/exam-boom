@@ -58,9 +58,16 @@ class ExamCard extends Component {
           needHelp: false,
 
           bookmarkedList: JSON.parse(localStorage.getItem('bookmark')) || [],
-          amIBookmarked: false
+          amIBookmarked: false,
+
+          
       }
       // console.log(examNum);
+    }
+
+    toggleCoinModal = (val) => {
+      
+      this.props.toggleCoinModal(val);
     }
 
     // 풀었던 문제로 다시 돌아올 시에 라디오, 콤보박스 체크 활성화 기능 추가
@@ -168,6 +175,16 @@ class ExamCard extends Component {
         })
         .catch((error) => {
           console.log(error);
+          if(error.response) {
+            const errorMsg = error.response.data;
+            console.log(error.response.data);
+            console.log(error.response.status);
+            if(errorMsg == "coin not enough") {
+                // this.props.isOpen = true;
+                // console.log("coin toggle 1")
+                this.toggleCoinModal(true);
+            }
+          }
         })
 
 

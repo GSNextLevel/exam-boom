@@ -6,13 +6,15 @@ import api2 from '../api';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import "../style/login.css"
+import { set } from 'react-ga';
 
 class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            loginErrorMessage: ''
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -31,6 +33,7 @@ class Login extends Component {
     handleSubmit(event) {
         event.preventDefault();
         const { email, password } = this.state;
+        let { loginErrorMessage } = this.state;
         // const payload = { email, password }
         // alert(email);
         console.log(email, password);
@@ -43,6 +46,7 @@ class Login extends Component {
             if(result.status !== 200) {
                 console.log("login error")
                 // alert("로그인 실패!");
+                
             } 
 
             else {
@@ -50,11 +54,13 @@ class Login extends Component {
                 localStorage.setItem('user_id',result.data.user_id);
                 localStorage.setItem('nickname',result.data.nickname);
                 console.log("login ok");
-                alert("로그인 성공 ");
-                // window.location.href = '/';
+                // alert("로그인 성공 ");
+                window.location.href = '/';
             }
         }).catch((err) =>{
-            console.log("login catch error")
+            console.log("login catch error");
+            let message = "로그인에 실패하였습니다. 다시 확인해주세요.";
+            this.setState({loginErrorMessage: message});
             // alert("로그인 실패!", err)
         } )
         
@@ -94,7 +100,9 @@ class Login extends Component {
                         className="login-btn"
 
                     />
+                    
                     </form>
+                    <p className="error-message"> {this.state.loginErrorMessage}</p>
                     <a className="login-link" href="/signup">회원가입</a>
                 </div>
                 

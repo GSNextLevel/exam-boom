@@ -49,7 +49,8 @@ export const likeExamById = (type, id, payload) => api.post(`/exam/${type}/${id}
 
 export const getPreviousExamByType = (type) => api.get(`/exam/${type}/getprevious`)
 
-export const getLeaderBoard = () => api.get("/leaderboard")
+// export const getLeaderBoard = () => api.get("/leaderboard")
+export const getLeaderBoard = () => api2.get("/api/user/leaderboard")
 
 export const addPreviousExam = (type, id, payload) => api.post(`/exam/${type}/${id}/previousexam`, payload)
 
@@ -63,9 +64,9 @@ export const getUser = (email) => {
 }
 
 // export const login = (email,password) => api.get("/login", {auth: {username: email, password:password}})
-export const login = (email,password) => api2.post("/api/auth/signin", {email: email, password: password})
+export const login = (email,password) => api2.post("/api/user/signin", {email: email, password: password})
 
-export const signup = (payload) => api2.post("/api/auth/signup", payload)
+export const signup = (payload) => api2.post("/api/user/signup", payload)
 
 const apis = {
     getExamById,

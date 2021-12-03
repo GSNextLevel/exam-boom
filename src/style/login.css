@@ -73,3 +73,11 @@
     display: block;
     text-decoration: none;
 }
+
+.error-message {
+    display: inline-block;
+    font-size: 1rem;
+    line-height: 19px;
+    color: #ff003e;
+    vertical-align: middle;
+}
