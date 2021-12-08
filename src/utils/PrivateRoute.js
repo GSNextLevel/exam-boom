@@ -1,11 +1,11 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 
-// import GoogleAnalytics from '../utils/GoogleAnalytics';
+import GoogleAnalytics from '../utils/GoogleAnalytics';
 
 function PrivateRoute ({ component: Component, ...rest }) {
 
-    // GoogleAnalytics();
+    GoogleAnalytics();
 
     return (
         <Route
