@@ -72,7 +72,7 @@ class LeaderBoard extends Component {
 
                   </td>
                   <td>{data.point}</td>
-                  <td>{data.coin || "비공개"}</td>
+                  <td>{data.coin !== null ? data.coin : "비공개"}</td>
                   <td>
                     {new Date().getTime() - new Date(data.pointUpdatedAt).getTime() <
                     1000 * 60 * 60 * 24 ? (

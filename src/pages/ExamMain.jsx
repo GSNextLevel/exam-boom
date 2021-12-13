@@ -8,6 +8,7 @@ import Card from 'react-bootstrap/Card';
 // import CardGroup from 'react-bootstrap/CardGroup';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Alert from 'react-bootstrap/Alert';
 
 import { ExamCard } from '../components';
 
@@ -36,6 +37,26 @@ class ExamMain extends Component {
     return (
       <Container>
         <Wrapper>
+          <Alert variant="success">
+            서버리스를 걷어내고 내부로직을 변경하여 새롭게 단장한 버전2 입니다.
+            <br/>
+            이번 업데이트에서 댓글과 사이트 활성화를 위해 Coin 개념이 추가되었습니다. 
+
+          </Alert>
+          <Alert variant="warning">
+            기본 회원가입 시 100코인이 지급되며 한문제 조회 시 1코인이 차감됩니다.
+            <br/>
+            댓글 작성 시 10코인이 지급되며 매주 우수 댓글에 10~50코인이 추가로 지급됩니다.
+            <br/>
+            코인 지급과 차감 항목은 차후 개선될 예정입니다.
+            
+          </Alert>
+
+          <Alert variant="danger">
+            일부 기능에 아직 버그가 있을 수 있습니다... 차차 개선할 예정입니다.
+            
+          </Alert>
+
           <Row className="">
             <Col md={{span: 4}} className="justify-content-center text-center mb-2">
               <Card style={{ minWidth: '14rem', textAlign: 'center' }}>
@@ -68,15 +89,15 @@ class ExamMain extends Component {
                 <Card.Img style={imgStyle} variant="top" src={gapImg} />
                 <Card.Body>
                   <Card.Title>GCP</Card.Title>
-                  <Card.Text>Architect Pro</Card.Text>
-                  <Button variant="primary" href="/exam/gap">
+                  <Card.Text>DevOps Engineer</Card.Text>
+                  <Button variant="primary" href="/exam/gcp-dev">
                     바로가기
                   </Button>
                 </Card.Body>
               </Card>
             </Col>
           </Row>
-          <Row>
+          {/* <Row>
             <Col md={{span: 4}} className="justify-content-center text-center mb-2">
               <Card style={{ minWidth: '14rem', textAlign: 'center' }}>
                 <Card.Img variant="top" src={aws_ai_Img} />
@@ -89,7 +110,7 @@ class ExamMain extends Component {
                 </Card.Body>
               </Card>
             </Col>
-          </Row>
+          </Row> */}
         </Wrapper>
       </Container>
     );

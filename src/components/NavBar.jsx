@@ -15,6 +15,14 @@ const Container = styled.div.attrs({
 })``;
 
 class NavBar extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      leftCoin: localStorage.getItem("coin")
+    }
+  }
+  
 
   handleLogout = () => {
     localStorage.removeItem("userToken");
@@ -23,12 +31,18 @@ class NavBar extends Component {
     window.location= "/";
   }
 
+  componentDidUpdate() {
+      console.log("$$$$$$$$$$$$$$$$$ update!!!!!");
+      this.state.leftCoin = localStorage.getItem("coin");
+  }
+
   render() {
     const logoStyle = {
       marginRight: '8px',
     };
     const isToken = localStorage.getItem("userToken");
-    
+    // const leftCoin = localStorage.getItem("coin");
+    const { leftCoin } = this.state;
 
     return (
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -50,6 +64,12 @@ class NavBar extends Component {
           >
             <Nav className="mr-auto">
               {/* <TempLoginMenu /> */}
+              {isToken ?
+                <Nav.Link href="">잔여코인 : {leftCoin}</Nav.Link>
+                :
+                <a />
+              }
+              
             </Nav>
 
             <Nav>

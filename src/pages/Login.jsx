@@ -53,6 +53,7 @@ class Login extends Component {
                 localStorage.setItem('userToken',result.data.token);
                 localStorage.setItem('user_id',result.data.user_id);
                 localStorage.setItem('nickname',result.data.nickname);
+                localStorage.setItem('coin',result.data.coin);
                 console.log("login ok");
                 // alert("로그인 성공 ");
                 window.location.href = '/';

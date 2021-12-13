@@ -59,6 +59,7 @@ class ExamCard extends Component {
 
           bookmarkedList: JSON.parse(localStorage.getItem('bookmark')) || [],
           amIBookmarked: false,
+          leftCoin: localStorage.getItem("coin")
 
           
       }
@@ -80,6 +81,7 @@ class ExamCard extends Component {
         const examNum = this.props.value.match.params.id;
         const username = this.state.username;
         const type = this.props.value.match.params.type;
+        let leftCoin = this.state.leftCoin;
 
         let isSolvedCheck = false;
         for(let i=0 ; i<this.state.submitAnswer.length ; i++) {
@@ -90,6 +92,11 @@ class ExamCard extends Component {
         }
 
         await api2.getExamById(type, examNum, username).then(exam => {
+
+          leftCoin--;
+          this.setState({leftCoin: leftCoin});
+          localStorage.setItem("coin", leftCoin);
+          
           // console.log(exam)
           const examData = exam['data']['data'];
           const userData = null;

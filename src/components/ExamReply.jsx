@@ -136,6 +136,9 @@ class ExamReply extends Component {
       this.setState({ replies: prevReplies });
 
       this.setState({ userInputReplyText: '' });
+
+      
+      localStorage.setItem("coin", parseInt(localStorage.getItem("coin")) + 10 );
       // this.setState({replies: [{"name": "dz", "content": "aa"}]})
     });
   }

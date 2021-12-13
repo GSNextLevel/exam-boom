@@ -31,7 +31,9 @@ class SignUp extends Component {
     }
     emailValidation(email) {
         
-        let emailValid = email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+        // let emailValid = email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+        let emailValid = email.match(/^([\w.%+-]+)@(gscdn.com)$/i);
+        
 
         if(email == '') return false;
         if(!emailValid) return false;
@@ -99,7 +101,7 @@ class SignUp extends Component {
                             <input 
                                 type="email" 
                                 className="login-text-input"
-                                id="inputEmail" aria-describedby="emailHelp" placeholder="이메일을 입력하세요"
+                                id="inputEmail" aria-describedby="emailHelp" placeholder="gscdn.com 이메일을 입력하세요"
                                 name="email" value={this.state.email} onChange={this.handleChange} />
                         </div>
 
@@ -116,7 +118,7 @@ class SignUp extends Component {
                             <input 
                                 type="password" 
                                 className="login-text-input"
-                                id="inputPassword1" placeholder="비밀번호"
+                                id="inputPassword1" placeholder="비밀번호 6자이상"
                                 name="password" 
                                 value={this.state.password} onChange={this.handleChange} />
                         </div>
