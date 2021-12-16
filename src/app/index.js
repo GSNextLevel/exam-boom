@@ -73,11 +73,11 @@ function App() {
           {/* <Route path="/exam/:type/:id" component={ExamPage} /> */}
           <PrivateRoute path="/exam/:type/:id" component={ExamPage} />
 
-          <GARoute path="/leaderBoard" exact component={LeaderBoard} />
+          <PrivateRoute path="/leaderBoard" exact component={LeaderBoard} />
           <PrivateRoute path="/user/history" exact component={SubmitHistory} />
 
           <GARoute path="/user/setting" exact component={Setting} />
-          <GARoute path="/replies" exact component={RecentReplies} />
+          <PrivateRoute path="/replies" exact component={RecentReplies} />
 
           <GARoute path="/updateLog" exact component={UpdateLog} />
           <GARoute path="/license" exact>
