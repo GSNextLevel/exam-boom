@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 import api from '../api'
+import api2 from '../api'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -157,10 +158,10 @@ class ExamToolbar extends Component {
 
       let correctCnt = 0;
       let totalCnt = 0;
-      const getAnswerResponse =  await api.getAllExamAnswer(type, frontIdx, endIdx).then(exam => {
+      const getAnswerResponse =  await api2.getAllExamAnswer(type, frontIdx, endIdx).then(exam => {
         console.log("check", exam);
         // console.log(exam);
-        const realAnswer = exam['data']['Items'];
+        const realAnswer = exam['data'];
         console.log(realAnswer);
         let tempResult = this.state.tableResult;
 
@@ -170,7 +171,7 @@ class ExamToolbar extends Component {
 
             let sameIdx = 0;
             for(let j=0 ; j<realAnswer.length ; j++) {
-              if(submitQuestionNum == realAnswer[j]['examIdx']) {
+              if(submitQuestionNum == realAnswer[j]['question_num']) {
                 sameIdx = j;
                 break;
               }
@@ -213,33 +214,33 @@ class ExamToolbar extends Component {
           return tempResult;
       })
 
-      let foundUnsubmittedAnswer = [];
-      console.log("diff", getAnswerResponse , beforeSubmitAnswer)
-      for(let j=0 ; j<getAnswerResponse.length ; j++) {
-        let flag = true;
-        //console.log("loop j", j)
-        for(let k=0 ; k<beforeSubmitAnswer.length ; k++) {
-         // console.log("forloop",getAnswerResponse[j], beforeSubmitAnswer[k])
-            if(getAnswerResponse[j]['id'] == beforeSubmitAnswer[k]['id'] && getAnswerResponse[j]['correct'] === beforeSubmitAnswer[k]['correct']) {
-            //  console.log("same : ", getAnswerResponse[j]['id'], getAnswerResponse[j]['correct'], "check", getAnswerResponse[j]);
-              flag = false;
-              break;
-            }
-        }
-        if(flag) {
-          foundUnsubmittedAnswer.push({id: getAnswerResponse[j]['id'], correct: getAnswerResponse[j]['correct'], U: getAnswerResponse[j]['U']})
-        }
-      }
-      console.log("my result", foundUnsubmittedAnswer)
+      // let foundUnsubmittedAnswer = [];
+      // console.log("diff", getAnswerResponse , beforeSubmitAnswer)
+      // for(let j=0 ; j<getAnswerResponse.length ; j++) {
+      //   let flag = true;
+      //   //console.log("loop j", j)
+      //   for(let k=0 ; k<beforeSubmitAnswer.length ; k++) {
+      //    // console.log("forloop",getAnswerResponse[j], beforeSubmitAnswer[k])
+      //       if(getAnswerResponse[j]['id'] == beforeSubmitAnswer[k]['id'] && getAnswerResponse[j]['correct'] === beforeSubmitAnswer[k]['correct']) {
+      //       //  console.log("same : ", getAnswerResponse[j]['id'], getAnswerResponse[j]['correct'], "check", getAnswerResponse[j]);
+      //         flag = false;
+      //         break;
+      //       }
+      //   }
+      //   if(flag) {
+      //     foundUnsubmittedAnswer.push({id: getAnswerResponse[j]['id'], correct: getAnswerResponse[j]['correct'], U: getAnswerResponse[j]['U']})
+      //   }
+      // }
+      // console.log("my result", foundUnsubmittedAnswer)
 
-      const username = cookies.get("username") || "익명";
-      const payload = {"name": username, "type": type, "result": foundUnsubmittedAnswer };
+      // const username = cookies.get("username") || "익명";
+      // const payload = {"name": username, "type": type, "result": foundUnsubmittedAnswer };
 
-      console.log("toobar payload", payload);
-      const scoringResponse = await api.scoringExam(type, payload).then(res => {
-        console.log(res);
-      })
-      console.log(scoringResponse)
+      // console.log("toobar payload", payload);
+      // const scoringResponse = await api.scoringExam(type, payload).then(res => {
+      //   console.log(res);
+      // })
+      // console.log(scoringResponse)
 
 
 
