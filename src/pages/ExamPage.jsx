@@ -7,7 +7,8 @@ import {
   ExamToolbar,
   ExamReply,
   LoginAlertModal,
-  CoinModal
+  CoinModal,
+  MoneyAlertModal
 } from '../components';
 
 import { NotFound } from '../pages';
@@ -70,6 +71,7 @@ class ExamPage extends Component {
             <ExamPagination value={this.props} />
             <LoginAlertModal />
             <CoinModal showCoinModal={showCoinModal}/>
+            <MoneyAlertModal />
 
           </Container>
         )}

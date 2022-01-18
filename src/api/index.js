@@ -30,7 +30,7 @@ export const getExamById = (type, id, username) => api2.get(`/api/exam/${type}/$
 
 // export const getExamById = (type, id, username) => api.get(`/exam/${type}/${id}?username=${username}`)
 // export const getAllExamAnswer = (type, front, end) => api.get(`/exam/${type}/getanswer?front=${front}&end=${end}`)
-export const getAllExamAnswer = (type, front, end) => api2.get(`api/exam/${type}/answer?frontIdx=${front}&endIdx=${end}`)
+export const getAllExamAnswer = (type, front, end) => api2.get(`/api/exam/${type}/answer?frontIdx=${front}&endIdx=${end}`)
 
 export const getExamReplyById = (type, id) => api2.get(`/api/exam/${type}/${id}/reply`)
 // export const getExamReplyById = (type, id) => api.get(`/exam/${type}/${id}/reply`)
