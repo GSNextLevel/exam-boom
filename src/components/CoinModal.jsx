@@ -6,43 +6,54 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Cookies from 'universal-cookie';
 
-class LoginAlertModal extends Component {
+class CoinModal extends Component {
     constructor(props) {
       super(props);
       const cookies = new Cookies();
 
       this.state = {
-        // modalShow: cookies.get('username') === undefined ? true : false
-        modalShow: false
+        showCoinModal: null
       }
 
     }
 
     componentDidMount = async () => {
+        
 
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if(this.props.showCoinModal != prevProps.showCoinModal) {
+            // console.log("coin 업뎃");
+            this.setState({...this.state, showCoinModal: this.props.showCoinModal});
+        }
+
+        
     }
 
 
     handleClose() {
-      this.setState({modalShow: false})
+      this.setState({showCoinModal: false})
     }
 
     handleShow() {
-      this.setState({modalShow: false})
+      this.setState({showCoinModal: false})
     }
 
     render() {
 
-      const { modalShow } = this.state;
+      const { showCoinModal } = this.state;
+        // let modalShow = this.props.showCoinModal;
+        // console.log(this.props)
 
       return (
 
-        <Modal show={modalShow} onHide={this.handleClose.bind(this)}>
+        <Modal show={showCoinModal} onHide={this.handleClose.bind(this)}>
           <Modal.Header closeButton>
-            <Modal.Title>로그인을 해주세요</Modal.Title>
+            <Modal.Title>코인이 부족합니다</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            비밀번호 필요없이 이름이나 닉네임을 입력하시면 풀었던 문제와 맞춤형 문제를 제공해드립니다.
+            댓글을 달거나 메모를 공유하여 코인을 획득하실 수 있습니다. 
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.handleClose.bind(this)}>
@@ -60,4 +71,4 @@ class LoginAlertModal extends Component {
 
 
 
-export default LoginAlertModal
+export default CoinModal;

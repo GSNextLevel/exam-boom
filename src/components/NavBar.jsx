@@ -5,6 +5,7 @@ import TempLoginMenu from './TempLoginMenu';
 
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
+import Button from 'react-bootstrap/Button';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
 import logo from '../logo.svg';
@@ -14,11 +15,25 @@ const Container = styled.div.attrs({
 })``;
 
 class NavBar extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      leftCoin: localStorage.getItem("coin")
+    }
+  }
+  
 
   handleLogout = () => {
     localStorage.removeItem("userToken");
+    localStorage.removeItem("user_id");
     alert("로그아웃 성공!");
     window.location= "/";
+  }
+
+  componentDidUpdate() {
+      console.log("$$$$$$$$$$$$$$$$$ update!!!!!");
+      this.state.leftCoin = localStorage.getItem("coin");
   }
 
   render() {
@@ -26,7 +41,8 @@ class NavBar extends Component {
       marginRight: '8px',
     };
     const isToken = localStorage.getItem("userToken");
-    
+    // const leftCoin = localStorage.getItem("coin");
+    const { leftCoin } = this.state;
 
     return (
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -47,7 +63,13 @@ class NavBar extends Component {
             className="justify-content-between"
           >
             <Nav className="mr-auto">
-              <TempLoginMenu />
+              {/* <TempLoginMenu /> */}
+              {isToken ?
+                <Nav.Link href="">잔여코인 : {leftCoin}</Nav.Link>
+                :
+                <a />
+              }
+              
             </Nav>
 
             <Nav>
@@ -69,14 +91,18 @@ class NavBar extends Component {
                 <NavDropdown.Item href="/voc">건의사항</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="/replies">최근활동</NavDropdown.Item>
-                {isToken?
-                  <span>
-                    <NavDropdown.Item href="/mypage">내 정보</NavDropdown.Item>
-                    <NavDropdown.Item onClick={this.handleLogout}>로그아웃</NavDropdown.Item>
-                  </span>:
-                  <NavDropdown.Item href="/login">로그인</NavDropdown.Item>}
+                
                 <NavDropdown.Item href="/docs">문서</NavDropdown.Item>
               </NavDropdown>
+            </Nav>
+            <Nav>
+              {isToken?
+                <span>
+                  {/* <NavDropdown.Item href="/mypage">내 정보</NavDropdown.Item> */}
+                  <Button onClick={this.handleLogout} variant="outline-secondary">로그아웃</Button>
+                </span>
+                :
+                <Button href="/login" variant="outline-primary">로그인</Button>}
             </Nav>
           </Navbar.Collapse>
         </Container>

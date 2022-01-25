@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 import api from '../api'
+import api2 from '../api'
 
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
@@ -57,9 +58,17 @@ class ExamCard extends Component {
           needHelp: false,
 
           bookmarkedList: JSON.parse(localStorage.getItem('bookmark')) || [],
-          amIBookmarked: false
+          amIBookmarked: false,
+          leftCoin: localStorage.getItem("coin")
+
+          
       }
       // console.log(examNum);
+    }
+
+    toggleCoinModal = (val) => {
+      
+      this.props.toggleCoinModal(val);
     }
 
     // 풀었던 문제로 다시 돌아올 시에 라디오, 콤보박스 체크 활성화 기능 추가
@@ -72,6 +81,7 @@ class ExamCard extends Component {
         const examNum = this.props.value.match.params.id;
         const username = this.state.username;
         const type = this.props.value.match.params.type;
+        let leftCoin = this.state.leftCoin;
 
         let isSolvedCheck = false;
         for(let i=0 ; i<this.state.submitAnswer.length ; i++) {
@@ -81,34 +91,56 @@ class ExamCard extends Component {
           }
         }
 
-        await api.getExamById(type, examNum, username).then(exam => {
+        await api2.getExamById(type, examNum, username).then(exam => {
+
+          leftCoin--;
+          this.setState({leftCoin: leftCoin});
+          localStorage.setItem("coin", leftCoin);
+          
           // console.log(exam)
-          const examData = exam.data.exam.Item;
-          const userData = exam.data.user.Items;
+          const examData = exam['data']['data'];
+          const userData = null;
           console.log(exam);
           // console.log(exam.data.Item.userData)
           // console.log(examData, userData)
 
           let correctCnt = 0;
           let totalCnt = 0;
-          userData.forEach(el => {
-            console.log("el", el);
-            if(el.correct == true) {
-              correctCnt++;
-            }
-            totalCnt++;
+          // userData.forEach(el => {
+          //   console.log("el", el);
+          //   if(el.correct == true) {
+          //     correctCnt++;
+          //   }
+          //   totalCnt++;
 
+          // })
+
+          // console.log("prev!", examData['previousExam']);
+
+          // if(examData['likeList'] != undefined) {
+          //   examData['likeList'].forEach((li) => {
+          //     if(li == username) {
+          //       this.setState({amILiked: true})
+          //     }
+          //   })
+          // }
+
+          let choicesRaw = examData['choices'];
+          console.log("######", choicesRaw);
+          let choices_state = [];
+          choicesRaw.forEach(el => {
+            choices_state.push(el['choice_ko']);
+          })
+          let choices_ratio_state = [];
+          choicesRaw.forEach(el => {
+            choices_ratio_state.push(el['selected_cnt']);
           })
 
-          console.log("prev!", examData['previousExam']);
+          let answerRaw = examData['answer'];
+          answerRaw = answerRaw.replace(/ /g,'');
+          let answer_state = answerRaw.split(',');
 
-          if(examData['likeList'] != undefined) {
-            examData['likeList'].forEach((li) => {
-              if(li == username) {
-                this.setState({amILiked: true})
-              }
-            })
-          }
+          // console.log("@#", answerRaw);
 
           // is in bookmark?
           let idxCurBookmarkList = this.state.bookmarkedList.findIndex(obj => obj.examType ==  type && obj.examNum == examNum)
@@ -121,29 +153,111 @@ class ExamCard extends Component {
           }
 
             this.setState({
-                question: examData.question,
-                choices: examData.choice,
-                answer: examData.answer,
-                choiceType: examData.choiceType,
+                question: examData.content_ko,
+                choices: choices_state,
+                answer: answer_state,
+                choiceType: answer_state.length > 1 ? "multiple" : "single",
                 isLoading: false,
-                correctTotalCount: examData.correctTotalCount === undefined ? 0 : examData.correctTotalCount,
-                submitTotalCount: examData.submitTotalCount === undefined ? 1 : examData.submitTotalCount,
-
-                previousExam: examData.previousExam === undefined ? [] : examData.previousExam,
+                // correctTotalCount: examData.correctTotalCount === undefined ? 0 : examData.correctTotalCount,
+                // submitTotalCount: examData.submitTotalCount === undefined ? 1 : examData.submitTotalCount,
+                // previousExam: examData.previousExam === undefined ? [] : examData.previousExam,
+                correctTotalCount: 0,
+                submitTotalCount: 1,
+                previousExam: [],
 
                 isSolved: isSolvedCheck ? true : false,
 
                 mySubmitCount: totalCnt,
                 myCorrectCount: correctCnt,
                 myStarred: 0,
-                likeList: examData['likeList'] == undefined ? [] : examData['likeList'],
-                choicesRatio: examData.choicesRatio,
+                // likeList: examData['likeList'] == undefined ? [] : examData['likeList'],
+                likeList: [],
+                choicesRatio: choices_ratio_state,
 
-                examCreatedAt: examData.createAt * 1000,
-                needHelp: examData.needHelp === undefined ? false : examData.needHelp,
+                // examCreatedAt: examData.created_at * 1000,
+                examCreatedAt: examData.created_at,
+                needHelp: false , //examData.needHelp === undefined ? false : examData.needHelp,
                 amIBookmarked: isInCurBookmarkList
             })
         })
+        .catch((error) => {
+          console.log(error);
+          if(error.response) {
+            const errorMsg = error.response.data;
+            console.log(error.response.data);
+            console.log(error.response.status);
+            if(errorMsg == "coin not enough") {
+                // this.props.isOpen = true;
+                // console.log("coin toggle 1")
+                this.toggleCoinModal(true);
+            }
+          }
+        })
+
+
+        // await api.getExamById(type, examNum, username).then(exam => {
+        //   // console.log(exam)
+        //   const examData = exam.data.exam.Item;
+        //   const userData = exam.data.user.Items;
+        //   console.log(exam);
+        //   // console.log(exam.data.Item.userData)
+        //   // console.log(examData, userData)
+
+        //   let correctCnt = 0;
+        //   let totalCnt = 0;
+        //   userData.forEach(el => {
+        //     console.log("el", el);
+        //     if(el.correct == true) {
+        //       correctCnt++;
+        //     }
+        //     totalCnt++;
+
+        //   })
+
+        //   console.log("prev!", examData['previousExam']);
+
+        //   if(examData['likeList'] != undefined) {
+        //     examData['likeList'].forEach((li) => {
+        //       if(li == username) {
+        //         this.setState({amILiked: true})
+        //       }
+        //     })
+        //   }
+
+        //   // is in bookmark?
+        //   let idxCurBookmarkList = this.state.bookmarkedList.findIndex(obj => obj.examType ==  type && obj.examNum == examNum)
+        //   let isInCurBookmarkList = false;
+        //   if(idxCurBookmarkList >= 0){
+        //     isInCurBookmarkList = true
+        //   }
+        //   else{
+        //     isInCurBookmarkList = false
+        //   }
+
+        //     this.setState({
+        //         question: examData.question,
+        //         choices: examData.choice,
+        //         answer: examData.answer,
+        //         choiceType: examData.choiceType,
+        //         isLoading: false,
+        //         correctTotalCount: examData.correctTotalCount === undefined ? 0 : examData.correctTotalCount,
+        //         submitTotalCount: examData.submitTotalCount === undefined ? 1 : examData.submitTotalCount,
+
+        //         previousExam: examData.previousExam === undefined ? [] : examData.previousExam,
+
+        //         isSolved: isSolvedCheck ? true : false,
+
+        //         mySubmitCount: totalCnt,
+        //         myCorrectCount: correctCnt,
+        //         myStarred: 0,
+        //         likeList: examData['likeList'] == undefined ? [] : examData['likeList'],
+        //         choicesRatio: examData.choicesRatio,
+
+        //         examCreatedAt: examData.createAt * 1000,
+        //         needHelp: examData.needHelp === undefined ? false : examData.needHelp,
+        //         amIBookmarked: isInCurBookmarkList
+        //     })
+        // })
     }
 
 
@@ -446,7 +560,7 @@ class ExamCard extends Component {
 
                 <Col md={2} style={infoSmallTextStyle} className="text-right">
                   문제추가 {new Date(
-                    parseInt(examCreatedAt),
+                    examCreatedAt
                   ).toLocaleDateString()}
                 </Col>
               </Row>

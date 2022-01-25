@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-import api from '../api';
+
+import api from '../api'
+import api2 from '../api'
+
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -123,126 +126,170 @@ class ExamToolbar extends Component {
     localStorage.removeItem('previousExamTable');
   }
 
-  async scoringExam() {
-    const cookies = new Cookies();
-    const type = this.props.value.match.params.type;
 
-    let beforeSubmitAnswer = this.state.tableResult;
-    // const userAnswerFromCookie = cookies.get('submitAnswer');
-    const userAnswerFromCookie = JSON.parse(
-      localStorage.getItem('submitAnswer'),
-    );
+    async scoringExam() {
+      const cookies = new Cookies();
+      const type = this.props.value.match.params.type;
 
-    console.log(userAnswerFromCookie);
+      let beforeSubmitAnswer = this.state.tableResult;
+      // const userAnswerFromCookie = cookies.get('submitAnswer');
+      const userAnswerFromCookie = JSON.parse(localStorage.getItem('submitAnswer'));
 
-    if (userAnswerFromCookie.length == 0) {
-      return;
-    }
-    const frontIdx = userAnswerFromCookie[0]['id'];
-    const endIdx = userAnswerFromCookie[userAnswerFromCookie.length - 1]['id'];
+      console.log(userAnswerFromCookie)
 
-    console.log('front!!!', frontIdx, endIdx);
-    // const mymy = this.state.tableResult;
-    this.setState({ tableResult: [], scoringButtonDisabled: true });
+      if(userAnswerFromCookie.length == 0){
+        return;
+      }
+      const frontIdx = userAnswerFromCookie[0]['id'];
+      const endIdx = userAnswerFromCookie[userAnswerFromCookie.length - 1]['id'];
 
-    let correctCnt = 0;
-    let totalCnt = 0;
-    const getAnswerResponse = await api
-      .getAllExamAnswer(type, frontIdx, endIdx)
-      .then((exam) => {
-        console.log('check', exam);
+      console.log("front!!!", frontIdx, endIdx)
+      // const mymy = this.state.tableResult;
+      this.setState({tableResult: [], scoringButtonDisabled: true})
+
+      let correctCnt = 0;
+      let totalCnt = 0;
+      const getAnswerResponse =  await api2.getAllExamAnswer(type, frontIdx, endIdx).then(exam => {
+        console.log("check", exam);
+
         // console.log(exam);
-        const realAnswer = exam['data']['Items'];
+        const realAnswer = exam['data'];
         console.log(realAnswer);
         let tempResult = this.state.tableResult;
 
-        userAnswerFromCookie.forEach((item, i) => {
-          const submitQuestionNum = item['id'];
-          const sumbitQuestionAns = item['ans'];
+          userAnswerFromCookie.forEach((item, i) => {
+            const submitQuestionNum = item['id'];
+            const sumbitQuestionAns = item['ans'];
 
-          let sameIdx = 0;
-          for (let j = 0; j < realAnswer.length; j++) {
-            if (submitQuestionNum == realAnswer[j]['examIdx']) {
-              sameIdx = j;
-              break;
+            let sameIdx = 0;
+            for(let j=0 ; j<realAnswer.length ; j++) {
+              if(submitQuestionNum == realAnswer[j]['question_num']) {
+                sameIdx = j;
+                break;
+              }
             }
-          }
-          const realQuestionAns = realAnswer[sameIdx]['answer'];
-          let isCorrect = false;
-          if (
-            JSON.stringify(sumbitQuestionAns) == JSON.stringify(realQuestionAns)
-          ) {
-            console.log(
-              'correct',
-              item['id'],
-              sumbitQuestionAns,
-              realQuestionAns,
-            );
-            isCorrect = true;
-            correctCnt++;
-          } else {
-            console.log(
-              'wrong',
-              item['id'],
-              sumbitQuestionAns,
-              realQuestionAns,
-            );
-            isCorrect = false;
-          }
+            const realQuestionAns = realAnswer[sameIdx]['answer']
+            let isCorrect  = false;
+            if(JSON.stringify(sumbitQuestionAns) == JSON.stringify(realQuestionAns)) {
+              console.log("correct", item['id'], sumbitQuestionAns, realQuestionAns)
+              isCorrect = true;
+              correctCnt++;
+            }
+            else{
+              console.log("wrong", item['id'], sumbitQuestionAns, realQuestionAns)
+              isCorrect = false;
+            }
 
-          totalCnt++;
-          let temp = {
-            id: item['id'],
-            correct: isCorrect,
-            U: sumbitQuestionAns,
-          };
-          // I for id
-          // C for correct
-          // U for userChoice
+            totalCnt++;
+            let temp = {id: item['id'], correct: isCorrect, U: sumbitQuestionAns};
+            // I for id
+            // C for correct
+            // U for userChoice
 
-          console.log('tempResult: ', tempResult);
 
-          tempResult.push(temp);
+            console.log("tempResult: ", tempResult)
 
-          // tableResult
-        });
-        // console.log("score!!!", parseInt((correctCnt/totalCnt)*100));
+            tempResult.push(temp);
 
-        this.setState({
-          currentScore: parseInt((correctCnt / totalCnt) * 100),
-        });
+            // tableResult
+          });
+          // console.log("score!!!", parseInt((correctCnt/totalCnt)*100));
 
-        this.setState({ tableResult: tempResult });
-        // cookies.set('tableResult', tempResult, {path: '/exam/'+type})
-        localStorage.setItem('tableResult', JSON.stringify(tempResult));
+          this.setState({currentScore: parseInt((correctCnt/totalCnt)*100) })
 
-        this.setState({ showTableResult: true, scoringButtonDisabled: false });
+          this.setState({tableResult: tempResult})
+          // cookies.set('tableResult', tempResult, {path: '/exam/'+type})
+          localStorage.setItem("tableResult", JSON.stringify(tempResult))
 
-        return tempResult;
-      });
+          this.setState({showTableResult: true, scoringButtonDisabled: false})
 
-    let foundUnsubmittedAnswer = [];
-    console.log('diff', getAnswerResponse, beforeSubmitAnswer);
-    for (let j = 0; j < getAnswerResponse.length; j++) {
-      let flag = true;
-      //console.log("loop j", j)
-      for (let k = 0; k < beforeSubmitAnswer.length; k++) {
-        // console.log("forloop",getAnswerResponse[j], beforeSubmitAnswer[k])
-        if (
-          getAnswerResponse[j]['id'] == beforeSubmitAnswer[k]['id'] &&
-          getAnswerResponse[j]['correct'] === beforeSubmitAnswer[k]['correct']
-        ) {
-          //  console.log("same : ", getAnswerResponse[j]['id'], getAnswerResponse[j]['correct'], "check", getAnswerResponse[j]);
-          flag = false;
-          break;
-        }
-      }
-      if (flag) {
-        foundUnsubmittedAnswer.push({
-          id: getAnswerResponse[j]['id'],
-          correct: getAnswerResponse[j]['correct'],
-          U: getAnswerResponse[j]['U'],
-        });
+          return tempResult;
+      })
+
+      // let foundUnsubmittedAnswer = [];
+      // console.log("diff", getAnswerResponse , beforeSubmitAnswer)
+      // for(let j=0 ; j<getAnswerResponse.length ; j++) {
+      //   let flag = true;
+      //   //console.log("loop j", j)
+      //   for(let k=0 ; k<beforeSubmitAnswer.length ; k++) {
+      //    // console.log("forloop",getAnswerResponse[j], beforeSubmitAnswer[k])
+      //       if(getAnswerResponse[j]['id'] == beforeSubmitAnswer[k]['id'] && getAnswerResponse[j]['correct'] === beforeSubmitAnswer[k]['correct']) {
+      //       //  console.log("same : ", getAnswerResponse[j]['id'], getAnswerResponse[j]['correct'], "check", getAnswerResponse[j]);
+      //         flag = false;
+      //         break;
+      //       }
+      //   }
+      //   if(flag) {
+      //     foundUnsubmittedAnswer.push({id: getAnswerResponse[j]['id'], correct: getAnswerResponse[j]['correct'], U: getAnswerResponse[j]['U']})
+      //   }
+      // }
+      // console.log("my result", foundUnsubmittedAnswer)
+
+      // const username = cookies.get("username") || "익명";
+      // const payload = {"name": username, "type": type, "result": foundUnsubmittedAnswer };
+
+      // console.log("toobar payload", payload);
+      // const scoringResponse = await api.scoringExam(type, payload).then(res => {
+      //   console.log(res);
+      // })
+      // console.log(scoringResponse)
+
+
+
+
+
+
+
+      // console.log(this.state.tableResult)
+    }
+
+    async viewPreviousExamTable() {
+      const cookies = new Cookies();
+      const examType = this.props.value.match.params.type;
+      const getPreviousExam =  await api.getPreviousExamByType(examType).then(exam => {
+        console.log("prev Exam", exam);
+
+          console.log(exam['data']['Items'])
+          // this.setState({previousExamTable: exam['data']['Items'] })
+
+          let prevData = exam['data']['Items'];
+          let makePrevData = [];
+          let prevExamList = [];
+          prevData.map((li, i) => {
+            for(let i=0 ; i<li.previousExam.length ; i++) {
+              if(!prevExamList.includes(li.previousExam[i])) {
+                console.log("new push", li.previousExam[li.previousExam.length - 1])
+                prevExamList.push(li.previousExam[i])
+              }
+            }
+            let prevDataObject = {
+              "n": li.examIdx,
+              "t": li.previousExam.length,
+              "list": li.previousExam
+            }
+            makePrevData.push(prevDataObject);
+          });
+          prevExamList.push("해제")
+          console.log("prevExamList", prevExamList)
+          console.log("List", prevExamList.sort())
+
+          this.setState({previousExamTable: makePrevData, prevExamList: prevExamList.sort() })
+
+          localStorage.setItem("previousExamTable", JSON.stringify(makePrevData))
+          localStorage.setItem("prevExamList", JSON.stringify(prevExamList))
+          cookies.set('previousExamTable', makePrevData, {path: '/exam/'+examType})
+
+          console.log("cookie set!")
+
+      })
+    }
+
+    async addPreviousQuestion() {
+      const { type, pageNum, username } = this.state;
+      const payload = {
+        'username': username,
+        'date': '210621'
+
       }
     }
     console.log('my result', foundUnsubmittedAnswer);
