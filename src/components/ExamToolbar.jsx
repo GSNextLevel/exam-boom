@@ -1,9 +1,10 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import styled from 'styled-components'
+import React, { Component } from 'react';
+import styled from 'styled-components';
+
 
 import api from '../api'
 import api2 from '../api'
+
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -14,7 +15,6 @@ import Badge from 'react-bootstrap/Badge';
 import Container from 'react-bootstrap/Container';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 
-
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import Row from 'react-bootstrap/Row';
@@ -22,119 +22,110 @@ import Col from 'react-bootstrap/Col';
 
 import Cookies from 'universal-cookie';
 
-
-
 const Wrapper = styled.div`
-    padding: 0 40px 10px 40px;
-`
+  padding: 0 40px 10px 40px;
+`;
 /* 다음문제 번호 생성 */
 const randomNext = (type) => {
-  let questionMax = type ==='adp' ? 400 : 422
-  return Math.floor(Math.random() * (questionMax - 1)) + 1 ;
-}
+  let questionMax = type === 'adp' ? 400 : 422;
+  return Math.floor(Math.random() * (questionMax - 1)) + 1;
+};
 
 // test
-
 class ExamToolbar extends Component {
-    constructor(props) {
-      super(props);
-      const cookies = new Cookies();
+  constructor(props) {
+    super(props);
+    const cookies = new Cookies();
 
-      this.state = {
-        pageNum: this.props.value.match.params.id,
-        type: this.props.value.match.params.type,
-        // tableResult: cookies.get('tableResult') || [],
-        tableResult: JSON.parse(localStorage.getItem('tableResult')) || [],
-        showTableResult: cookies.get('showTableResult') || false,
-        // submitAnswer: cookies.get('submitAnswer') || [],
-        submitAnswer: JSON.parse(localStorage.getItem('submitAnswer')) || [],
-        currentScore: 0,
-        scoringButtonDisabled: false,
-        // previousExamTable: cookies.get('previousExamTable') || [],
-        previousExamTable: JSON.parse(localStorage.getItem('previousExamTable')) || [],
-        showPreviousExamTable: cookies.get('showPreviousExamTable') || false,
-        isRandom: this.props.value.isRandom || false,
-        username: cookies.get("username") || "익명",
-        prevExamList: JSON.parse(localStorage.getItem('prevExamList')) || [],
-      }
+    this.state = {
+      pageNum: this.props.value.match.params.id,
+      type: this.props.value.match.params.type,
+      // tableResult: cookies.get('tableResult') || [],
+      tableResult: JSON.parse(localStorage.getItem('tableResult')) || [],
+      showTableResult: cookies.get('showTableResult') || false,
+      // submitAnswer: cookies.get('submitAnswer') || [],
+      submitAnswer: JSON.parse(localStorage.getItem('submitAnswer')) || [],
+      currentScore: 0,
+      scoringButtonDisabled: false,
+      // previousExamTable: cookies.get('previousExamTable') || [],
+      previousExamTable:
+        JSON.parse(localStorage.getItem('previousExamTable')) || [],
+      showPreviousExamTable: cookies.get('showPreviousExamTable') || false,
+      isRandom: this.props.value.isRandom || false,
+      username: cookies.get('username') || '익명',
+      prevExamList: JSON.parse(localStorage.getItem('prevExamList')) || [],
+    };
 
-      this.handleRandomNext = this.handleRandomNext.bind(this);
-      this.handleRandomPrevious = this.handleRandomPrevious.bind(this);
-      // console.log(pageNum)
+    this.handleRandomNext = this.handleRandomNext.bind(this);
+    this.handleRandomPrevious = this.handleRandomPrevious.bind(this);
+    // console.log(pageNum)
 
-      console.log("aa",this.state.previousExamTable)
+    console.log('aa', this.state.previousExamTable);
+  }
+
+  componentDidMount = async () => {};
+
+  // arraysEqual(a, b)
+
+  handleRandomNext(event) {
+    event.preventDefault();
+    const cookies = new Cookies();
+    const type = this.state.type;
+    let nextQuestion = randomNext(type);
+    let savedQuestions = [];
+    let values;
+    if ((values = cookies.get('previousQuestions'))) {
+      console.log(values);
+      cookies.set('previousQuestions', values + ',' + this.state.pageNum);
+    } else {
+      savedQuestions = this.state.pageNum;
+      cookies.set('previousQuestions', savedQuestions);
     }
+    window.location.href = nextQuestion.toString();
+  }
 
-
-    componentDidMount = async () => {
-
-    }
-
-    // arraysEqual(a, b)
-
-
-    handleRandomNext(event) {
-      event.preventDefault();
-      const cookies = new Cookies();
-      const type =this.state.type;
-      let nextQuestion = randomNext(type)
-      let savedQuestions = []
-      let values;
-      if (values = cookies.get('previousQuestions')){
-        console.log(values);
-        cookies.set('previousQuestions',values + ',' + this.state.pageNum)
+  handleRandomPrevious(event) {
+    const cookies = new Cookies();
+    let savedQuestions;
+    let values;
+    if ((values = cookies.get('previousQuestions'))) {
+      savedQuestions = values.split(',');
+      let previousQuestion = savedQuestions.pop();
+      window.location.href = previousQuestion.toString();
+      if (savedQuestions.length > 0) {
+        cookies.set('previousQuestions', savedQuestions.join());
       } else {
-        savedQuestions = this.state.pageNum
-        cookies.set('previousQuestions',savedQuestions)
+        cookies.remove('previousQuestions');
       }
-      window.location.href = nextQuestion.toString();
+    } else {
+      alert('이전문제가 없습니다.');
     }
+  }
 
-    handleRandomPrevious(event) {
-      const cookies = new Cookies();
-      let savedQuestions
-      let values
-      if (values = cookies.get('previousQuestions')){
-        savedQuestions = values.split(',')
-        let previousQuestion = savedQuestions.pop();
-        window.location.href = previousQuestion.toString();
-        if (savedQuestions.length > 0){
-          cookies.set('previousQuestions',savedQuestions.join())
-        } else {
-          cookies.remove('previousQuestions')
-        }
+  resetProblem() {
+    const cookies = new Cookies();
+    console.log('reset');
+    const type = this.props.value.match.params.type;
 
-      } else {
-        alert("이전문제가 없습니다.");
-      }
-    }
+    this.setState({ tableResult: [] });
+    this.setState({ showTableResult: false });
 
-    resetProblem() {
-      const cookies = new Cookies();
-      console.log("reset")
-      const type = this.props.value.match.params.type;
+    this.setState({ showPreviousExamTable: false });
+    this.setState({ previousExamTable: [] });
+    this.setState({ prevExamList: [] });
+    this.setState({ submitAnswer: [] });
 
+    cookies.remove('tableResult', { path: '/exam/' + type });
+    cookies.remove('submitAnswer', { path: '/exam/' + type });
 
-      this.setState({tableResult: []})
-      this.setState({showTableResult: false})
+    localStorage.removeItem('tableResult');
+    localStorage.removeItem('submitAnswer');
+    localStorage.removeItem('prevExamList');
 
-      this.setState({showPreviousExamTable: false})
-      this.setState({previousExamTable: []})
-      this.setState({prevExamList: []})
-      this.setState({submitAnswer: []})
+    cookies.remove('previousExamTable', { path: '/exam/' + type }); // will be deprecated
+    localStorage.removeItem('previousExamTable');
+  }
 
-
-      cookies.remove('tableResult', {path: '/exam/'+type})
-      cookies.remove('submitAnswer', {path: '/exam/'+type})
-
-      localStorage.removeItem("tableResult");
-      localStorage.removeItem("submitAnswer");
-      localStorage.removeItem("prevExamList");
-
-      cookies.remove('previousExamTable', {path: '/exam/'+type}) // will be deprecated
-      localStorage.removeItem("previousExamTable");
-
-    }
 
     async scoringExam() {
       const cookies = new Cookies();
@@ -160,6 +151,7 @@ class ExamToolbar extends Component {
       let totalCnt = 0;
       const getAnswerResponse =  await api2.getAllExamAnswer(type, frontIdx, endIdx).then(exam => {
         console.log("check", exam);
+
         // console.log(exam);
         const realAnswer = exam['data'];
         console.log(realAnswer);
@@ -297,220 +289,387 @@ class ExamToolbar extends Component {
       const payload = {
         'username': username,
         'date': '210621'
+
       }
-      const addPreviousExam =  await api.addPreviousExam(type, pageNum, payload).then(res => {
-        console.log("add Exam", res);
+    }
+    console.log('my result', foundUnsubmittedAnswer);
 
-      })
+    const username = cookies.get('username') || '익명';
+    const payload = {
+      name: username,
+      type: type,
+      result: foundUnsubmittedAnswer,
+    };
 
+    console.log('toobar payload', payload);
+    const scoringResponse = await api.scoringExam(type, payload).then((res) => {
+      console.log(res);
+    });
+    console.log(scoringResponse);
+
+    // console.log(this.state.tableResult)
+  }
+
+  async viewPreviousExamTable() {
+    const cookies = new Cookies();
+    const examType = this.props.value.match.params.type;
+    const getPreviousExam = await api
+      .getPreviousExamByType(examType)
+      .then((exam) => {
+        console.log('prev Exam', exam);
+
+        console.log(exam['data']['Items']);
+        // this.setState({previousExamTable: exam['data']['Items'] })
+
+        let prevData = exam['data']['Items'];
+        let makePrevData = [];
+        let prevExamList = [];
+        prevData.map((li, i) => {
+          for (let i = 0; i < li.previousExam.length; i++) {
+            if (!prevExamList.includes(li.previousExam[i])) {
+              console.log(
+                'new push',
+                li.previousExam[li.previousExam.length - 1],
+              );
+              prevExamList.push(li.previousExam[i]);
+            }
+          }
+          let prevDataObject = {
+            n: li.examIdx,
+            t: li.previousExam.length,
+            list: li.previousExam,
+          };
+          makePrevData.push(prevDataObject);
+        });
+        prevExamList.push('해제');
+        console.log('prevExamList', prevExamList);
+        console.log('List', prevExamList.sort());
+
+        this.setState({
+          previousExamTable: makePrevData,
+          prevExamList: prevExamList.sort(),
+        });
+
+        localStorage.setItem('previousExamTable', JSON.stringify(makePrevData));
+        localStorage.setItem('prevExamList', JSON.stringify(prevExamList));
+        cookies.set('previousExamTable', makePrevData, {
+          path: '/exam/' + examType,
+        });
+
+        console.log('cookie set!');
+      });
+  }
+
+  async addPreviousQuestion() {
+    const { type, pageNum, username } = this.state;
+    const payload = {
+      username: username,
+      date: '210621',
+    };
+    const addPreviousExam = await api
+      .addPreviousExam(type, pageNum, payload)
+      .then((res) => {
+        console.log('add Exam', res);
+      });
+  }
+
+  highlightPrevExam(e) {
+    let list = e.target.innerText;
+    console.log(list);
+
+    console.log(this.state.previousExamTable);
+    let highlistPreviousExam = this.state.previousExamTable;
+    for (let i = 0; i < highlistPreviousExam.length; i++) {
+      // this.state.previousExamTable.list
+      if (highlistPreviousExam[i].list.indexOf(list) !== -1) {
+        highlistPreviousExam[i].highlight = 1;
+        // console.log("found")
+        // break;
+      } else {
+        highlistPreviousExam[i].highlight = 0;
+      }
     }
 
-    highlightPrevExam(e) {
-      let list = e.target.innerText
-      console.log(list)
+    this.setState({ previousExamTable: highlistPreviousExam });
+    localStorage.setItem(
+      'previousExamTable',
+      JSON.stringify(highlistPreviousExam),
+    );
+  }
 
-      console.log(this.state.previousExamTable)
-      let highlistPreviousExam = this.state.previousExamTable
-      for(let i=0 ; i<highlistPreviousExam.length ; i++){
-        // this.state.previousExamTable.list
-        if(highlistPreviousExam[i].list.indexOf(list) !== -1) {
-          highlistPreviousExam[i].highlight = 1
-          // console.log("found")
-          // break;
-        }
-        else{
-          highlistPreviousExam[i].highlight = 0
-        }
-      }
+  render() {
+    const {
+      type,
+      pageNum,
+      submitAnswer,
+      currentScore,
+      showTableResult,
+      scoringButtonDisabled,
+      isRandom,
+      username,
+    } = this.state;
 
-      this.setState({previousExamTable: highlistPreviousExam})
-      localStorage.setItem("previousExamTable", JSON.stringify(highlistPreviousExam))
-    }
+    const correctAnswer = {
+      backgroundColor: 'forestgreen',
+      width: '5%',
+      textAlign: 'center',
+    };
+    const wrongAnswer = {
+      backgroundColor: 'lightcoral',
+      width: '5%',
+      textAlign: 'center',
+    };
 
+    const cellStyle = {
+      marginRight: '4px',
+      marginBottom: '4px',
+      width: '8%',
+    };
+    const cellStyle2 = {
+      marginRight: '4px',
+      marginBottom: '4px',
+      width: '6%',
+      fontSize: '14px',
+    };
 
-    render() {
-      const { type, pageNum, submitAnswer, currentScore, showTableResult, scoringButtonDisabled, isRandom, username } = this.state;
+    const toolBarRowStyle = {
+      width: '100%',
+      textAlign: 'center',
+    };
 
-      const correctAnswer = {
-        backgroundColor: 'forestgreen',
-        width: '5%',
-        textAlign: 'center'
+    // const cellColors = [ '#FADBD8', '#F2F3F4', '#D6EAF8', '#EBDEF0', '#D1F2EB', '#FCF3CF', '#FAE5D3' ];
+    const cellColors = [
+      '#ffffff',
+      '#F2F3F4',
+      '#FCF3CF',
+      '#FAD7A0',
+      '#F2D7D5',
+      '#F5B7B1',
+      '#F67E73',
+    ];
 
-      }
-      const wrongAnswer = {
-        backgroundColor: 'lightcoral',
-        width: '5%',
-        textAlign: 'center'
-      }
-
-      const cellStyle = {
-        marginRight: '4px',
-        marginBottom: '4px',
-        width: '8%'
-      }
-      const cellStyle2 = {
-        marginRight: '4px',
-        marginBottom: '4px',
-        width: '6%',
-        fontSize: '14px'
-      }
-
-      const toolBarRowStyle = {
-        width: '100%',
-        textAlign: 'center'
-      }
-
-      // const cellColors = [ '#FADBD8', '#F2F3F4', '#D6EAF8', '#EBDEF0', '#D1F2EB', '#FCF3CF', '#FAE5D3' ];
-      const cellColors = ['#ffffff','#F2F3F4', '#FCF3CF', '#FAD7A0', '#F2D7D5', '#F5B7B1', '#F67E73']
-
-
-      return (
-
-        <Container fluid >
-          <ButtonToolbar aria-label="Toolbar with button groups"
-            className="justify-content-between pt-3"
-          >
+    return (
+      <Container fluid>
+        <ButtonToolbar
+          aria-label="Toolbar with button groups"
+          className="justify-content-between pt-3"
+        >
           <Row className="justify-content-between" style={toolBarRowStyle}>
-            <Col  md={{ order: 1, span: 2}} sm={6} xs={{ order: 2, span: 5}} className="text-left">
-            <ButtonGroup className="mr-2" aria-label="First group" style={toolBarRowStyle}>
-              { isRandom ?
-              <Button variant="secondary" onClick={this.handleRandomPrevious} >이전 문제</Button>
-              :
-              <Button variant="secondary" href={(parseInt(pageNum)-1).toString()} >이전 문제</Button>
-              }
-
-            </ButtonGroup>
+            <Col
+              md={{ order: 1, span: 2 }}
+              sm={6}
+              xs={{ order: 2, span: 5 }}
+              className="text-left"
+            >
+              <ButtonGroup
+                className="mr-2"
+                aria-label="First group"
+                style={toolBarRowStyle}
+              >
+                {isRandom ? (
+                  <Button
+                    variant="secondary"
+                    onClick={this.handleRandomPrevious}
+                  >
+                    이전 문제
+                  </Button>
+                ) : (
+                  <Button
+                    variant="secondary"
+                    href={(parseInt(pageNum) - 1).toString()}
+                  >
+                    이전 문제
+                  </Button>
+                )}
+              </ButtonGroup>
             </Col>
 
-            <Col md={{ order: 2, span: 6, offset: 1}} sm={12} xs={{ order: 1, span: 12}}>
-            <ButtonGroup className="mr-2 " aria-label="First group" style={toolBarRowStyle} >
-            <Button variant="warning" onClick={this.resetProblem.bind(this)}>초기화</Button>
-              <Button variant="secondary" disabled>
-                푼 문제 수 <Badge variant="success">{submitAnswer.length}</Badge>
-              </Button>
-
-              <Button onClick={this.scoringExam.bind(this)} disabled={scoringButtonDisabled} variant="success" >채점하기</Button>
-              {
-                type == "adp" && (username == "관리자" || username == "익룡" || username == "김범환" || username == "메가존빌런") && false &&
-                <Button onClick={this.addPreviousQuestion.bind(this)} variant="primary" >기출문제 등록하기</Button>
-              }
-              {
-                type == "sap" &&
-                <OverlayTrigger
-                  key='bottom1'
-                  placement='bottom'
-                  overlay={
-                    <Tooltip id="tooltip-bottom1">
-                      최근에 새롭게 추가된 덤프 문제들입니다.
-                    </Tooltip>
-                  }
+            <Col
+              md={{ order: 2, span: 6, offset: 1 }}
+              sm={12}
+              xs={{ order: 1, span: 12 }}
+            >
+              <ButtonGroup
+                className="mr-2 "
+                aria-label="First group"
+                style={toolBarRowStyle}
+              >
+                <Button
+                  variant="warning"
+                  onClick={this.resetProblem.bind(this)}
                 >
-                  <Button href="290" variant="outline-info" >NEW문제</Button>
+                  초기화
+                </Button>
+                <Button variant="secondary" disabled>
+                  푼 문제 수{' '}
+                  <Badge variant="success">{submitAnswer.length}</Badge>
+                </Button>
 
-                </OverlayTrigger>
-
-              }
-              {
-                (type == "sap" || type == "adp") &&
-                <OverlayTrigger
-                  key='bottom2'
-                  placement='bottom'
-                  overlay={
-                    <Tooltip id="tooltip-bottom2">
-                      최근에 시험을 보고왔던 SA들이 선별한 기출문제들만 확인할 수 있습니다.
-                    </Tooltip>
-                  }
+                <Button
+                  onClick={this.scoringExam.bind(this)}
+                  disabled={scoringButtonDisabled}
+                  variant="success"
                 >
-                  <Button onClick={this.viewPreviousExamTable.bind(this)} variant="outline-info" >기출문제</Button>
-                </OverlayTrigger>
-
-              }
-
-            </ButtonGroup>
+                  채점하기
+                </Button>
+                {type == 'adp' &&
+                  (username == '관리자' ||
+                    username == '익룡' ||
+                    username == '김범환' ||
+                    username == '메가존빌런') &&
+                  false && (
+                    <Button
+                      onClick={this.addPreviousQuestion.bind(this)}
+                      variant="primary"
+                    >
+                      기출문제 등록하기
+                    </Button>
+                  )}
+                {type == 'sap' && (
+                  <OverlayTrigger
+                    key="bottom1"
+                    placement="bottom"
+                    overlay={
+                      <Tooltip id="tooltip-bottom1">
+                        최근에 새롭게 추가된 덤프 문제들입니다.
+                      </Tooltip>
+                    }
+                  >
+                    <Button href="290" variant="outline-info">
+                      NEW문제
+                    </Button>
+                  </OverlayTrigger>
+                )}
+                {(type == 'sap' || type == 'adp') && (
+                  <OverlayTrigger
+                    key="bottom2"
+                    placement="bottom"
+                    overlay={
+                      <Tooltip id="tooltip-bottom2">
+                        최근에 시험을 보고왔던 SA들이 선별한 기출문제들만 확인할
+                        수 있습니다.
+                      </Tooltip>
+                    }
+                  >
+                    <Button
+                      onClick={this.viewPreviousExamTable.bind(this)}
+                      variant="outline-info"
+                    >
+                      기출문제
+                    </Button>
+                  </OverlayTrigger>
+                )}
+              </ButtonGroup>
             </Col>
 
-            <Col md={{ order: 3, span: 2, offset: 1}} sm={6}  xs={{ order: 3, span: 5, offset: 2}} className="text-right">
-            <ButtonGroup className="mr-2" aria-label="First group" style={toolBarRowStyle}>
-              { isRandom ?
-                <Button variant="secondary" onClick={this.handleRandomNext} >다음 문제(random)</Button>
-                :
-                <Button variant="secondary" href={(parseInt(pageNum)+1).toString()} >다음 문제</Button>}
-            </ButtonGroup>
+            <Col
+              md={{ order: 3, span: 2, offset: 1 }}
+              sm={6}
+              xs={{ order: 3, span: 5, offset: 2 }}
+              className="text-right"
+            >
+              <ButtonGroup
+                className="mr-2"
+                aria-label="First group"
+                style={toolBarRowStyle}
+              >
+                {isRandom ? (
+                  <Button variant="secondary" onClick={this.handleRandomNext}>
+                    다음 문제(random)
+                  </Button>
+                ) : (
+                  <Button
+                    variant="secondary"
+                    href={(parseInt(pageNum) + 1).toString()}
+                  >
+                    다음 문제
+                  </Button>
+                )}
+              </ButtonGroup>
             </Col>
           </Row>
-          </ButtonToolbar>
+        </ButtonToolbar>
 
-          <Wrapper className={this.state.tableResult.length > 0 ? "mt-4" : ""}  >
-            {showTableResult && <h5> 점수 : {currentScore} 점 </h5>}
-          {
-
-            this.state.tableResult.map((data, index) => {
-              // console.log(data['id'])
-              if(data['correct']) {
-                return <Button href={data['id'].toString()} key={index} style={cellStyle} variant="success">{data['id']}</Button>
-              }
-              else{
-                return <Button href={data['id'].toString()} key={index} style={cellStyle} variant="danger">{data['id']}</Button>
-              }
-
-            })
-          }
-
-          </Wrapper>
-          {
-
-          }
-          {
-            this.state.previousExamTable.length > 0  &&
-            <div style={{marginTop: '8px'}}>
-              {
-                this.state.prevExamList.map((list, index) => {
-                  return <Button variant="outline-dark"
-                      style={{
-                        fontSize: '14px',
-                        margin: '0px 4px'
-                      }}
-                      onClick={this.highlightPrevExam.bind(this)}
-                    >
-                    {list}
-                  </Button>
-                })
-              }
-            </div>
-          }
-
-          <div className={this.state.previousExamTable.length > 0 ? "mt-4" : ""}  >
-          {
-            this.state.previousExamTable.map((data, index) => {
-              return <Button href={data['n'].toString()} key={index}
-                        style={{marginRight: '4px',
-                          marginBottom: '4px',
-                          width: '6%',
-                          fontSize: '14px',
-                          backgroundColor: cellColors[data['t'] % 7],
-                          // backgroundColor: cellColors[data['l'] % 7],
-                          // fontWeight: data['t'] >= 3 ? '700' : '400',
-                          // fontWeight: data['t'] >= 4 ? '700' : data['t'] >= 3 ? '500' : '400',
-                          // border: data['t'] >= 4 ? '1px solid #333333' : 'none',
-                          border: data['highlight'] == 1 ? '1px solid #333333' : 'none',
-                          // border: data['t'] >= 4 ? '1px solid #222222' : data['t'] >= 3 ? '1px solid #888888' : 'none',
-                          paddingRight: '0px',
-                          paddingLeft: '0px'
-                        }
-                        }
-                          variant="light">{data['n']}
-                      </Button>
-            })
-          }
+        <Wrapper className={this.state.tableResult.length > 0 ? 'mt-4' : ''}>
+          {showTableResult && <h5> 점수 : {currentScore} 점 </h5>}
+          {this.state.tableResult.map((data, index) => {
+            // console.log(data['id'])
+            if (data['correct']) {
+              return (
+                <Button
+                  href={data['id'].toString()}
+                  key={index}
+                  style={cellStyle}
+                  variant="success"
+                >
+                  {data['id']}
+                </Button>
+              );
+            } else {
+              return (
+                <Button
+                  href={data['id'].toString()}
+                  key={index}
+                  style={cellStyle}
+                  variant="danger"
+                >
+                  {data['id']}
+                </Button>
+              );
+            }
+          })}
+        </Wrapper>
+        {}
+        {this.state.previousExamTable.length > 0 && (
+          <div style={{ marginTop: '8px' }}>
+            {this.state.prevExamList.map((list, index) => {
+              return (
+                <Button
+                  variant="outline-dark"
+                  style={{
+                    fontSize: '14px',
+                    margin: '0px 4px',
+                  }}
+                  onClick={this.highlightPrevExam.bind(this)}
+                >
+                  {list}
+                </Button>
+              );
+            })}
           </div>
+        )}
 
-
-        </Container>
-      );
-    }
+        <div className={this.state.previousExamTable.length > 0 ? 'mt-4' : ''}>
+          {this.state.previousExamTable.map((data, index) => {
+            return (
+              <Button
+                href={data['n'].toString()}
+                key={index}
+                style={{
+                  marginRight: '4px',
+                  marginBottom: '4px',
+                  width: '6%',
+                  fontSize: '14px',
+                  backgroundColor: cellColors[data['t'] % 7],
+                  // backgroundColor: cellColors[data['l'] % 7],
+                  // fontWeight: data['t'] >= 3 ? '700' : '400',
+                  // fontWeight: data['t'] >= 4 ? '700' : data['t'] >= 3 ? '500' : '400',
+                  // border: data['t'] >= 4 ? '1px solid #333333' : 'none',
+                  border: data['highlight'] == 1 ? '1px solid #333333' : 'none',
+                  // border: data['t'] >= 4 ? '1px solid #222222' : data['t'] >= 3 ? '1px solid #888888' : 'none',
+                  paddingRight: '0px',
+                  paddingLeft: '0px',
+                }}
+                variant="light"
+              >
+                {data['n']}
+              </Button>
+            );
+          })}
+        </div>
+      </Container>
+    );
+  }
 }
 
-
-
-
-export default ExamToolbar
+export default ExamToolbar;
