@@ -63,7 +63,7 @@ jobs:
       run: |
         aws s3 cp --recursive --region ap-northeast-2 build s3://examboom-cicd-bucket
     - name: Code deploy to EC2
-      run: aws deploy create-deployment --application-name examboom-front  --deployment-config-name CodeDeployDafult.OneAtTime --deployment-group-name examboom-front-gr s3://examboom-cicd-bucket, buidleType=zip,key=$GITHUB_SHA.zip
+      run: aws deploy create-deployment --application-name examboom-front  --deployment-config-name CodeDeployDafult.OneAtTime --deployment-group-name examboom-front-gr s3://examboom-cicd-bucket
       
 
     # - name: Cloudfront Invalidation
