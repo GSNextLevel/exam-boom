@@ -298,6 +298,7 @@ class ExamToolbar extends Component {
         'username': username,
         'date': '210621'
       }
+<<<<<<< Updated upstream
       const addPreviousExam =  await api.addPreviousExam(type, pageNum, payload).then(res => {
         console.log("add Exam", res);
 
@@ -321,6 +322,104 @@ class ExamToolbar extends Component {
         else{
           highlistPreviousExam[i].highlight = 0
         }
+=======
+    
+    console.log('my result', foundUnsubmittedAnswer);
+
+    const username = cookies.get('username') || '익명';
+    const payload = {
+      name: username,
+      type: type,
+      result: foundUnsubmittedAnswer,
+    };
+
+    console.log('toobar payload', payload);
+    const scoringResponse = await api.scoringExam(type, payload).then((res) => {
+      console.log(res);
+    });
+    console.log(scoringResponse);
+
+    // console.log(this.state.tableResult)
+  }
+
+  async viewPreviousExamTable() {
+    const cookies = new Cookies();
+    const examType = this.props.value.match.params.type;
+    const getPreviousExam = await api
+      .getPreviousExamByType(examType)
+      .then((exam) => {
+        console.log('prev Exam', exam);
+
+        console.log(exam['data']['Items']);
+        // this.setState({previousExamTable: exam['data']['Items'] })
+
+        let prevData = exam['data']['Items'];
+        let makePrevData = [];
+        let prevExamList = [];
+        prevData.map((li, i) => {
+          for (let i = 0; i < li.previousExam.length; i++) {
+            if (!prevExamList.includes(li.previousExam[i])) {
+              console.log(
+                'new push',
+                li.previousExam[li.previousExam.length - 1],
+              );
+              prevExamList.push(li.previousExam[i]);
+            }
+          }
+          let prevDataObject = {
+            n: li.examIdx,
+            t: li.previousExam.length,
+            list: li.previousExam,
+          };
+          makePrevData.push(prevDataObject);
+        });
+        prevExamList.push('해제');
+        console.log('prevExamList', prevExamList);
+        console.log('List', prevExamList.sort());
+
+        this.setState({
+          previousExamTable: makePrevData,
+          prevExamList: prevExamList.sort(),
+        });
+
+        localStorage.setItem('previousExamTable', JSON.stringify(makePrevData));
+        localStorage.setItem('prevExamList', JSON.stringify(prevExamList));
+        cookies.set('previousExamTable', makePrevData, {
+          path: '/exam/' + examType,
+        });
+
+        console.log('cookie set!');
+      });
+  }
+
+  async addPreviousQuestion() {
+    const { type, pageNum, username } = this.state;
+    const payload = {
+      username: username,
+      date: '210621',
+    };
+    const addPreviousExam = await api
+      .addPreviousExam(type, pageNum, payload)
+      .then((res) => {
+        console.log('add Exam', res);
+      });
+  }
+
+  highlightPrevExam(e) {
+    let list = e.target.innerText;
+    console.log(list);
+
+    console.log(this.state.previousExamTable);
+    let highlistPreviousExam = this.state.previousExamTable;
+    for (let i = 0; i < highlistPreviousExam.length; i++) {
+      // this.state.previousExamTable.list
+      if (highlistPreviousExam[i].list.indexOf(list) !== -1) {
+        highlistPreviousExam[i].highlight = 1;
+        // console.log("found")
+        // break;
+      } else {
+        highlistPreviousExam[i].highlight = 0;
+>>>>>>> Stashed changes
       }
 
       this.setState({previousExamTable: highlistPreviousExam})
