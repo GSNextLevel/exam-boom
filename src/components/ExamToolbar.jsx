@@ -291,7 +291,7 @@ class ExamToolbar extends Component {
         'date': '210621'
 
       }
-    }
+    
     console.log('my result', foundUnsubmittedAnswer);
 
     const username = cookies.get('username') || '익명';
