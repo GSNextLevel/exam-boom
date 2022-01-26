@@ -30,6 +30,8 @@ jobs:
     - name: Add My Package Build
       run: npm install -g react-scripts
 
+
+
 #     - run: npm ci
     - name: Build
       # run: react-scripts build
@@ -38,9 +40,9 @@ jobs:
         CI: false
 #       run: NODE_ENV=production node_modules/react-scripts/bin/react-scripts.js start
 
-    - name: Make zip file
-      run: zip -qq -r ./$GITHUB_SHA.zip .
-      shell: bash
+    # - name: Make zip file
+    #   run: zip -qq -r ./$GITHUB_SHA.zip .
+    #   shell: bash
       
 
     - name: action-slack
@@ -61,16 +63,17 @@ jobs:
         aws-region: ap-northeast-2
 
 #     - run: npm test
-    - name: Move file to S3
-#       env:
-#         AWS_ACCEES_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      run: |
-        aws s3 cp --recursive --region ap-northeast-2 ./$GITHUB_SHA.zip s3://examboom-cicd-bucket/$PROJECT_NAME/$GITHUB_SHA.zip
+
+#     - name: Move file to S3
+# #       env:
+# #         AWS_ACCEES_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+# #         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#       run: |
+#         aws s3 cp --recursive --region ap-northeast-2 ./$GITHUB_SHA.zip s3://examboom-cicd-bucket/$PROJECT_NAME/$GITHUB_SHA.zip
       
 
-    - name: Code deploy to EC2
-      run: aws deploy create-deployment --application-name examboom-front  --deployment-config-name CodeDeployDafult.OneAtTime --deployment-group-name examboom-front-gr --s3-location bucket=s3://examboom-cicd-bucket,bundleType=zip,key=$GITHUB_SHA.zip
+#     - name: Code deploy to EC2
+#       run: aws deploy create-deployment --application-name examboom-front  --deployment-config-name CodeDeployDafult.OneAtTime --deployment-group-name examboom-front-gr --s3-location bucket=s3://examboom-cicd-bucket,bundleType=zip,key=$GITHUB_SHA.zip
       
 
     # - name: Cloudfront Invalidation
