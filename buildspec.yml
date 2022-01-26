@@ -1,0 +1,17 @@
+version: 0.1
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 14
+    commands:
+      - npm install
+      - npm install -g react-scripts
+      - npm run build
+    run-as: root
+artifacts:
+  files:
+    - "**/*"
+cache:
+  paths:
+    - "node_modules/**/*"
