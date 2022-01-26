@@ -39,7 +39,7 @@ jobs:
 #       run: NODE_ENV=production node_modules/react-scripts/bin/react-scripts.js start
 
     - name: Make zip file
-      run: zip -qq -r ./$GITHUB_SHA.zip .
+      run: zip -qq -r $GITHUB_SHA.zip .
       shell: bash
       
 
@@ -66,7 +66,7 @@ jobs:
 #         AWS_ACCEES_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
 #         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
-        aws s3 cp --recursive --region ap-northeast-2 ./$GITHUB_SHA.zip s3://examboom-cicd-bucket/$PROJECT_NAME/$GITHUB_SHA.zip
+        aws s3 cp --recursive --region ap-northeast-2 $GITHUB_SHA.zip s3://examboom-cicd-bucket/$GITHUB_SHA.zip
       
 
     - name: Code deploy to EC2
