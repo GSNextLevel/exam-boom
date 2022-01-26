@@ -71,7 +71,7 @@ class MoneyAlertModal extends Component {
           </Modal.Header>
           <Modal.Body>
           
-            개발팀이 손익분기점을 넘을때까지 유료화정책을 유지하기로 결정했습니다. 양질의 문제와 지속적인 업데이트를 위해 2000원을 기부해주시면 감사하겠습니다.
+            개발팀이 손익분기점을 넘을때까지 유료화정책을 유지하기로 결정했습니다. 양질의 문제와 지속적인 업데이트를 위해 소액을 기부해주시면 감사하겠습니다.
             <br></br>
             <p style={{textAlign: "center"}}>
               <Button onClick={this.changeMoney.bind(this, "1")}variant="danger">1000₩</Button>{' '}
