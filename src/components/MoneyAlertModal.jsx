@@ -36,7 +36,7 @@ class MoneyAlertModal extends Component {
     handleClose() {
       const cookies = new Cookies();
       let expireDate = new Date();
-      expireDate.setTime(expireDate.getTime() + 60*60*1000 );
+      expireDate.setTime(expireDate.getTime() + 3*60*60*1000 );
       // expireDate.setDate(expireDate.getDate() + 1)
       cookies.set('pay_modal', true, {expires: expireDate})
       this.setState({modalShow: false})
