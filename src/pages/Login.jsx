@@ -72,7 +72,7 @@ class Login extends Component {
             <Container id="login-container" >
                 <div className="login-div">
                     <h4 className="login-header">로그인</h4>
-                    <h3>아이디 도메인이 @gsneotek.com 으로 변경되었습니다. </h3>
+                    <h6>아이디 도메인이 @gsneotek.com 으로 변경되었습니다. </h6>
                     <form className ="login-form" onSubmit={this.handleSubmit}>
                     <div className="login-text-area">
                         <input
@@ -80,7 +80,7 @@ class Login extends Component {
                         id="inputEmail"
                         name="email"
                         className="login-text-input"
-                        placeholder="이메일"
+                        placeholder="이메일 @gsneotek.com"
 
                         value={this.state.email} onChange={this.handleChange}
                         />
