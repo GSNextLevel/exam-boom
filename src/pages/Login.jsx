@@ -72,6 +72,7 @@ class Login extends Component {
             <Container id="login-container" >
                 <div className="login-div">
                     <h4 className="login-header">로그인</h4>
+                    <h3>아이디 도메인이 @gsneotek.com 으로 변경되었습니다. </h3>
                     <form className ="login-form" onSubmit={this.handleSubmit}>
                     <div className="login-text-area">
                         <input
