@@ -24,7 +24,7 @@ class SignUp extends Component {
         const value = target.value;
         const name = target.name;
 
-        console.log(name, value);
+        // console.log(name, value);
         this.setState({
             [name]: value
         })
@@ -32,7 +32,7 @@ class SignUp extends Component {
     emailValidation(email) {
         
         // let emailValid = email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
-        let emailValid = email.match(/^([\w.%+-]+)@(gscdn.com)$/i);
+        let emailValid = email.match(/^([\w.%+-]+)@(gsneotek.com)$/i);
         
 
         if(email == '') return false;
