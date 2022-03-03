@@ -18,8 +18,8 @@ class MoneyAlertModal extends Component {
       const cookies = new Cookies();
 
       this.state = {
-        modalShow: cookies.get('pay_modal') === undefined ? true : false,
-        // modalShow: false
+        // modalShow: cookies.get('pay_modal') === undefined ? true : false,
+        modalShow: false,
         // modalShow: true
         moneyBtn1: "none",
         moneyBtn2: "true",
