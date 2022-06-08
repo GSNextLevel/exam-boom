@@ -7,6 +7,8 @@ import {
   ExamToolbar,
   ExamReply,
   LoginAlertModal,
+  CoinModal,
+  MoneyAlertModal
 } from '../components';
 
 import { NotFound } from '../pages';
@@ -21,6 +23,7 @@ class ExamPage extends Component {
   constructor(props) {
     super(props);
 
+    
     console.log(props);
     this.state = {
       examNum: props.match.params.id,
@@ -30,7 +33,10 @@ class ExamPage extends Component {
       choiceType: '',
       type: props.match.params.type,
       isRandom: props.isRandom || false,
+      coin: 0,
+      
     };
+    
     // this.state = {
     //     movies: [],
     //     columns: [],
@@ -40,9 +46,16 @@ class ExamPage extends Component {
     console.log(this.state.examNum);
   }
 
+  
+
+  toggleCoinModal = (val) => {
+    this.setState({showCoinModal: true});
+  }
+  
+
   render() {
     // const { params } = this.props.match;
-    const { examNum } = this.state;
+    const { examNum, showCoinModal } = this.state;
     const isValidExamNum = isNaN(examNum) ? false : true;
     console.log('examNum : ', examNum, isValidExamNum);
 
@@ -52,11 +65,14 @@ class ExamPage extends Component {
           <Container>
             <ExamToolbar value={this.props} />
 
-            <ExamCard value={this.props} />
+            <ExamCard value={this.props} toggleCoinModal={this.toggleCoinModal} />
 
             <ExamReply value={this.props} />
             <ExamPagination value={this.props} />
             <LoginAlertModal />
+            <CoinModal showCoinModal={showCoinModal}/>
+            <MoneyAlertModal />
+
           </Container>
         )}
 

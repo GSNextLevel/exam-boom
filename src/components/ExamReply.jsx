@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 import api from '../api';
+import api2 from '../api';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -39,16 +40,21 @@ class ExamReply extends Component {
       userModeState: false,
       isWrongAnswer: false,
       // replyCnt: 0,
+      user_id: localStorage.getItem('user_id'),
+      nickname: localStorage.getItem('nickname'),
       username:
-        cookies.get('username') === undefined
+        // cookies.get('username') === undefined
+        localStorage.getItem('nickname') === undefined
           ? '익명'
-          : cookies.get('username'),
+          : localStorage.getItem('nickname'),
       replyOpenStatus:
         cookies.get('replyOpenStatus') === undefined
           ? false
           : cookies.get('replyOpenStatus') == 'false'
           ? false
           : true,
+      examNum: this.props.value.match.params.id,
+      examType: this.props.value.match.params.type
     };
 
     // console.log(this.props);
@@ -61,15 +67,15 @@ class ExamReply extends Component {
     const examNum = this.props.value.match.params.id;
     const type = this.props.value.match.params.type;
 
-    await api.getExamReplyById(type, examNum).then((exam) => {
+    await api2.getExamReplyById(type, examNum).then((exam) => {
       console.log('Reply ', exam);
-      if (exam.data.Item.reply == undefined) {
+      if (exam.data == undefined) {
         this.setState({
           replies: [],
         });
       } else {
         this.setState({
-          replies: exam.data.Item.reply,
+          replies: exam.data,
         });
       }
     });
@@ -100,59 +106,64 @@ class ExamReply extends Component {
 
   async writeReply() {
     const cookies = new Cookies();
-
-    const examNum = this.props.value.match.params.id;
-    const type = this.props.value.match.params.type;
+    const { examType, examNum, nickname } = this.state;
+    // const examNum = this.props.value.match.params.id;
+    // const type = this.props.value.match.params.type;
 
     console.log(this.state.userInputReplyText, this.state.userModeState);
     const userInputReplyText = this.state.userInputReplyText;
     const userModeState = this.state.userModeState;
     const isWrongAnswer = this.state.isWrongAnswer;
-    let passUsername = '';
-    if (userModeState) {
-      passUsername = '익명';
-    } else {
-      const cookieName = cookies.get('username');
-      passUsername = cookieName === undefined ? '👨‍💻' : cookieName;
-    }
+
+    
+    
     const payload = {
-      name: passUsername,
+      nickname: nickname,
       content: userInputReplyText,
-      createdAt: Date.now(),
-      isWrongAnswer: isWrongAnswer,
+      // createdAt: Date.now(),
+      // isWrongAnswer: isWrongAnswer,
     };
 
-    await api.updateExamReplyById(type, examNum, payload).then((res) => {
+    console.log(payload);
+
+    await api.updateExamReplyById(examType, examNum, payload).then((res) => {
       // console.log(exam);
       console.log(res);
       let prevReplies = this.state.replies;
       console.log(this.state.replies);
       let mytemp = prevReplies.push(payload);
-      console.log(mytemp);
+      // console.log(mytemp);
       this.setState({ replies: prevReplies });
 
       this.setState({ userInputReplyText: '' });
+
+      
+      localStorage.setItem("coin", parseInt(localStorage.getItem("coin")) + 10 );
       // this.setState({replies: [{"name": "dz", "content": "aa"}]})
     });
   }
 
-  async deleteReply(username, id) {
-    console.log('delete ', id);
-    const examNum = this.props.value.match.params.id;
-    const type = this.props.value.match.params.type;
+  async deleteReply(reply_id, index) {
+    console.log('delete ', reply_id);
+    const { examType, examNum } = this.state;
 
-    await api.deleteExamReplyById(type, examNum, username, id).then((res) => {
+    console.log(examNum, examType);
+    // const examNum = this.props.value.match.params.id;
+    // const type = this.props.value.match.params.type;
+    
+
+    await api2.deleteExamReplyById(examType, examNum, reply_id).then((res) => {
       // console.log(exam);
       console.log(res);
 
       let prevReplies = this.state.replies;
-      prevReplies.splice(id, 1);
+      prevReplies.splice(index, 1);
       this.setState({ replies: prevReplies });
     });
   }
 
   render() {
-    const { replies, userInputReplyText, username, replyOpenStatus } =
+    const { replies, userInputReplyText, user_id, replyOpenStatus } =
       this.state;
     // console.log(replies);
     console.log('reply status', replyOpenStatus);
@@ -237,12 +248,12 @@ class ExamReply extends Component {
                           overlay={
                             <Tooltip id="tooltip-bottom1">
                               {new Date(
-                                parseInt(data.createdAt),
+                                data.created_at,
                               ).toLocaleString()}
                             </Tooltip>
                           }
                         >
-                          <MyBadge variant="success">{data.name}</MyBadge>
+                          <MyBadge variant="success">{data.nickname}</MyBadge>
                         </OverlayTrigger>
                       </Col>
                       <Col style={replyDiv} md="9">
@@ -251,10 +262,10 @@ class ExamReply extends Component {
                         </pre>
                       </Col>
                       <Col style={replyDiv} md="1">
-                        {data.name == username && (
+                        {data.user_id == user_id && (
                           <Button
                             variant="light"
-                            onClick={() => this.deleteReply(data.name, index)}
+                            onClick={() => this.deleteReply(data.reply_id, index)}
                             size="sm"
                           >
                             {' '}

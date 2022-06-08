@@ -7,7 +7,7 @@ import Table from 'react-bootstrap/Table';
 
 import { FcRating, FcOk, FcCheckmark, FcClock, FcLinux } from 'react-icons/fc';
 
-import api from '../api';
+import api2 from '../api';
 
 class LeaderBoard extends Component {
   constructor(props) {
@@ -20,7 +20,7 @@ class LeaderBoard extends Component {
   componentDidMount = async () => {
     this.setState({ isLoading: true });
 
-    await api
+    await api2
       .getLeaderBoard()
       .then((list) => {
         console.log(list);
@@ -44,7 +44,8 @@ class LeaderBoard extends Component {
               <th>순위</th>
               <th>이름</th>
               <th>점수</th>
-              <th>댓글</th>
+              {/* <th>댓글</th> */}
+              <th>잔여코인</th>
               <th>마지막 참여 시간</th>
             </tr>
           </thead>
@@ -64,22 +65,23 @@ class LeaderBoard extends Component {
                     )}
                     {
                       data.point >= 1000 ?
-                        <a style={{color: 'cornflowerblue', fontWeight: '600'}}>{data.username}</a>
+                        <a style={{color: 'cornflowerblue', fontWeight: '600'}}>{data.nickname}</a>
                         :
-                        <a>{data.username}</a>
+                        <a>{data.nickname}</a>
                     }
 
                   </td>
                   <td>{data.point}</td>
-                  <td>{data.writeReplyCount || 0}</td>
+                  <td>{data.coin !== null ? data.coin : "비공개"}</td>
                   <td>
-                    {new Date().getTime() - data.updateAt * 1000 <
+                    {new Date().getTime() - new Date(data.pointUpdatedAt).getTime() <
                     1000 * 60 * 60 * 24 ? (
+                    
                       <FcClock className="mr-1" />
                     ) : (
                       <a />
                     )}
-                    {new Date(parseInt(data.updateAt * 1000)).toLocaleString()}
+                    {new Date(data.pointUpdatedAt).toLocaleString()}
                   </td>
                 </tr>
               );
