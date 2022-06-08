@@ -126,7 +126,7 @@ class ExamPage extends Component {
 
           </Container>
         )}
-        
+        <div>
           <GoogleAdvertise />
         </div>
 
