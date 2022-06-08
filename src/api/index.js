@@ -16,6 +16,7 @@ const api2 = axios.create({
     // baseURL: 'https://3.38.150.150',
     // baseURL: 'https://test.viassh.com',
     baseURL: API_BASE_URL,
+    // baseURL: 'https://exam.viassh.com',
     headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer " + localStorage.getItem("userToken")

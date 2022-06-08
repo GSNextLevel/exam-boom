@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 
 import Container from 'react-bootstrap/Container';
 import {
@@ -18,6 +18,57 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import api from '../api';
 
 import styled from 'styled-components';
+
+const GoogleAdvertise = ({
+  className = "adsbygoogle",
+  client = "ca-pub-6313193260834584",
+  slot = "6499031333",
+  format = "fluid",
+  responsive = "true",
+  layoutKey = "+2t+rl+2h-1m-4u"
+}) => {
+  useEffect(() => {
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+      console.log("Advertise is pushed");
+    } catch (e) {
+      if (process.env.NODE_ENV !== "production")
+        console.error("AdvertiseError", e);
+    }
+  }, []);
+
+  if (process.env.NODE_ENV !== "production")
+    return (
+      <div
+        style={{
+          background: "#e9e9e9",
+          color: "black",
+          fontSize: "18px",
+          fontWeight: "bold",
+          textAlign: "center",
+          padding: "16px"
+        }}
+      >
+        광고 표시 영역
+      </div>
+    );
+  return (
+    <ins
+      className={className}
+      style={{
+        overflowX: "auto",
+        overflowY: "hidden",
+        display: "block",
+        textAlign: "center"
+      }}
+      data-ad-client={client}
+      data-ad-slot={slot}
+      data-ad-format={format}
+      data-full-width-responsive={responsive}
+      data-ad-layout-key={layoutKey}
+    />
+  );
+};
 
 class ExamPage extends Component {
   constructor(props) {
@@ -75,6 +126,9 @@ class ExamPage extends Component {
 
           </Container>
         )}
+        
+          <GoogleAdvertise />
+        </div>
 
         {(!isValidExamNum || examNum <= 0) && (
           <Container>
