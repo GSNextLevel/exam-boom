@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 // import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { Link } from 'react-router-dom';
 
@@ -21,6 +21,57 @@ import styled from 'styled-components';
 const Wrapper = styled.div`
   padding: 40px 40px 40px 40px;
 `;
+// console.log(process.env)
+const GoogleAdvertise = ({
+  className = "adsbygoogle",
+  client = "ca-pub-6313193260834584",
+  slot = "5231564580",
+  format = "fluid",
+  responsive = "true",
+  layoutKey = "-6t+ed+2i-1n-4w"
+}) => {
+  useEffect(() => {
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+      console.log("Advertise is pushed");
+    } catch (e) {
+      if (process.env.NODE_ENV !== "production")
+        console.error("AdvertiseError", e);
+    }
+  }, []);
+
+  if (process.env.NODE_ENV !== "production")
+    return (
+      <div
+        style={{
+          background: "#e9e9e9",
+          color: "black",
+          fontSize: "18px",
+          fontWeight: "bold",
+          textAlign: "center",
+          padding: "16px"
+        }}
+      >
+        광고 표시 영역
+      </div>
+    );
+  return (
+    <ins
+      className={className}
+      style={{
+        overflowX: "auto",
+        overflowY: "hidden",
+        display: "block",
+        textAlign: "center"
+      }}
+      data-ad-client={client}
+      data-ad-slot={slot}
+      data-ad-format={format}
+      data-full-width-responsive={responsive}
+      data-ad-layout-key={layoutKey}
+    />
+  );
+};
 
 class ExamMain extends Component {
   constructor(props) {
@@ -37,7 +88,7 @@ class ExamMain extends Component {
     return (
       <Container>
         <Wrapper>
-          <Alert variant="success">
+          {/* <Alert variant="success">
             서버리스를 걷어내고 내부로직을 변경하여 새롭게 단장한 버전2 입니다.
             <br/>
             이번 업데이트에서 댓글과 사이트 활성화를 위해 Coin 개념이 추가되었습니다. 
@@ -55,7 +106,7 @@ class ExamMain extends Component {
           <Alert variant="danger">
             일부 기능에 아직 버그가 있을 수 있습니다... 차차 개선할 예정입니다.
             
-          </Alert>
+          </Alert> */}
 
           <Row className="">
             <Col md={{span: 4}} className="justify-content-center text-center mb-2">
@@ -96,6 +147,12 @@ class ExamMain extends Component {
                 </Card.Body>
               </Card>
             </Col>
+          </Row>
+          <Row>
+            <Col md={{span: 4}} className="justify-content-center text-center mb-2">
+              <GoogleAdvertise />
+            </Col>
+           
           </Row>
           {/* <Row>
             <Col md={{span: 4}} className="justify-content-center text-center mb-2">
