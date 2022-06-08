@@ -107,7 +107,7 @@ class ExamMain extends Component {
             일부 기능에 아직 버그가 있을 수 있습니다... 차차 개선할 예정입니다.
             
           </Alert> */}
-          <h1>TEST2</h1>
+          <h1>TEST3</h1>
           <Row className="">
             <Col md={{span: 4}} className="justify-content-center text-center mb-2">
               <Card style={{ minWidth: '14rem', textAlign: 'center' }}>
