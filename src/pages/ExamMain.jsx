@@ -15,6 +15,7 @@ import { ExamCard } from '../components';
 import devopsImg from '../image/adp2.jpg';
 import sapImg from '../image/sap2.jpg';
 import gapImg from '../image/gap.png';
+import tfaImg from '../image/tfa.png';
 import aws_ai_Img from '../image/aws_ai.png';
 import styled from 'styled-components';
 
@@ -107,7 +108,6 @@ class ExamMain extends Component {
             일부 기능에 아직 버그가 있을 수 있습니다... 차차 개선할 예정입니다.
             
           </Alert> */}
-          <h1>TEST3</h1>
           <Row className="">
             <Col md={{span: 4}} className="justify-content-center text-center mb-2">
               <Card style={{ minWidth: '14rem', textAlign: 'center' }}>
@@ -129,6 +129,19 @@ class ExamMain extends Component {
                   <Card.Title>AWS</Card.Title>
                   <Card.Text>SA Pro</Card.Text>
                   <Button variant="primary" href="/exam/sap">
+                    바로가기
+                  </Button>
+                </Card.Body>
+              </Card>
+            </Col>
+
+            <Col md={{span: 4}} className="justify-content-center text-center mb-2">
+              <Card style={{ minWidth: '14rem', textAlign: 'center' }}>
+                <Card.Img style={imgStyle} variant="top" src={tfaImg} />
+                <Card.Body>
+                  <Card.Title>TFA</Card.Title>
+                  <Card.Text>Terraform Associate</Card.Text>
+                  <Button variant="primary" href="/exam/tfa">
                     바로가기
                   </Button>
                 </Card.Body>
