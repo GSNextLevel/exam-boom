@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
 
-import { FcRating, FcOk, FcCheckmark, FcClock, FcLinux } from 'react-icons/fc';
+import { FcRating, FcOk, FcCheckmark, FcClock, FcLinux, FcDonate, FcCurrencyExchange, FcIdea, FcBullish, FcAssistant } from 'react-icons/fc';
 
 import api2 from '../api';
 
@@ -36,6 +36,12 @@ class LeaderBoard extends Component {
   render() {
     const { userData } = this.state;
 
+    const donated = ["sian", "로우킥", "sshlove", "아무거나", "최성우", ];
+    const goldmember = ["로우킥", "sian"]
+    const manager = ["한승수", "구로동잼민이"]
+
+    const upInsight = ["ksg"]
+
     return (
       <Container className="mt-4">
         <Table striped bordered hover className="text-center">
@@ -56,16 +62,22 @@ class LeaderBoard extends Component {
                   <td>{index + 1}</td>
                   <td>
                     {index + 1 === 1 && <FcLinux className="mr-1" />}
-                    {data.point >= 500 ? (
+                    {donated.includes(data.nickname) && <FcCurrencyExchange className="mr-1" />}
+                    {goldmember.includes(data.nickname) && <FcIdea className="mr-1" />}
+                    {manager.includes(data.nickname) && <FcAssistant className="mr-1" />}
+                    {upInsight.includes(data.nickname) && <FcBullish className="mr-1" />}
+                    {/* {data.point >= 500 ? (
                       <FcOk className="mr-1" />
                     ) : data.point >= 100 ? (
                       <FcCheckmark className="mr-1" />
                     ) : (
                       <a />
-                    )}
+                    )} */}
                     {
-                      data.point >= 1000 ?
-                        <a style={{color: 'cornflowerblue', fontWeight: '600'}}>{data.nickname}</a>
+                      // data.point >= 1000 ?
+                      donated.includes(data.nickname) ?
+                        <a style={{color: 'goldenrod', fontWeight: '600'}}>{data.nickname}</a>
+                        // <a>{data.nickname}</a>
                         :
                         <a>{data.nickname}</a>
                     }
