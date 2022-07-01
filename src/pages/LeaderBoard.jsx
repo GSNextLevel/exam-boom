@@ -36,8 +36,8 @@ class LeaderBoard extends Component {
   render() {
     const { userData } = this.state;
 
-    const donated = ["sian", "로우킥", "sshlove", "아무거나", "최성우", ];
-    const goldmember = ["로우킥", "sian"]
+    const donated = ["sian", "로우킥", "sshlove", "아무거나", "최성우", "조길상", "jblim", "난몰라"];
+    const goldmember = ["로우킥", "sian", "난몰라"]
     const manager = ["한승수", "구로동잼민이"]
 
     const upInsight = ["ksg"]
