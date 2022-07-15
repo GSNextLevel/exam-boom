@@ -1,0 +1,103 @@
+name: Frontend CI / CD
+
+# master 브랜치에 push 되면 workflow 작동
+on:
+  push:
+    branches:
+      - "master"
+
+# 수동으로 workflow 실행 실행시킬때
+# on:
+#   workflow_dispatch:
+#     inputs:
+#       logLevel:
+#         description: 'Log level'
+#         required: true
+#         default: 'warning'
+
+# workflow 내에서 사용할 변수 값 저장
+env:
+  AWS_REGION: ap-northeast-2                   
+  ECR_REPOSITORY: "cicd-front"           
+  
+# permissions:
+#   contents: read
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest # 어떤 os 에서 실행시킬지
+    environment: production
+
+    steps:
+    # Github에 저장된 코드를 CI 서버로 내려받아 뒷 step에서 사용할 수 있도록 하는 과정
+    - name: Checkout
+      uses: actions/checkout@v3 
+
+    # Github Secret과 local env 에 저장된 값 불러오기
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    # access key와 secret를 사용하여 ECR에 push할 수 있도록 인증
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+    # Github action console에서는 아래와 같이 ***로 암호화돼서 보이게된다. 잘못들어간 값이 아님.  
+    # AWS_ACCESS_KEY_ID: ***
+    # AWS_SECRET_ACCESS_KEY: ***
+    # ***.dkr.ecr.ap-northeast-2.amazonaws.com 의 ***도 마찬가지
+
+    - name: Set up Docker buildx
+      uses: docker/setup-buildx-action@v1
+
+    # Dockerfile 을 기준으로 이미지 빌드 후 ecr로 push
+    - name: Docker Build and ECR Push
+      id: docker_build
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        file: ./Dockerfile
+        platforms: linux/amd64
+        push: true
+        tags: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
+        # build Cache 적용 
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+      # 내부적 로직은 아래와 같음
+      # docker build -t cicd-front .
+      # docker tag cicd-front:latest 123412341234.dkr.ecr.ap-northeast-2.amazonaws.com/cicd-front:latest
+      # docker push 123412341234.dkr.ecr.ap-northeast-2.amazonaws.com/cicd-front:latest
+
+    - name: Checkout for Kustomize repository
+      uses: actions/checkout@v2
+      with:
+        # kubernetes yaml 파일 저장
+        repository: viaSSH/cicd-gitops-eks # k8s yaml 파일이 있는 repo
+        ref: frontend  # branch 이름
+        # 내 repository에 push 하기 위한 Personal Access Token이 필요
+        token: ${{ secrets.ACTION_TOKEN }}
+        path: cicd-gitops-eks # 최상위 경로로 repository와 동일하게 설정
+
+    # 새 이미지 버전으로 파일의 태그값 수정
+    # cd path 수정
+    # kustomize 로 image tag 값 변경
+    - name: Update Kubernetes resources
+      run: |
+        pwd
+        cd cicd-gitops-eks/overlays/prd/ 
+        echo \${{ steps.login-ecr.outputs.registry }}/\${{ env.ECR_REPOSITORY }}
+        echo \${{ steps.login-ecr.outputs.registry }}/\${{ env.ECR_REPOSITORY }}:\${{ github.sha }}
+        kustomize edit set image \${{ steps.login-ecr.outputs.registry }}/\${{ env.ECR_REPOSITORY }}=\${{ steps.login-ecr.outputs.registry }}/\${{ env.ECR_REPOSITORY }}:\${{ github.sha }}
+        cat kustomization.yaml
+    # 수정된 kustomization.yaml 파일 commit push
+    - name: Commit minifest files
+      run: |
+        cd cicd-gitops-eks
+        git config --global user.email "hanseung0609@github.com"
+        git config --global user.name "viassh"
+        git commit -am "Update image tag ${{ github.sha }}"
+        git push -u origin frontend

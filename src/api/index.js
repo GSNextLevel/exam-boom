@@ -14,12 +14,15 @@ const api = axios.create({
 const api2 = axios.create({
     
     // baseURL: 'https://3.38.150.150',
-    // baseURL: 'https://test.viassh.com',
+    // baseURL: 'http://temp-lb-408576791.ap-northeast-2.elb.amazonaws.com',
+    // baseURL: 'http://localhost:8090',
     baseURL: API_BASE_URL,
     // baseURL: 'https://exam.viassh.com',
     headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer " + localStorage.getItem("userToken")
+        "Authorization": "Bearer " + localStorage.getItem("userToken"),
+        // "Cookie": "access-token=" + localStorage.getItem("userToken"),
+        // "Access-Control-Allow-Credentials": true
         //  eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YWE2MDk5YjdkNGNjNTNjMDE3ZDRjYzU1YTRiMDAwMCIsImlzcyI6ImV4YW1ib29tIiwiaWF0IjoxNjM3OTk0MjY2LCJleHAiOjE2Mzg4NTgyNjZ9.Bs86cQcURn08i8goE7d6D4IFMMvh6A13THtcP21tBns"
     }
 
@@ -49,7 +52,8 @@ export const getExamHistory = (type, username) => api.get(`/exam/${type}/scoring
 
 export const likeExamById = (type, id, payload) => api.post(`/exam/${type}/${id}/like`, payload)
 
-export const getPreviousExamByType = (type) => api.get(`/exam/${type}/getprevious`)
+// export const getPreviousExamByType = (type) => api.get(`/exam/${type}/getprevious`)
+export const getPreviousExamByType = (type) => api2.get(`/api/exam/${type}/previous`)
 
 // export const getLeaderBoard = () => api.get("/leaderboard")
 export const getLeaderBoard = () => api2.get("/api/user/leaderboard")
@@ -70,6 +74,8 @@ export const login = (email,password) => api2.post("/api/user/signin", {email: e
 
 export const signup = (payload) => api2.post("/api/user/signup", payload)
 
+export const addChoiceRatio = (type, id, payload) => api2.post(`/api/exam/${type}/${id}/choice`, payload)
+
 const apis = {
     getExamById,
     getAllExamAnswer,
@@ -88,7 +94,8 @@ const apis = {
     putUser,
     getUser,
     login,
-    signup
+    signup,
+    addChoiceRatio
 }
 
 export default apis

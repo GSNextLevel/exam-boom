@@ -29,7 +29,11 @@ class MoneyAlertModal extends Component {
     }
 
     componentDidMount = async () => {
-
+      const donateMoney = localStorage.getItem('donate');
+      console.log("donated : ", donateMoney)
+      if(donateMoney > 0) {
+        this.setState({modalShow: false})
+      }
     }
 
 

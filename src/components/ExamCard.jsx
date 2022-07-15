@@ -98,7 +98,7 @@ class ExamCard extends Component {
           localStorage.setItem("coin", leftCoin);
           
           // console.log(exam)
-          const examData = exam['data']['data'];
+          const examData = exam['data'];
           const userData = null;
           console.log(exam);
           // console.log(exam.data.Item.userData)
@@ -115,7 +115,7 @@ class ExamCard extends Component {
 
           // })
 
-          // console.log("prev!", examData['previousExam']);
+          console.log("prev!", examData['previous_exam']);
 
           // if(examData['likeList'] != undefined) {
           //   examData['likeList'].forEach((li) => {
@@ -152,6 +152,25 @@ class ExamCard extends Component {
             isInCurBookmarkList = false
           }
 
+          let parseCorrectTotalCount = 0
+          let parseSubmitTotalCount = 1
+          choicesRaw.forEach(i => {
+            console.log("choice ratio ", i.selected_cnt)
+            parseSubmitTotalCount += i.selected_cnt
+            answer_state.forEach(j => {
+              if(j.charCodeAt(0) - 65 + 1 == i.order) {
+                parseCorrectTotalCount += i.selected_cnt
+              }
+              
+            })
+          })
+
+          // console.log(choicesRaw) 
+          // console.log(answer_state)
+          
+          // console.log(answerRaw.charCodeAt(0) - 'A')
+          // console.log("total count ", parseCorrectTotalCount, parseSubmitTotalCount)
+
             this.setState({
                 question: examData.content_ko,
                 choices: choices_state,
@@ -160,10 +179,10 @@ class ExamCard extends Component {
                 isLoading: false,
                 // correctTotalCount: examData.correctTotalCount === undefined ? 0 : examData.correctTotalCount,
                 // submitTotalCount: examData.submitTotalCount === undefined ? 1 : examData.submitTotalCount,
-                // previousExam: examData.previousExam === undefined ? [] : examData.previousExam,
-                correctTotalCount: 0,
-                submitTotalCount: 1,
-                previousExam: [],
+                previousExam: examData.previous_exam === null ? [] : examData.previous_exam,
+                correctTotalCount: parseCorrectTotalCount,
+                submitTotalCount: parseSubmitTotalCount,
+                // previousExam: [],
 
                 isSolved: isSolvedCheck ? true : false,
 
@@ -182,6 +201,16 @@ class ExamCard extends Component {
         })
         .catch((error) => {
           console.log(error);
+          
+          
+          if(error.response.status == 401) {
+            console.log("!!!! 401")
+            alert("토큰이 만료되었습니다. 다시 로그인해주세요.")
+            localStorage.removeItem("userToken");
+            localStorage.removeItem("user_id");
+            window.location= "/login";
+
+          }
           if(error.response) {
             const errorMsg = error.response.data;
             console.log(error.response.data);
@@ -260,16 +289,42 @@ class ExamCard extends Component {
         // })
     }
 
+    // post selected ratio
+    async postChoiceRatio() {
+      const examNum = parseInt(this.props.value.match.params.id);
+      const examType = this.props.value.match.params.type;
+
+      if(!this.state.answerState && this.state.selectedAnswer.length > 0) {
+        let selectedAnswer = this.state.selectedAnswer
+        let parseSelectedAnser = []
+        selectedAnswer.forEach(li => {
+          parseSelectedAnser.push(li.charCodeAt(0)-65+1)
+        })
+        console.log(parseSelectedAnser)
+
+        const payload = {"order" : parseSelectedAnser}
+        await api2.addChoiceRatio(examType, examNum, payload).then(res => {
+
+          console.log(res)
+        })
+      }
+    }
 
     viewAnswer() {
-      console.log("click")
+      
+      // console.log("click")
       if(this.state.answerState) {
         this.setState({answerState: false});
       }
       else{
         this.setState({answerState: true});
       }
-        
+      
+      
+      this.postChoiceRatio()
+      
+      
+      
 
         // console.log(this.state.answer);
     }
@@ -341,6 +396,8 @@ class ExamCard extends Component {
 
       // cookies.set('submitAnswer', prevSubmitAnswer, {path: '/exam/'+type})
       localStorage.setItem("submitAnswer", JSON.stringify(prevSubmitAnswer))
+
+      this.postChoiceRatio()
 
       if(localStorage.getItem("random")=="true"){
         window.location.href= randomQuestionNum(type).toString();
@@ -506,8 +563,9 @@ class ExamCard extends Component {
                   <Button variant="danger" >검토필요</Button>
                 }
                 {
-                  previousExam.map((title, index) => {
-                    return <Button style={{fontSize: '13px', padding: '0px 8px'}} variant="outline-success" key={index}>{title}</Button>
+                  previousExam.map((name, index) => {
+                    return <Button style={{fontSize: '13px', padding: '0px 8px'}} variant="outline-success" key={index}>{name.name}</Button>
+                    // console.log(name, index)
                   })
                 }
               </ButtonGroup>

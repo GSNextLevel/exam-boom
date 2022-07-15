@@ -54,13 +54,29 @@ class Login extends Component {
                 localStorage.setItem('user_id',result.data.user_id);
                 localStorage.setItem('nickname',result.data.nickname);
                 localStorage.setItem('coin',result.data.coin);
+                localStorage.setItem('donate',result.data.donate);
                 console.log("login ok");
                 // alert("로그인 성공 ");
                 window.location.href = '/';
             }
         }).catch((err) =>{
-            console.log("login catch error");
-            let message = "로그인에 실패하였습니다. 다시 확인해주세요.";
+            console.log("Login Catch Error");
+            // console.log(err)
+            console.log(err)
+
+            const errCode = err.response.data.code
+            
+            let message = ""
+            if(errCode == "NO_ID") {
+                message = "존재하는 ID가 없습니다."
+            }
+            else if(errCode == "NO_PW") {
+                message = "비밀번호가 일치하지 않습니다."
+            }
+            else {
+                message = "서버에 문제가 발생하여 로그인에 실패하였습니다.";
+            }
+            
             this.setState({loginErrorMessage: message});
             // alert("로그인 실패!", err)
         } )
