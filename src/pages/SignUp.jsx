@@ -101,7 +101,7 @@ class SignUp extends Component {
                             <input 
                                 type="email" 
                                 className="login-text-input"
-                                id="inputEmail" aria-describedby="emailHelp" placeholder="gscdn.com 이메일을 입력하세요"
+                                id="inputEmail" aria-describedby="emailHelp" placeholder="gsneotek.com 이메일을 입력하세요"
                                 name="email" value={this.state.email} onChange={this.handleChange} />
                         </div>
 

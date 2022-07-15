@@ -117,9 +117,10 @@ class ExamReply extends Component {
 
     
     
-    const payload = {
+    let payload = {
       nickname: nickname,
       content: userInputReplyText,
+      anonymous: userModeState
       // createdAt: Date.now(),
       // isWrongAnswer: isWrongAnswer,
     };
@@ -129,8 +130,19 @@ class ExamReply extends Component {
     await api.updateExamReplyById(examType, examNum, payload).then((res) => {
       // console.log(exam);
       console.log(res);
+
+      if(res["status"] != 200 ) {
+        return;
+      }
+
       let prevReplies = this.state.replies;
       console.log(this.state.replies);
+      payload.user_id = this.state.user_id;
+      payload.reply_id = res.data.replyId;
+      if(payload.anonymous) {
+        payload.anonymous = "익명"
+      }
+
       let mytemp = prevReplies.push(payload);
       // console.log(mytemp);
       this.setState({ replies: prevReplies });

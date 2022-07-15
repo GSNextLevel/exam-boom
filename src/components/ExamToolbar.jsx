@@ -254,13 +254,13 @@ class ExamToolbar extends Component {
     async viewPreviousExamTable() {
       const cookies = new Cookies();
       const examType = this.props.value.match.params.type;
-      const getPreviousExam =  await api.getPreviousExamByType(examType).then(exam => {
+      const getPreviousExam =  await api2.getPreviousExamByType(examType).then(exam => {
         console.log("prev Exam", exam);
 
-          console.log(exam['data']['Items'])
+          console.log(exam['data'])
           // this.setState({previousExamTable: exam['data']['Items'] })
 
-          let prevData = exam['data']['Items'];
+          let prevData = exam['data'];
           let makePrevData = [];
           let prevExamList = [];
           prevData.map((li, i) => {
