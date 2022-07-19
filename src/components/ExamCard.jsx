@@ -153,7 +153,7 @@ class ExamCard extends Component {
           }
 
           let parseCorrectTotalCount = 0
-          let parseSubmitTotalCount = 1
+          let parseSubmitTotalCount = 0
           choicesRaw.forEach(i => {
             console.log("choice ratio ", i.selected_cnt)
             parseSubmitTotalCount += i.selected_cnt
@@ -164,6 +164,7 @@ class ExamCard extends Component {
               
             })
           })
+          if(parseSubmitTotalCount == 0) parseSubmitTotalCount = 1
 
           // console.log(choicesRaw) 
           // console.log(answer_state)
