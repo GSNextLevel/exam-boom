@@ -411,7 +411,15 @@ class ExamCard extends Component {
           savedQuestions = id
           cookies.set('previousQuestions',savedQuestions)
         }
-      } else {
+      }
+      else if(localStorage.getItem("random2")=="true") {
+        const type =this.state.type;
+        let randomList = localStorage.getItem('random2_list');
+        randomList = randomList.split(',')
+        let randomIdx = randomList.indexOf(this.state.examNum)
+        window.location.href = randomList[randomIdx+1].toString();
+      }
+       else {
         {
           window.location.href= (parseInt(id)+1).toString();
         }

@@ -5,7 +5,7 @@ const hostname = window && window.location && window.location.hostname;
 console.log("HOSTNAME ", hostname);
 
 if (hostname === "localhost") {
-  backendHost = "http://localhost:8080";
+  backendHost = "http://localhost:8090";
 }
 // else{
 //     // backendHost =  hostname;
