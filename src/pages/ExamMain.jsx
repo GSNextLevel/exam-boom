@@ -23,56 +23,56 @@ const Wrapper = styled.div`
   padding: 40px 40px 40px 40px;
 `;
 // console.log(process.env)
-const GoogleAdvertise = ({
-  className = "adsbygoogle",
-  client = "ca-pub-6313193260834584",
-  slot = "5231564580",
-  format = "fluid",
-  responsive = "true",
-  layoutKey = "-6t+ed+2i-1n-4w"
-}) => {
-  useEffect(() => {
-    try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-      console.log("Advertise is pushed");
-    } catch (e) {
-      if (process.env.NODE_ENV !== "production")
-        console.error("AdvertiseError", e);
-    }
-  }, []);
+// const GoogleAdvertise = ({
+//   className = "adsbygoogle",
+//   client = "ca-pub-6313193260834584",
+//   slot = "5231564580",
+//   format = "fluid",
+//   responsive = "true",
+//   layoutKey = "-6t+ed+2i-1n-4w"
+// }) => {
+//   useEffect(() => {
+//     try {
+//       (window.adsbygoogle = window.adsbygoogle || []).push({});
+//       console.log("Advertise is pushed");
+//     } catch (e) {
+//       if (process.env.NODE_ENV !== "production")
+//         console.error("AdvertiseError", e);
+//     }
+//   }, []);
 
-  if (process.env.NODE_ENV !== "production")
-    return (
-      <div
-        style={{
-          background: "#e9e9e9",
-          color: "black",
-          fontSize: "18px",
-          fontWeight: "bold",
-          textAlign: "center",
-          padding: "16px"
-        }}
-      >
-        광고 표시 영역
-      </div>
-    );
-  return (
-    <ins
-      className={className}
-      style={{
-        overflowX: "auto",
-        overflowY: "hidden",
-        display: "block",
-        textAlign: "center"
-      }}
-      data-ad-client={client}
-      data-ad-slot={slot}
-      data-ad-format={format}
-      data-full-width-responsive={responsive}
-      data-ad-layout-key={layoutKey}
-    />
-  );
-};
+//   if (process.env.NODE_ENV !== "production")
+//     return (
+//       <div
+//         style={{
+//           background: "#e9e9e9",
+//           color: "black",
+//           fontSize: "18px",
+//           fontWeight: "bold",
+//           textAlign: "center",
+//           padding: "16px"
+//         }}
+//       >
+//         광고 표시 영역
+//       </div>
+//     );
+//   return (
+//     <ins
+//       className={className}
+//       style={{
+//         overflowX: "auto",
+//         overflowY: "hidden",
+//         display: "block",
+//         textAlign: "center"
+//       }}
+//       data-ad-client={client}
+//       data-ad-slot={slot}
+//       data-ad-format={format}
+//       data-full-width-responsive={responsive}
+//       data-ad-layout-key={layoutKey}
+//     />
+//   );
+// };
 
 class ExamMain extends Component {
   constructor(props) {
@@ -162,9 +162,9 @@ class ExamMain extends Component {
             </Col>
           </Row>
           <Row>
-            <Col md={{span: 4}} className="justify-content-center text-center mb-2">
+            {/* <Col md={{span: 4}} className="justify-content-center text-center mb-2">
               <GoogleAdvertise />
-            </Col>
+            </Col> */}
            
           </Row>
           {/* <Row>
