@@ -54,7 +54,7 @@ class ExamToolbar extends Component {
         previousExamTable: JSON.parse(localStorage.getItem('previousExamTable')) || [],
         showPreviousExamTable: cookies.get('showPreviousExamTable') || false,
         isRandom: this.props.value.isRandom || false,
-        isRandom2: localStorage.getItem('random2') || false,
+        isRandom2: this.props.value.isRandom2 || false,
         username: cookies.get("username") || "익명",
         prevExamList: JSON.parse(localStorage.getItem('prevExamList')) || [],
       }
