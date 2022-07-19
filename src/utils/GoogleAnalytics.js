@@ -4,7 +4,7 @@ import ReactGA from "react-ga";
 
 // function cwr(operation: string, payload: any)
 // function cwr(operation, payload);
-declare function cwr(operation: string, payload: any): void;
+// declare function cwr(operation: string, payload: any): void;
 
 const GoogleAnalytics = () => {
   const location = useLocation();
@@ -13,8 +13,8 @@ const GoogleAnalytics = () => {
     ReactGA.initialize("UA-213891838-1");
     ReactGA.pageview(location.pathname + location.search);
 
-    cwr("recordPageView", location.pathname);
-    console.log(location.pathname, location.search);
+    // cwr("recordPageView", location.pathname);
+    // console.log(location.pathname, location.search);
   }, [location]);
 };
 
