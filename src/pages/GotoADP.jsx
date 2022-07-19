@@ -9,6 +9,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 import { randomQuestionNum } from '../utils/random';
+import api2 from '../api'
 
 import styled from 'styled-components';
 
@@ -23,7 +24,39 @@ class GotoADP extends Component {
     this.state = {
       type: props.match.params.type,
     };
+    this.getPreviousExams = this.getPreviousExams.bind(this)
   }
+
+  
+
+  async getPreviousExams(event) {
+    const { type } = this.state;
+    let examList = []
+    const getPreviousExam =  await api2.getPreviousExamByType(type).then(exam => {
+      console.log(exam)
+      exam = exam.data
+      exam.forEach((li, i) => {
+        examList.push(li.examIdx)
+      })
+    })
+
+    for (let index = examList.length - 1; index > 0; index--) {
+      // 무작위 index 값을 만든다. (0 이상의 배열 길이 값)
+      const randomPosition = Math.floor(Math.random() * (index + 1));
+  
+      // 임시로 원본 값을 저장하고, randomPosition을 사용해 배열 요소를 섞는다.
+      const temporary = examList[index];
+      examList[index] = examList[randomPosition];
+      examList[randomPosition] = temporary;
+    }
+    
+    localStorage.setItem('random2', 'true');
+    localStorage.setItem('random2_list', examList);
+    console.log(examList)
+    window.location.href = type + "/random2/" + examList[0].toString();
+    
+  }
+
   render() {
     const { type } = this.state;
 
@@ -67,6 +100,24 @@ class GotoADP extends Component {
           </Row>
 
           <Row className="justify-content-md-center mt-4">
+            <Col md="5">
+                <Card>
+                  <Card.Header as="h5">기출랜덤</Card.Header>
+                  <Card.Body>
+                    <Card.Text>기출문제에서 랜덤으로 풀어볼래요</Card.Text>
+                    <Button 
+                      variant="primary"
+                      // onClick={() => {localStorage.setItem('random2', 'true');}}
+                      onClick={this.getPreviousExams}
+                      // href={
+                      //   type + '/random2/' + randomQuestionNum(type).toString()
+                      // }
+                    >
+                      이동
+                    </Button>
+                  </Card.Body>
+                </Card>
+            </Col>
             <Col md="5">
               <Card>
                 <Card.Header as="h5">틀린거만</Card.Header>

@@ -95,6 +95,7 @@ class ExamPage extends Component {
     // }
 
     console.log(this.state.examNum);
+    // console.log(this.state.isRandom)
   }
 
   

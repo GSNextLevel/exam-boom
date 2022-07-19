@@ -6,6 +6,7 @@ import GoogleAnalytics from '../utils/GoogleAnalytics';
 function PrivateRoute ({ component: Component, ...rest }) {
 
     GoogleAnalytics();
+    
 
     return (
         <Route

@@ -65,9 +65,18 @@ function App() {
 
           <GARoute path="/exam" exact component={ExamMain} />
           <PrivateRoute path="/exam/:type" exact component={GotoADP} />
-          <GARoute
+          <Route
             path="/exam/:type/random/:id"
+            // component={ExamPage}
+            // isRandom={true}
             render={(props) => <ExamPage {...props} isRandom={true} />}
+          />
+
+          <Route
+            path="/exam/:type/random2/:id"
+            // component={ExamPage}
+            // isRandom={true}
+            render={(props) => <ExamPage {...props} isRandom2={true} />}
           />
 
           {/* <Route path="/exam/:type/:id" component={ExamPage} /> */}

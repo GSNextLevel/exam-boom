@@ -54,12 +54,16 @@ class ExamToolbar extends Component {
         previousExamTable: JSON.parse(localStorage.getItem('previousExamTable')) || [],
         showPreviousExamTable: cookies.get('showPreviousExamTable') || false,
         isRandom: this.props.value.isRandom || false,
+        isRandom2: localStorage.getItem('random2') || false,
         username: cookies.get("username") || "익명",
         prevExamList: JSON.parse(localStorage.getItem('prevExamList')) || [],
       }
 
       this.handleRandomNext = this.handleRandomNext.bind(this);
       this.handleRandomPrevious = this.handleRandomPrevious.bind(this);
+      this.handleRandom2Next = this.handleRandom2Next.bind(this);
+      this.handleRandom2Prev = this.handleRandom2Prev.bind(this);
+      
       // console.log(pageNum)
 
       console.log("aa",this.state.previousExamTable)
@@ -72,6 +76,21 @@ class ExamToolbar extends Component {
 
     // arraysEqual(a, b)
 
+    handleRandom2Next(event) {
+      const type =this.state.type;
+      let randomList = localStorage.getItem('random2_list');
+      randomList = randomList.split(',')
+      let randomIdx = randomList.indexOf(this.state.pageNum)
+      window.location.href = randomList[randomIdx+1].toString();
+    }
+
+    handleRandom2Prev(event) {
+      const type =this.state.type;
+      let randomList = localStorage.getItem('random2_list');
+      randomList = randomList.split(',')
+      let randomIdx = randomList.indexOf(this.state.pageNum)
+      window.location.href = randomList[randomIdx-1].toString();
+    }
 
     handleRandomNext(event) {
       event.preventDefault();
@@ -330,7 +349,7 @@ class ExamToolbar extends Component {
 
 
     render() {
-      const { type, pageNum, submitAnswer, currentScore, showTableResult, scoringButtonDisabled, isRandom, username } = this.state;
+      const { type, pageNum, submitAnswer, currentScore, showTableResult, scoringButtonDisabled, isRandom, isRandom2, username } = this.state;
 
       const correctAnswer = {
         backgroundColor: 'forestgreen',
@@ -377,7 +396,12 @@ class ExamToolbar extends Component {
               { isRandom ?
               <Button variant="secondary" onClick={this.handleRandomPrevious} >이전 문제</Button>
               :
-              <Button variant="secondary" href={(parseInt(pageNum)-1).toString()} >이전 문제</Button>
+              ( isRandom2 ?
+                <Button variant="secondary" onClick={this.handleRandom2Prev}  >이전 문제</Button>
+                :
+                <Button variant="secondary" href={(parseInt(pageNum)-1).toString()} >이전 문제</Button>
+              )
+              
               }
 
             </ButtonGroup>
@@ -432,10 +456,16 @@ class ExamToolbar extends Component {
 
             <Col md={{ order: 3, span: 2, offset: 1}} sm={6}  xs={{ order: 3, span: 5, offset: 2}} className="text-right">
             <ButtonGroup className="mr-2" aria-label="First group" style={toolBarRowStyle}>
+              
               { isRandom ?
                 <Button variant="secondary" onClick={this.handleRandomNext} >다음 문제(random)</Button>
-                :
-                <Button variant="secondary" href={(parseInt(pageNum)+1).toString()} >다음 문제</Button>}
+                : 
+                ( isRandom2 ?
+                  <Button variant="secondary" onClick={this.handleRandom2Next}  >다음 문제(random2)</Button>
+                  :
+                  <Button variant="secondary" href={(parseInt(pageNum)+1).toString()} >다음 문제</Button>
+                )
+                }
             </ButtonGroup>
             </Col>
           </Row>
