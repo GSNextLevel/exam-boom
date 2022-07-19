@@ -177,14 +177,15 @@ class ExamToolbar extends Component {
               }
             }
             const realQuestionAns = realAnswer[sameIdx]['answer']
+            const arrayRealQuestionAns = realQuestionAns.split(',')
             let isCorrect  = false;
-            if(JSON.stringify(sumbitQuestionAns) == JSON.stringify(realQuestionAns)) {
-              console.log("correct", item['id'], sumbitQuestionAns, realQuestionAns)
+            if(JSON.stringify(sumbitQuestionAns) == JSON.stringify(arrayRealQuestionAns)) {
+              console.log("correct", item['id'], sumbitQuestionAns, arrayRealQuestionAns)
               isCorrect = true;
               correctCnt++;
             }
             else{
-              console.log("wrong", item['id'], sumbitQuestionAns, realQuestionAns)
+              console.log("wrong", item['id'], sumbitQuestionAns, arrayRealQuestionAns)
               isCorrect = false;
             }
 
