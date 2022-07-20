@@ -26,6 +26,7 @@ import {
   Login,
   MyPage,
   UserSelectedExam,
+  AddExam,
 } from '../pages';
 import { ExamPage, GotoADP } from '../pages';
 import PrivateRoute from '../utils/PrivateRoute';
@@ -92,6 +93,8 @@ function App() {
           <GARoute path="/license" exact>
             <Redirect push to={'/license.html'} />
           </GARoute>
+
+          <PrivateRoute path="/addExam" exact component={AddExam} />
 
           <GARoute path="/voc" exact component={VoC} />
           <GARoute path="/docs" exact component={Docs} />

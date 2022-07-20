@@ -18,6 +18,7 @@ import SideMenu from './SideMenu';
 import SignUp from './SignUp';
 import Login from './Login';
 import MyPage from './MyPage';
+import AddExam from './AddExam';
 export {
   ExamPage,
   LeaderBoard,
@@ -36,4 +37,5 @@ export {
   Login,
   MyPage,
   UserSelectedExam,
+  AddExam,
 };
