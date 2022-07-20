@@ -59,7 +59,10 @@ class ExamCard extends Component {
 
           bookmarkedList: JSON.parse(localStorage.getItem('bookmark')) || [],
           amIBookmarked: false,
-          leftCoin: localStorage.getItem("coin")
+          leftCoin: localStorage.getItem("coin"),
+
+          isRandom: this.props.value.isRandom || false,
+          isRandom2: this.props.value.isRandom2 || false,
 
           
       }
@@ -400,7 +403,8 @@ class ExamCard extends Component {
 
       this.postChoiceRatio()
 
-      if(localStorage.getItem("random")=="true"){
+      // console.log(this.state.isRandom2)
+      if(this.state.isRandom){
         window.location.href= randomQuestionNum(type).toString();
         let savedQuestions = []
         let values;
@@ -412,7 +416,7 @@ class ExamCard extends Component {
           cookies.set('previousQuestions',savedQuestions)
         }
       }
-      else if(localStorage.getItem("random2")=="true") {
+      else if(this.state.isRandom2) {
         const type =this.state.type;
         let randomList = localStorage.getItem('random2_list');
         randomList = randomList.split(',')
