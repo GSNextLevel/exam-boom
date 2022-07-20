@@ -73,6 +73,7 @@ class NavBar extends Component {
             </Nav>
 
             <Nav>
+              <Nav.Link href="/addExam">문제등록</Nav.Link>
               <Nav.Link href="/replies">최근활동</Nav.Link>
               <Nav.Link href="/leaderBoard">랭킹</Nav.Link>
               <NavDropdown title="내 정보" id="collasible-nav-dropdown">

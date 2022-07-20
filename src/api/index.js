@@ -76,6 +76,8 @@ export const signup = (payload) => api2.post("/api/user/signup", payload)
 
 export const addChoiceRatio = (type, id, payload) => api2.post(`/api/exam/${type}/${id}/choice`, payload)
 
+export const checkWordSimilarity = (payload) => api2.post(`/api/word/diff`, payload)
+
 const apis = {
     getExamById,
     getAllExamAnswer,
@@ -95,7 +97,8 @@ const apis = {
     getUser,
     login,
     signup,
-    addChoiceRatio
+    addChoiceRatio,
+    checkWordSimilarity
 }
 
 export default apis
