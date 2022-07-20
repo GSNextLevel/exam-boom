@@ -39,6 +39,7 @@ class ExamCard extends Component {
           submitAnswer: JSON.parse(localStorage.getItem('submitAnswer')) || [],
           isSolved: false,
           username:  username === undefined ? "익명" : username,
+          examNum: this.props.value.match.params.id,
 
           mySubmitCount: 0,
           myCorrectCount: 0,
@@ -403,9 +404,9 @@ class ExamCard extends Component {
 
       this.postChoiceRatio()
 
-      // console.log(this.state.isRandom2)
+      console.log(this.state.isRandom, this.state.isRandom2)
       if(this.state.isRandom){
-        window.location.href= randomQuestionNum(type).toString();
+        
         let savedQuestions = []
         let values;
         if (values = cookies.get('previousQuestions')){
@@ -415,12 +416,14 @@ class ExamCard extends Component {
           savedQuestions = id
           cookies.set('previousQuestions',savedQuestions)
         }
+        window.location.href= randomQuestionNum(type).toString();
       }
       else if(this.state.isRandom2) {
         const type =this.state.type;
         let randomList = localStorage.getItem('random2_list');
         randomList = randomList.split(',')
         let randomIdx = randomList.indexOf(this.state.examNum)
+        console.log(this.state.examNum, randomList[randomIdx+1])
         window.location.href = randomList[randomIdx+1].toString();
       }
        else {
