@@ -436,7 +436,7 @@ class ExamToolbar extends Component {
 
               }
               {
-                (type == "sap" || type == "adp") &&
+                (type == "sap" || type == "adp" || type == "tfa") &&
                 <OverlayTrigger
                   key='bottom2'
                   placement='bottom'
