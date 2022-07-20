@@ -366,7 +366,8 @@ class ExamCard extends Component {
   // this.setState({values: value});
     }
 
-    saveAndNext(id) {
+    
+    saveExam(choiceType, id) {
       const cookies = new Cookies();
       const type = this.props.value.match.params.type;
       // console.log("page", id);
@@ -416,7 +417,10 @@ class ExamCard extends Component {
           savedQuestions = id
           cookies.set('previousQuestions',savedQuestions)
         }
-        window.location.href= randomQuestionNum(type).toString();
+        if(choiceType == "next"){
+          window.location.href= randomQuestionNum(type).toString();
+        }
+        
       }
       else if(this.state.isRandom2) {
         const type =this.state.type;
@@ -424,11 +428,15 @@ class ExamCard extends Component {
         randomList = randomList.split(',')
         let randomIdx = randomList.indexOf(this.state.examNum)
         console.log(this.state.examNum, randomList[randomIdx+1])
-        window.location.href = randomList[randomIdx+1].toString();
+        if(choiceType == "next"){
+          window.location.href = randomList[randomIdx+1].toString();
+        }
       }
        else {
         {
-          window.location.href= (parseInt(id)+1).toString();
+          if(choiceType == "next"){
+            window.location.href= (parseInt(id)+1).toString();
+          }
         }
       }
 
@@ -684,7 +692,11 @@ class ExamCard extends Component {
             >
               <Button variant="success" onClick={this.viewAnswer}>답 바로보기</Button>
               {answerState && ( <span > 답 : {answerToString} </span> )}
-              <Button onClick={() => this.saveAndNext(examNum)} variant="primary">저장 후 계속</Button>
+              <div>
+                <Button className="mr-2" onClick={() => this.saveExam("only", examNum)} variant="info">저장</Button>
+                <Button onClick={() => this.saveExam("next",examNum)} variant="primary">저장 후 계속</Button>
+              </div>
+              
               {/*<Button onClick={() => this.saveAndNext(examNum)} variant="primary">저장 후 계속</Button>*/}
 
             </ButtonToolbar>
