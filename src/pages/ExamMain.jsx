@@ -14,7 +14,8 @@ import { ExamCard } from '../components';
 
 import devopsImg from '../image/adp2.jpg';
 import sapImg from '../image/sap2.jpg';
-import gapImg from '../image/gap.png';
+import gapImg from '../image/gcp-dev.png';
+import gcaImg from '../image/gca.png';
 import tfaImg from '../image/tfa.png';
 import aws_ai_Img from '../image/aws_ai.png';
 import styled from 'styled-components';
@@ -160,8 +161,21 @@ class ExamMain extends Component {
                 </Card.Body>
               </Card>
             </Col>
+            <Col md={{span: 4}} className="justify-content-center text-center mb-2">
+              <Card style={{ minWidth: '14rem', textAlign: 'center' }}>
+                <Card.Img style={imgStyle} variant="top" src={gcaImg} />
+                <Card.Body>
+                  <Card.Title>GCP</Card.Title>
+                  <Card.Text>Cloud Architect</Card.Text>
+                  <Button variant="primary" href="/exam/gca">
+                    바로가기
+                  </Button>
+                </Card.Body>
+              </Card>
+            </Col>
           </Row>
           <Row>
+          
             {/* <Col md={{span: 4}} className="justify-content-center text-center mb-2">
               <GoogleAdvertise />
             </Col> */}
