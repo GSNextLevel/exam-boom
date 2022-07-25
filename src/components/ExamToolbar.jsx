@@ -381,7 +381,7 @@ class ExamToolbar extends Component {
       }
 
       // const cellColors = [ '#FADBD8', '#F2F3F4', '#D6EAF8', '#EBDEF0', '#D1F2EB', '#FCF3CF', '#FAE5D3' ];
-      const cellColors = ['#ffffff','#F2F3F4', '#FCF3CF', '#FAD7A0', '#F2D7D5', '#F5B7B1', '#F67E73']
+      const cellColors = ['#ffffff','#F2F3F4', '#FCF3CF', '#FAD7A0', '#F2D7D5', '#F5B7B1', '#F67E73', '#F84E4E', '#A20f31', '#D31616']
 
 
       return (
