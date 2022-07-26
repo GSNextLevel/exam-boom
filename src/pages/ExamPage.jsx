@@ -8,16 +8,23 @@ import {
   ExamReply,
   LoginAlertModal,
   CoinModal,
-  MoneyAlertModal
+  MoneyAlertModal,
+  Memo
 } from '../components';
 
 import { NotFound } from '../pages';
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import api from '../api';
 
 import styled from 'styled-components';
+import { NonceProvider } from 'react-select/dist/react-select.cjs.prod';
+
+
+
+
 
 const GoogleAdvertise = ({
   className = "adsbygoogle",
@@ -104,6 +111,7 @@ class ExamPage extends Component {
     this.setState({showCoinModal: true});
   }
   
+  
 
   render() {
     // const { params } = this.props.match;
@@ -111,25 +119,41 @@ class ExamPage extends Component {
     const isValidExamNum = isNaN(examNum) ? false : true;
     console.log('examNum : ', examNum, isValidExamNum);
 
+    const containerStyle = {
+      '@media (min-width: 300px)': {
+        color: 'red'
+      },
+      
+    }
+   
     return (
       <React.Fragment>
         {isValidExamNum && examNum > 0 && (
-          <Container>
-            <ExamToolbar value={this.props} />
+          <div >
+            <Row>
+              <Col sm="0" md="1" lg="1"></Col>
+              <Col sm="auto" md="9" lg="9">
+                <ExamToolbar value={this.props} />
 
-            <ExamCard value={this.props} toggleCoinModal={this.toggleCoinModal} />
+                <ExamCard value={this.props} toggleCoinModal={this.toggleCoinModal} />
 
-            <ExamReply value={this.props} />
-            <ExamPagination value={this.props} />
-            <LoginAlertModal />
-            <CoinModal showCoinModal={showCoinModal}/>
-            <MoneyAlertModal />
+                <ExamReply value={this.props} />
+                <ExamPagination value={this.props} />
+                <LoginAlertModal />
+                <CoinModal showCoinModal={showCoinModal}/>
+                <MoneyAlertModal />
+              </Col>
+              <Col sm md="2" lg="2">
+                <Memo value={this.props} />
+              </Col>
+            </Row>
 
-          </Container>
+          </div>
+          
         )}
-        <div>
+        {/* <div>
           <GoogleAdvertise />
-        </div>
+        </div> */}
 
         {(!isValidExamNum || examNum <= 0) && (
           <Container>

@@ -11,6 +11,7 @@ import LoginAlertModal from './LoginAlertModal';
 import CoinModal from './CoinModal';
 
 import MoneyAlertModal from './MoneyAlertModal';
+import Memo from './Memo';
 export {
   NavBar,
   LoginAlertModal,
@@ -20,5 +21,6 @@ export {
   ExamPagination,
   ExamToolbar,
   ExamReply,
-  MoneyAlertModal
+  MoneyAlertModal,
+  Memo
 };
