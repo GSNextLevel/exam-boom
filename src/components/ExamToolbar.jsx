@@ -519,11 +519,13 @@ class ExamToolbar extends Component {
                           width: '6%',
                           fontSize: '14px',
                           backgroundColor: cellColors[data['t'] % cellColors.length],
+                          color: data['t'] > 8 ? 'white' : 'black',
                           // backgroundColor: cellColors[data['l'] % 7],
                           // fontWeight: data['t'] >= 3 ? '700' : '400',
                           // fontWeight: data['t'] >= 4 ? '700' : data['t'] >= 3 ? '500' : '400',
                           // border: data['t'] >= 4 ? '1px solid #333333' : 'none',
                           border: data['highlight'] == 1 ? '1px solid #333333' : 'none',
+                          fontWeight: data['highlight'] == 1 ? '700' : '400',
                           // border: data['t'] >= 4 ? '1px solid #222222' : data['t'] >= 3 ? '1px solid #888888' : 'none',
                           paddingRight: '0px',
                           paddingLeft: '0px'

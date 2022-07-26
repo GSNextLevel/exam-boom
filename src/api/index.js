@@ -78,6 +78,10 @@ export const addChoiceRatio = (type, id, payload) => api2.post(`/api/exam/${type
 
 export const checkWordSimilarity = (payload) => api2.post(`/api/word/diff`, payload)
 
+export const createMemo = (type, id, payload) => api2.post(`/api/exam/${type}/${id}/memo`, payload)
+export const updateMemo = (type, id, payload) => api2.put(`/api/exam/${type}/${id}/memo`, payload)
+export const getMemo = (type, id) => api2.get(`/api/exam/${type}/${id}/memo`)
+
 const apis = {
     getExamById,
     getAllExamAnswer,
@@ -98,7 +102,11 @@ const apis = {
     login,
     signup,
     addChoiceRatio,
-    checkWordSimilarity
+    checkWordSimilarity,
+
+    createMemo,
+    getMemo,
+    updateMemo
 }
 
 export default apis
