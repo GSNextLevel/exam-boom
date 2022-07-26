@@ -381,7 +381,7 @@ class ExamToolbar extends Component {
       }
 
       // const cellColors = [ '#FADBD8', '#F2F3F4', '#D6EAF8', '#EBDEF0', '#D1F2EB', '#FCF3CF', '#FAE5D3' ];
-      const cellColors = ['#ffffff','#F2F3F4', '#FCF3CF', '#FAD7A0', '#F2D7D5', '#F5B7B1', '#F67E73', '#F84E4E', '#A20f31', '#D31616']
+      const cellColors = ['#ffffff','#F2F3F4', '#FCF3CF', '#FAD7A0', '#F2D7D5', '#F5B7B1', '#F67E73', '#ff675f', '#ff392e', '#cc0a00', '#9b0700']
 
 
       return (
@@ -518,7 +518,7 @@ class ExamToolbar extends Component {
                           marginBottom: '4px',
                           width: '6%',
                           fontSize: '14px',
-                          backgroundColor: cellColors[data['t'] % 7],
+                          backgroundColor: cellColors[data['t'] % cellColors.length],
                           // backgroundColor: cellColors[data['l'] % 7],
                           // fontWeight: data['t'] >= 3 ? '700' : '400',
                           // fontWeight: data['t'] >= 4 ? '700' : data['t'] >= 3 ? '500' : '400',
